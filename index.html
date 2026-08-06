@@ -109,6 +109,7 @@ overflow:hidden;
 transition:0.3s;
 flex:0 0 calc(25% - 19px);
 min-width:0;
+cursor:pointer;
 }
 
 .product-card:hover{
@@ -158,10 +159,6 @@ flex:0 0 calc(50% - 13px);
 
 /* CATALOG CARDS */
 
-.product-card{
-cursor:pointer;
-}
-
 .card-thumb{
 width:100%;
 aspect-ratio:1/1;
@@ -203,8 +200,6 @@ overflow-y:auto;
 .product-modal-overlay.active{
 display:block;
 }
-
-/* active handled above */
 
 .modal-close-top{
 position:sticky;
@@ -782,7 +777,7 @@ background:#1e1e1e;
 margin:8px 0;
 }
 
-/* THEME TOGGLE dentro del menú */
+/* THEME TOGGLE */
 
 .theme-toggle-row{
 display:flex;
@@ -1059,7 +1054,6 @@ body.light-theme .modal-slides img{
 background:#f0f0f0;
 }
 
-body.light-theme .modal-product-overlay,
 body.light-theme .product-modal-overlay{
 background:#fff;
 }
@@ -1118,25 +1112,9 @@ color:#111;
 border-color:#ccc;
 }
 
-body.light-theme #checkoutOverlay #labelCorreo,
-body.light-theme #checkoutOverlay #labelAndreani{
-border-color:#ccc;
-}
-
 body.light-theme #checkoutOverlay .discount-block{
 background:#f5f5f5;
 border-color:#e0e0e0;
-}
-
-/* BANNER DESCUENTO LIGHT THEME */
-body.light-theme section > div[style*="rgba(0,255,115,0.1)"] {
-background: rgba(255,0,0,0.1) !important;
-border-color: var(--red) !important;
-}
-
-body.light-theme section > div[style*="rgba(0,255,115,0.1)"] > div {
-color: var(--red) !important;
-text-shadow: 0 0 20px rgba(255,0,0,0.3) !important;
 }
 
 /* PRICE SUMMARY BOX */
@@ -1210,7 +1188,6 @@ font-weight:600;
 font-size:0.95rem;
 color:#ccc;
 }
-
 
 </style>
 </head>
@@ -1580,6 +1557,118 @@ Ropa diseñada para verte estético en el gym y en la calle.
 </div>
 </section>
 
+<!-- NOVEDADES SECTION -->
+<section id="secNovedades">
+<h2 class="section-title">
+Novedades
+</h2>
+<div class="carousel-wrapper">
+<button class="carousel-arrow" onclick="novMove(-1)">❮</button>
+<div class="carousel-viewport" id="novViewport">
+<div class="products-grid" id="novGrid">
+
+<div class="product-card" onclick="openProductModalByName('Buzó Tribal Rojo')">
+<img src="buzorojo.jpg" class="card-thumb" alt="Buzó Tribal Rojo">
+<div class="card-label">
+<div class="card-name">Buzó Tribal Rojo</div>
+<div class="card-price" id="novprice0"><span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$38.900 ARS</span><br>$35.000 ARS</div>
+</div>
+</div>
+
+<div class="product-card" onclick="openProductModalByName('Buzó Tribal Morado')">
+<img src="buzomorado.jpg" class="card-thumb" alt="Buzó Tribal Morado">
+<div class="card-label">
+<div class="card-name">Buzó Tribal Morado</div>
+<div class="card-price" id="novprice1"><span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$38.900 ARS</span><br>$35.000 ARS</div>
+</div>
+</div>
+
+<div class="product-card" onclick="openProductModalByName('Pantalón Tribal Rojo')">
+<img src="pan rojo.jpg" class="card-thumb" alt="Pantalón Tribal Rojo">
+<div class="card-label">
+<div class="card-name">Pantalón Tribal Rojo</div>
+<div class="card-price" id="novprice2"><span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$38.900 ARS</span><br>$35.000 ARS</div>
+</div>
+</div>
+
+<div class="product-card" onclick="openProductModalByName('Pantalón Tribal Morado')">
+<img src="pantmor.jpg" class="card-thumb" alt="Pantalón Tribal Morado">
+<div class="card-label">
+<div class="card-name">Pantalón Tribal Morado</div>
+<div class="card-price" id="novprice3"><span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$38.900 ARS</span><br>$35.000 ARS</div>
+</div>
+</div>
+
+</div>
+</div>
+<button class="carousel-arrow" onclick="novMove(1)">❯</button>
+</div>
+</section>
+
+<!-- BUZOS SECTION -->
+<section id="secBuzos">
+<h2 class="section-title">
+Buzos
+</h2>
+<div class="carousel-wrapper">
+<button class="carousel-arrow" onclick="buzoMove(-1)">❮</button>
+<div class="carousel-viewport" id="buzoViewport">
+<div class="products-grid" id="buzoGrid">
+
+<div class="product-card" onclick="openBuzosModal(0)">
+<img src="buzorojo.jpg" class="card-thumb" alt="Buzó Tribal Rojo">
+<div class="card-label">
+<div class="card-name">Buzó Tribal Rojo</div>
+<div class="card-price" id="buzoprice0"><span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$38.900 ARS</span><br>$35.000 ARS</div>
+</div>
+</div>
+
+<div class="product-card" onclick="openBuzosModal(1)">
+<img src="buzomorado.jpg" class="card-thumb" alt="Buzó Tribal Morado">
+<div class="card-label">
+<div class="card-name">Buzó Tribal Morado</div>
+<div class="card-price" id="buzoprice1"><span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$38.900 ARS</span><br>$35.000 ARS</div>
+</div>
+</div>
+
+</div>
+</div>
+<button class="carousel-arrow" onclick="buzoMove(1)">❯</button>
+</div>
+</section>
+
+<!-- PANTALONES SECTION -->
+<section id="secPantalon">
+<h2 class="section-title">
+Pantalones
+</h2>
+<div class="carousel-wrapper">
+<button class="carousel-arrow" onclick="pantMove(-1)">❮</button>
+<div class="carousel-viewport" id="pantViewport">
+<div class="products-grid" id="pantGrid">
+
+<div class="product-card" onclick="openPantModal(0)">
+<img src="pan rojo.jpg" class="card-thumb" alt="Pantalón Tribal Rojo">
+<div class="card-label">
+<div class="card-name">Pantalón Tribal Rojo</div>
+<div class="card-price" id="pantprice0"><span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$38.900 ARS</span><br>$35.000 ARS</div>
+</div>
+</div>
+
+<div class="product-card" onclick="openPantModal(1)">
+<img src="pantmor.jpg" class="card-thumb" alt="Pantalón Tribal Morado">
+<div class="card-label">
+<div class="card-name">Pantalón Tribal Morado</div>
+<div class="card-price" id="pantprice1"><span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$38.900 ARS</span><br>$35.000 ARS</div>
+</div>
+</div>
+
+</div>
+</div>
+<button class="carousel-arrow" onclick="pantMove(1)">❯</button>
+</div>
+</section>
+
 <section id="secCompresion">
 
 <h2 class="section-title">
@@ -1594,22 +1683,32 @@ Remeras de Compresión
 <div class="products-grid" id="productsGrid">
 
 <div class="product-card" onclick="openProductModal(0)">
+<div style="position:relative;">
 <img src="compresrojo.jpg" class="card-thumb" alt="Compresivo Tribal Rojo">
+<div style="position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.45);display:flex;align-items:center;justify-content:center;">
+<span style="color:#ff0000;font-size:1.6rem;font-weight:900;letter-spacing:3px;text-shadow:0 0 10px rgba(255,0,0,0.7);">AGOTADO</span>
+</div>
+</div>
 <div class="card-label">
-<div class="card-name">Compresivo Tribal Rojo</div>
+<div class="card-name" style="color:#ff0000;font-weight:900;">AGOTADO</div>
 <div class="card-price" id="price0"><span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$30.000 ARS</span><br>$27.000 ARS</div>
 </div>
 </div>
 
 <div class="product-card" onclick="openProductModal(1)">
+<div style="position:relative;">
 <img src="compresmorado.jpg" class="card-thumb" alt="Compresivo Tribal Morado">
+<div style="position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.45);display:flex;align-items:center;justify-content:center;">
+<span style="color:#ff0000;font-size:1.6rem;font-weight:900;letter-spacing:3px;text-shadow:0 0 10px rgba(255,0,0,0.7);">AGOTADO</span>
+</div>
+</div>
 <div class="card-label">
-<div class="card-name">Compresivo Tribal Morado</div>
+<div class="card-name" style="color:#ff0000;font-weight:900;">AGOTADO</div>
 <div class="card-price" id="price1"><span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$30.000 ARS</span><br>$27.000 ARS</div>
 </div>
 </div>
 
-<div class="product-card" onclick="openProductModal(2)" style="cursor:pointer;">
+<div class="product-card" onclick="openProductModal(2)">
 <div style="position:relative;">
 <img src="compresblanco.jpg" class="card-thumb" alt="Compresivo Tribal Blanco">
 <div style="position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.45);display:flex;align-items:center;justify-content:center;">
@@ -1623,25 +1722,40 @@ Remeras de Compresión
 </div>
 
 <div class="product-card" onclick="openProductModal(3)">
+<div style="position:relative;">
 <img src="compresbasico.jpg" class="card-thumb" alt="Compresivo Básico">
+<div style="position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.45);display:flex;align-items:center;justify-content:center;">
+<span style="color:#ff0000;font-size:1.6rem;font-weight:900;letter-spacing:3px;text-shadow:0 0 10px rgba(255,0,0,0.7);">AGOTADO</span>
+</div>
+</div>
 <div class="card-label">
-<div class="card-name">Compresivo Básico</div>
+<div class="card-name" style="color:#ff0000;font-weight:900;">AGOTADO</div>
 <div class="card-price" id="price3"><span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$25.000 ARS</span><br>$22.500 ARS</div>
 </div>
 </div>
 
 <div class="product-card" onclick="openProductModal(4)">
+<div style="position:relative;">
 <img src="berserk.jpg" class="card-thumb" alt="Compresivo de Berserk">
+<div style="position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.45);display:flex;align-items:center;justify-content:center;">
+<span style="color:#ff0000;font-size:1.6rem;font-weight:900;letter-spacing:3px;text-shadow:0 0 10px rgba(255,0,0,0.7);">AGOTADO</span>
+</div>
+</div>
 <div class="card-label">
-<div class="card-name">Compresivo de Berserk</div>
+<div class="card-name" style="color:#ff0000;font-weight:900;">AGOTADO</div>
 <div class="card-price" id="price4"><span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$25.000 ARS</span><br>$22.500 ARS</div>
 </div>
 </div>
 
 <div class="product-card" onclick="openProductModal(5)">
+<div style="position:relative;">
 <img src="clasico.jpg" class="card-thumb" alt="Compresivo Clásico">
+<div style="position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.45);display:flex;align-items:center;justify-content:center;">
+<span style="color:#ff0000;font-size:1.6rem;font-weight:900;letter-spacing:3px;text-shadow:0 0 10px rgba(255,0,0,0.7);">AGOTADO</span>
+</div>
+</div>
 <div class="card-label">
-<div class="card-name">Compresivo Clásico</div>
+<div class="card-name" style="color:#ff0000;font-weight:900;">AGOTADO</div>
 <div class="card-price" id="price5"><span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$25.000 ARS</span><br>$22.500 ARS</div>
 </div>
 </div>
@@ -1814,7 +1928,7 @@ Nuestras Redes
 </section>
 
 <footer>
-© BlazeBorn 2025 - Todos los derechos reservados
+© BlazeBorn 2026 - Todos los derechos reservados
 </footer>
 
 <a
@@ -1828,87 +1942,139 @@ target="_blank">
 
 // SHIPPING COSTS BY WEIGHT
 const shippingCostsByWeight = {
-  "0-800": 8000,      // 0g - 800g: $8000
-  "801-1500": 9500,   // 801g - 1,5kg: $9500
-  "1501-3000": 11500  // 1,5kg - 3kg: $11500
+  "0-800": 8000,
+  "801-1500": 9500,
+  "1501-3000": 11500
 };
 
 // PRODUCT DATA
-
 const products = [
 {
 name: "Compresivo Tribal Rojo",
-desc: "Compresión total para entrenar al límite. Tela técnica que se adapta a tu físico y diseño tribal que no pasa desapercibido, dentro y fuera del gym.",
+desc: "Compresión total para entrenar al límite. Tela técnica que se adapta a tu físico.",
 imgs: ["compresrojo.jpg","compresrojo1.jpg"],
 price: 27000,
 oldPrice: 30000,
 idx: 0,
 weight: 200,
-soldoutSizes: ["S","XL"]
+soldOut: true,
+soldoutSizes: ["S","M","L","XL"]
 },
 {
 name: "Compresivo Tribal Morado",
-desc: "Compresión total para entrenar al límite. Tela técnica que se adapta a tu físico y diseño tribal que no pasa desapercibido, dentro y fuera del gym.",
+desc: "Compresión total para entrenar al límite. Tela técnica que se adapta a tu físico.",
 imgs: ["compresmorado.jpg","compresmorado1.jpg"],
 price: 27000,
 oldPrice: 30000,
 idx: 1,
 weight: 200,
-soldoutSizes: ["S","XL"]
+soldOut: true,
+soldoutSizes: ["S","M","L","XL"]
 },
 {
 name: "Compresivo Tribal Blanco",
-desc: "Compresión total para entrenar al límite. Tela técnica que se adapta a tu físico y diseño tribal que no pasa desapercibido, dentro y fuera del gym.",
+desc: "Compresión total para entrenar al límite. Tela técnica que se adapta a tu físico.",
 imgs: ["compresblanco.jpg","compresblanco1.jpg"],
 price: 27000,
 oldPrice: 30000,
 idx: 2,
 weight: 200,
 soldOut: true,
-soldoutSizes: ["S","XL"]
+soldoutSizes: ["S","M","L","XL"]
 },
 {
 name: "Compresivo Básico",
-desc: "El esencial que no puede faltar. Compresión cómoda, ajuste perfecto y estilo minimalista para entrenar todos los días con actitud.",
+desc: "El esencial que no puede faltar. Compresión cómoda y ajuste perfecto.",
 imgs: ["compresbasico.jpg","compresbasico1.jpg"],
 price: 22500,
 oldPrice: 25000,
 idx: 3,
 weight: 200,
-soldoutSizes: ["S","XL"]
+soldOut: true,
+soldoutSizes: ["S","M","L","XL"]
 },
 {
 name: "Compresivo de Berserk",
-desc: "Para los que entrenan con la furia de una bestia. Diseño inspirado en el universo dark fantasy, compresión que aguanta cualquier entrenamiento.",
+desc: "Para los que entrenan con la furia de una bestia.",
 imgs: ["berserk.jpg","berserk1.jpg"],
 price: 22500,
 oldPrice: 25000,
 idx: 4,
 weight: 200,
-soldoutSizes: ["S","XL"]
+soldOut: true,
+soldoutSizes: ["S","M","L","XL"]
 },
 {
 name: "Compresivo Clásico",
-desc: "El primero. El original. Nuestro primer diseño, compresión clásica y un ajuste que no te va a decepcionar. El punto de partida de todo lo que es BlazeBorn.",
+desc: "El primero. El original. Nuestro primer diseño de compresión.",
 imgs: ["clasico.jpg","clasico1.jpg"],
 price: 22500,
 oldPrice: 25000,
 idx: 5,
 weight: 200,
-soldoutSizes: ["S","XL"]
+soldOut: true,
+soldoutSizes: ["S","M","L","XL"]
 }
 ];
 
-const sizes = ["S","M","L","XL"];
+// BUZOS DATA
+const buzoProducts = [
+{
+name: "Buzó Tribal Rojo",
+desc: "Buzo de abrigo con diseño tribal rojo, máxima comodidad y estilo callejero pesado.",
+imgs: ["buzorojo.jpg","buzorojo1.jpg"],
+price: 35000,
+oldPrice: 38900,
+weight: 600,
+soldOut: false,
+soldoutSizes: []
+},
+{
+name: "Buzó Tribal Morado",
+desc: "Buzo con diseño tribal morado, abrigo premium y ajuste perfecto para la calle y el gym.",
+imgs: ["buzomorado.jpg","buzomorado1.jpg"],
+price: 35000,
+oldPrice: 38900,
+weight: 600,
+soldOut: false,
+soldoutSizes: []
+}
+];
+
+// PANTALONES DATA
+const panProducts = [
+{
+name: "Pantalón Tribal Rojo",
+desc: "Pantalón urbano con detalles tribales rojos, durabilidad y máxima estética.",
+imgs: ["pan rojo.jpg","pantrojo1.jpg"],
+price: 35000,
+oldPrice: 38900,
+weight: 600,
+soldOut: false,
+soldoutSizes: []
+},
+{
+name: "Pantalón Tribal Morado",
+desc: "Pantalón urbano con diseño tribal morado, comodidad superior y estilo único.",
+imgs: ["pantmor.jpg","pantmor1.png"],
+price: 35000,
+oldPrice: 38900,
+weight: 600,
+soldOut: false,
+soldoutSizes: []
+}
+];
+
+const sizes = ["2","3","4","5","6"];
 let currentProduct = null;
 let modalSlideIndex = 0;
-let selectedSize = "M";
+let selectedSize = "3";
 
 function openProductModal(idx){
 const p = products[idx];
 currentProduct = p;
 modalSlideIndex = 0;
-selectedSize = "M";
+selectedSize = "3";
 
 document.getElementById("modalTitle").innerText = p.soldOut ? "AGOTADO" : p.name;
 document.getElementById("modalTitle").style.color = p.soldOut ? "#ff0000" : "white";
@@ -1966,7 +2132,6 @@ btn.classList.add("active");
 };
 sizesEl.appendChild(btn);
 });
-// set default selected to first available size
 const firstAvail = sizes.find(s => !(soldoutSizes.includes(s)));
 if(firstAvail) selectedSize = firstAvail;
 }
@@ -1979,6 +2144,131 @@ document.getElementById("productModal").classList.add("active");
 document.body.style.overflow = "hidden";
 }
 
+function openBuzosModal(idx){
+const p = buzoProducts[idx];
+currentProduct = p;
+modalSlideIndex = 0;
+selectedSize = "3";
+
+document.getElementById("modalTitle").innerText = p.name;
+document.getElementById("modalTitle").style.color = "white";
+document.getElementById("modalTitle").style.fontSize = "";
+document.getElementById("modalTitle").style.letterSpacing = "";
+document.getElementById("modalDesc").innerText = p.desc;
+
+const finalPrice = getDiscountedPrice(p.price);
+const oldEl = document.getElementById("modalOldPrice");
+const priceEl = document.getElementById("modalPrice");
+
+if(p.oldPrice){
+oldEl.style.display = "block";
+oldEl.innerText = `$${p.oldPrice.toLocaleString()} ARS`;
+}else{
+oldEl.style.display = "none";
+}
+priceEl.innerText = `$${finalPrice.toLocaleString()} ARS`;
+
+document.getElementById("modalImg0").src = p.imgs[0];
+document.getElementById("modalImg1").src = p.imgs[1] || "";
+document.getElementById("modalSlides").style.transform = "translateX(0)";
+document.querySelectorAll(".modal-slide-btn").forEach(b => b.style.display = p.imgs[1] ? "" : "none");
+
+const sizesEl = document.getElementById("modalSizes");
+sizesEl.innerHTML = "";
+sizesEl.style.display = "flex";
+const soldoutMsg = document.getElementById("sizeSoldoutMsg");
+soldoutMsg.style.display = "none";
+
+sizes.forEach(s => {
+const btn = document.createElement("button");
+btn.className = "size-btn" + (s === selectedSize ? " active" : "");
+btn.innerText = s;
+btn.onclick = () => {
+selectedSize = s;
+sizesEl.querySelectorAll(".size-btn").forEach(b => b.classList.remove("active"));
+btn.classList.add("active");
+};
+sizesEl.appendChild(btn);
+});
+
+document.querySelector(".modal-actions").style.display = "flex";
+document.getElementById("modalReviewSection").style.display = "block";
+const sizeGuideBtnC = document.querySelector(".size-guide-btn");
+sizeGuideBtnC.style.display = "";
+sizeGuideBtnC.onclick = function(){ openSizeGuide("guiabuzo.jpg"); };
+document.getElementById("productModal").classList.add("active");
+document.body.style.overflow = "hidden";
+}
+
+function openPantModal(idx){
+const p = panProducts[idx];
+currentProduct = p;
+modalSlideIndex = 0;
+selectedSize = "3";
+
+document.getElementById("modalTitle").innerText = p.name;
+document.getElementById("modalTitle").style.color = "white";
+document.getElementById("modalTitle").style.fontSize = "";
+document.getElementById("modalTitle").style.letterSpacing = "";
+document.getElementById("modalDesc").innerText = p.desc;
+
+const finalPrice = getDiscountedPrice(p.price);
+const oldEl = document.getElementById("modalOldPrice");
+const priceEl = document.getElementById("modalPrice");
+
+if(p.oldPrice){
+oldEl.style.display = "block";
+oldEl.innerText = `$${p.oldPrice.toLocaleString()} ARS`;
+}else{
+oldEl.style.display = "none";
+}
+priceEl.innerText = `$${finalPrice.toLocaleString()} ARS`;
+
+document.getElementById("modalImg0").src = p.imgs[0];
+document.getElementById("modalImg1").src = p.imgs[1] || "";
+document.getElementById("modalSlides").style.transform = "translateX(0)";
+document.querySelectorAll(".modal-slide-btn").forEach(b => b.style.display = p.imgs[1] ? "" : "none");
+
+const sizesEl = document.getElementById("modalSizes");
+sizesEl.innerHTML = "";
+sizesEl.style.display = "flex";
+const soldoutMsg = document.getElementById("sizeSoldoutMsg");
+soldoutMsg.style.display = "none";
+
+sizes.forEach(s => {
+const btn = document.createElement("button");
+btn.className = "size-btn" + (s === selectedSize ? " active" : "");
+btn.innerText = s;
+btn.onclick = () => {
+selectedSize = s;
+sizesEl.querySelectorAll(".size-btn").forEach(b => b.classList.remove("active"));
+btn.classList.add("active");
+};
+sizesEl.appendChild(btn);
+});
+
+document.querySelector(".modal-actions").style.display = "flex";
+document.getElementById("modalReviewSection").style.display = "block";
+const sizeGuideBtnC = document.querySelector(".size-guide-btn");
+sizeGuideBtnC.style.display = "";
+sizeGuideBtnC.onclick = function(){ openSizeGuide("guialompa.jpg"); };
+document.getElementById("productModal").classList.add("active");
+document.body.style.overflow = "hidden";
+}
+
+function openProductModalByName(name){
+const bIdx = buzoProducts.findIndex(p => p.name === name);
+if(bIdx !== -1){
+openBuzosModal(bIdx);
+return;
+}
+const pIdx = panProducts.findIndex(p => p.name === name);
+if(pIdx !== -1){
+openPantModal(pIdx);
+return;
+}
+}
+
 function closeProductModal(){
 document.getElementById("productModal").classList.remove("active");
 document.body.style.overflow = "";
@@ -1989,8 +2279,7 @@ function modalSlide(dir){
 modalSlideIndex += dir;
 if(modalSlideIndex < 0) modalSlideIndex = 0;
 if(modalSlideIndex > 1) modalSlideIndex = 1;
-document.getElementById("modalSlides").style.transform =
-`translateX(-${modalSlideIndex * 100}%)`;
+document.getElementById("modalSlides").style.transform = `translateX(-${modalSlideIndex * 100}%)`;
 }
 
 function modalAddToCart(){
@@ -2025,30 +2314,59 @@ if(Math.abs(diff) > 40) modalSlide(diff > 0 ? 1 : -1);
 }, {passive:true});
 });
 
-// MUSCULOSAS DATA
-
-const muscuProducts = [
-{
-name: "Musculosa Tribal",
-desc: "Diseño tribal, corte musculoso. Agotada por el momento, ¡vuelve pronto!",
-imgs: ["muscu.jpg"],
-weight: 200,
-soldOut: true
-},
-{
-name: "Musculosa Mike Mentzer",
-desc: "Tributo al maestro del Heavy Duty. Diseño exclusivo para los que entrenan con filosofía. Agotada por el momento.",
-imgs: ["mentzer.jpg"],
-weight: 200,
-soldOut: true
-},
-{
-name: "Musculosa Kevin Levrone",
-desc: "Tributo al Maryland Muscle Machine. Para los que saben lo que es llegar a la cima. Agotada por el momento.",
-imgs: ["kevin.jpg"],
-weight: 200,
-soldOut: true
+// NOVEDADES CAROUSEL
+let novIndex = 0;
+const totalNov = 4;
+function novMove(direction){
+const visible = getVisibleCount();
+const maxIndex = Math.max(0, totalNov - visible);
+novIndex += direction;
+if(novIndex < 0) novIndex = maxIndex;
+if(novIndex > maxIndex) novIndex = 0;
+const grid = document.getElementById("novGrid");
+if(!grid) return;
+const card = grid.querySelector(".product-card");
+if(!card) return;
+grid.style.transform = `translateX(-${novIndex * (card.offsetWidth + 25)}px)`;
 }
+
+// BUZOS CAROUSEL
+let buzoIndex = 0;
+const totalBuzos = 2;
+function buzoMove(direction){
+const visible = getVisibleCount();
+const maxIndex = Math.max(0, totalBuzos - visible);
+buzoIndex += direction;
+if(buzoIndex < 0) buzoIndex = maxIndex;
+if(buzoIndex > maxIndex) buzoIndex = 0;
+const grid = document.getElementById("buzoGrid");
+if(!grid) return;
+const card = grid.querySelector(".product-card");
+if(!card) return;
+grid.style.transform = `translateX(-${buzoIndex * (card.offsetWidth + 25)}px)`;
+}
+
+// PANTALONES CAROUSEL
+let pantIndex = 0;
+const totalPants = 2;
+function pantMove(direction){
+const visible = getVisibleCount();
+const maxIndex = Math.max(0, totalPants - visible);
+pantIndex += direction;
+if(pantIndex < 0) pantIndex = maxIndex;
+if(pantIndex > maxIndex) pantIndex = 0;
+const grid = document.getElementById("pantGrid");
+if(!grid) return;
+const card = grid.querySelector(".product-card");
+if(!card) return;
+grid.style.transform = `translateX(-${pantIndex * (card.offsetWidth + 25)}px)`;
+}
+
+// MUSCULOSAS DATA
+const muscuProducts = [
+{ name: "Musculosa Tribal", desc: "Diseño tribal, corte musculoso.", imgs: ["muscu.jpg"], weight: 200, soldOut: true },
+{ name: "Musculosa Mike Mentzer", desc: "Tributo al maestro del Heavy Duty.", imgs: ["mentzer.jpg"], weight: 200, soldOut: true },
+{ name: "Musculosa Kevin Levrone", desc: "Tributo al Maryland Muscle Machine.", imgs: ["kevin.jpg"], weight: 200, soldOut: true }
 ];
 
 let muscuIndex = 0;
@@ -2068,46 +2386,28 @@ const grid = document.getElementById("muscuGrid");
 if(!grid) return;
 const card = grid.querySelector(".product-card");
 if(!card) return;
-const cardWidth = card.offsetWidth;
-const gap = 25;
-grid.style.transform = `translateX(-${muscuIndex * (cardWidth + gap)}px)`;
-}
-
-// Muscu swipe
-let muscuTouchStart = 0;
-const muscuViewport = document.getElementById("muscuViewport");
-if(muscuViewport){
-muscuViewport.addEventListener("touchstart", e => { muscuTouchStart = e.changedTouches[0].screenX; }, {passive:true});
-muscuViewport.addEventListener("touchend", e => {
-const diff = muscuTouchStart - e.changedTouches[0].screenX;
-if(Math.abs(diff) > 40) muscuMove(diff > 0 ? 1 : -1);
-}, {passive:true});
+grid.style.transform = `translateX(-${muscuIndex * (card.offsetWidth + 25)}px)`;
 }
 
 function openMuscuModal(idx){
 const p = muscuProducts[idx];
 currentProduct = p;
 modalSlideIndex = 0;
-
 document.getElementById("modalTitle").innerText = "AGOTADO";
 document.getElementById("modalTitle").style.color = "#ff0000";
 document.getElementById("modalTitle").style.fontSize = "3rem";
 document.getElementById("modalTitle").style.letterSpacing = "6px";
 document.getElementById("modalDesc").innerText = p.desc;
-
 document.getElementById("modalOldPrice").style.display = "none";
 document.getElementById("modalPrice").innerText = "";
-
 document.getElementById("modalImg0").src = p.imgs[0];
 document.getElementById("modalImg1").src = p.imgs[1] || "";
 document.getElementById("modalSlides").style.transform = "translateX(0)";
 document.querySelectorAll(".modal-slide-btn").forEach(b => b.style.display = p.imgs[1] ? "" : "none");
-
 document.getElementById("modalSizes").innerHTML = "";
 document.getElementById("modalSizes").style.display = "none";
 document.getElementById("sizeSoldoutMsg").style.display = "none";
 document.querySelector(".modal-actions").style.display = "none";
-
 document.getElementById("modalReviewSection").style.display = "none";
 document.querySelector(".size-guide-btn").style.display = "none";
 document.getElementById("productModal").classList.add("active");
@@ -2115,17 +2415,8 @@ document.body.style.overflow = "hidden";
 }
 
 // CALZAS DATA
-
 const calzaProducts = [
-{
-name: "Calza de Lycra",
-desc: "Diseñada para el entrenamiento femenino. Ajuste perfecto, tela de Lycra de alta compresión que se adapta a tu cuerpo y te acompaña en cada movimiento.",
-imgs: ["calza.jpg"],
-price: 0,
-weight: 100,
-soldOut: false,
-soldoutSizes: ["S","M"]
-}
+{ name: "Calza de Lycra", desc: "Diseñada para el entrenamiento femenino.", imgs: ["calza.jpg"], price: 0, weight: 100, soldOut: false, soldoutSizes: ["2","3"] }
 ];
 
 let calzaIndex = 0;
@@ -2137,25 +2428,18 @@ const maxIndex = Math.max(0, totalCalza - visible);
 calzaIndex += direction;
 if(calzaIndex < 0) calzaIndex = maxIndex;
 if(calzaIndex > maxIndex) calzaIndex = 0;
-updateCalzaCarousel();
-}
-
-function updateCalzaCarousel(){
 const grid = document.getElementById("calzaGrid");
 if(!grid) return;
 const card = grid.querySelector(".product-card");
 if(!card) return;
-const cardWidth = card.offsetWidth;
-const gap = 25;
-grid.style.transform = `translateX(-${calzaIndex * (cardWidth + gap)}px)`;
+grid.style.transform = `translateX(-${calzaIndex * (card.offsetWidth + 25)}px)`;
 }
 
 function openCalzaModal(idx){
 const p = calzaProducts[idx];
 currentProduct = p;
 modalSlideIndex = 0;
-selectedSize = "L";
-
+selectedSize = "4";
 document.getElementById("modalTitle").innerText = p.name;
 document.getElementById("modalTitle").style.color = "white";
 document.getElementById("modalTitle").style.fontSize = "";
@@ -2163,7 +2447,6 @@ document.getElementById("modalTitle").style.letterSpacing = "";
 document.getElementById("modalDesc").innerText = p.desc;
 document.getElementById("modalOldPrice").style.display = "none";
 document.getElementById("modalPrice").innerText = "";
-
 document.getElementById("modalImg0").src = p.imgs[0];
 document.getElementById("modalImg1").src = p.imgs[1] || "";
 document.getElementById("modalSlides").style.transform = "translateX(0)";
@@ -2172,29 +2455,18 @@ document.querySelectorAll(".modal-slide-btn").forEach(b => b.style.display = p.i
 const sizesEl = document.getElementById("modalSizes");
 sizesEl.innerHTML = "";
 sizesEl.style.display = "flex";
-const soldoutMsg = document.getElementById("sizeSoldoutMsg");
-soldoutMsg.style.display = "none";
-
-const calzaSizes = ["S","M","L","XL"];
-calzaSizes.forEach(s => {
-const isSoldout = p.soldoutSizes.includes(s);
+document.getElementById("sizeSoldoutMsg").style.display = "none";
+sizes.forEach(s => {
 const btn = document.createElement("button");
-btn.className = "size-btn" + (s === selectedSize && !isSoldout ? " active" : "") + (isSoldout ? " soldout" : "");
+btn.className = "size-btn" + (s === selectedSize ? " active" : "");
 btn.innerText = s;
 btn.onclick = () => {
-if(isSoldout){
-soldoutMsg.style.display = "block";
-sizesEl.querySelectorAll(".size-btn:not(.soldout)").forEach(b => b.classList.remove("active"));
-}else{
-soldoutMsg.style.display = "none";
 selectedSize = s;
 sizesEl.querySelectorAll(".size-btn").forEach(b => b.classList.remove("active"));
 btn.classList.add("active");
-}
 };
 sizesEl.appendChild(btn);
 });
-
 document.querySelector(".modal-actions").style.display = "flex";
 document.getElementById("modalReviewSection").style.display = "none";
 document.getElementById("productModal").classList.add("active");
@@ -2213,69 +2485,29 @@ return 4;
 
 function updateCarousel(){
 const grid = document.getElementById("productsGrid");
+if(!grid) return;
 const card = grid.querySelector(".product-card");
 if(!card) return;
-
-const cardWidth = card.offsetWidth;
-const gap = 25;
-const offset = carouselIndex * (cardWidth + gap);
-
-grid.style.transform = `translateX(-${offset}px)`;
+grid.style.transform = `translateX(-${carouselIndex * (card.offsetWidth + 25)}px)`;
 }
 
 function carouselMove(direction){
 const visible = getVisibleCount();
 const maxIndex = Math.max(0, totalProducts - visible);
-
 carouselIndex += direction;
-
 if(carouselIndex < 0) carouselIndex = maxIndex;
 if(carouselIndex > maxIndex) carouselIndex = 0;
-
 updateCarousel();
 }
 
 window.addEventListener("resize", ()=>{
 const visible = getVisibleCount();
-const maxIndex = Math.max(0, totalProducts - visible);
-if(carouselIndex > maxIndex) carouselIndex = 0;
+if(carouselIndex > Math.max(0, totalProducts - visible)) carouselIndex = 0;
 updateCarousel();
 updateMuscuCarousel();
-updateCalzaCarousel();
 });
 
-window.addEventListener("load", ()=>{ updatePrices(); updateCarousel(); updateMuscuCarousel(); updateCalzaCarousel(); });
-
-// SWIPE TÁCTIL
-
-let touchStartX = 0;
-let touchEndX = 0;
-
-const carouselViewportEl = document.getElementById("carouselViewport");
-
-if(carouselViewportEl){
-
-carouselViewportEl.addEventListener("touchstart", (e)=>{
-touchStartX = e.changedTouches[0].screenX;
-}, {passive:true});
-
-carouselViewportEl.addEventListener("touchend", (e)=>{
-touchEndX = e.changedTouches[0].screenX;
-handleSwipe();
-}, {passive:true});
-
-}
-
-function handleSwipe(){
-const diff = touchStartX - touchEndX;
-const threshold = 40;
-
-if(diff > threshold){
-carouselMove(1);
-}else if(diff < -threshold){
-carouselMove(-1);
-}
-}
+window.addEventListener("load", ()=>{ updatePrices(); updateCarousel(); updateMuscuCarousel(); });
 
 let cart = [];
 let activeDiscount = "";
@@ -2289,22 +2521,12 @@ const validCodes = [
 "SUAR"
 ];
 
-const basePrices = [27000,27000,27000,22500,22500,22500];
-
 function applyDiscount(){
-
 if(activeDiscount !== ""){
 alert("Ya tenés un código aplicado. Solo se puede usar un código por compra.");
 return;
 }
-
-const code =
-document
-.getElementById("discountCode")
-.value
-.trim()
-.toUpperCase();
-
+const code = document.getElementById("discountCode").value.trim().toUpperCase();
 if(validCodes.includes(code)){
 activeDiscount = code;
 updatePrices();
@@ -2312,31 +2534,6 @@ document.getElementById("discountAlert").classList.add("active");
 }else{
 document.getElementById("invalidAlert").classList.add("active");
 }
-
-}
-
-function applyModalDiscount(){
-
-if(activeDiscount !== ""){
-alert("Ya tenés un código aplicado. Solo se puede usar uno por compra.");
-return;
-}
-
-const code =
-document
-.getElementById("modalDiscountCode")
-.value
-.trim()
-.toUpperCase();
-
-if(validCodes.includes(code)){
-activeDiscount = code;
-updatePrices();
-document.getElementById("discountAlert").classList.add("active");
-}else{
-document.getElementById("invalidAlert").classList.add("active");
-}
-
 }
 
 function getDiscountedPrice(price){
@@ -2347,25 +2544,44 @@ return price;
 }
 
 function updatePrices(){
+const basePrices = [27000,27000,27000,22500,22500,22500];
 const oldPrices = [30000, 30000, 30000, 25000, 25000, 25000];
 for(let i=0;i<basePrices.length;i++){
-const original = basePrices[i];
-const finalPrice = getDiscountedPrice(original);
+const finalPrice = getDiscountedPrice(basePrices[i]);
 const priceEl = document.getElementById(`price${i}`);
 if(priceEl) {
 priceEl.innerHTML = `<span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$${oldPrices[i].toLocaleString()} ARS</span><br>$${finalPrice.toLocaleString()} ARS`;
 }
 }
+
+// Update buzos & pants prices
+const buzoPrices = [35000, 35000];
+const buzoOld = [38900, 38900];
+for(let i=0; i<2; i++){
+const fp = getDiscountedPrice(buzoPrices[i]);
+const el = document.getElementById(`buzoprice${i}`);
+const novEl = document.getElementById(`novprice${i}`);
+const html = `<span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$${buzoOld[i].toLocaleString()} ARS</span><br>$${fp.toLocaleString()} ARS`;
+if(el) el.innerHTML = html;
+if(novEl) novEl.innerHTML = html;
+}
+
+const pantPrices = [35000, 35000];
+const pantOld = [38900, 38900];
+for(let i=0; i<2; i++){
+const fp = getDiscountedPrice(pantPrices[i]);
+const el = document.getElementById(`pantprice${i}`);
+const novEl = document.getElementById(`novprice${i+2}`);
+const html = `<span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$${pantOld[i].toLocaleString()} ARS</span><br>$${fp.toLocaleString()} ARS`;
+if(el) el.innerHTML = html;
+if(novEl) novEl.innerHTML = html;
+}
+
 renderCart();
 }
 
 function toggleCart(){
-
-document
-.getElementById("cartPanel")
-.classList
-.toggle("active");
-
+document.getElementById("cartPanel").classList.toggle("active");
 }
 
 function closeDiscountAlert(){
@@ -2383,34 +2599,13 @@ document.getElementById("sizeGuideModal").classList.add("active");
 }
 
 function closeSizeGuide(){
-document.getElementById("sizeGuideModal").classList.remove("active");
-}
-
-function addToCart(name,price,sizeId){
-
-const size =
-document.getElementById(sizeId).value;
-
-const key = `${name}||${size}`;
-const existing = cart.find(i => i.key === key);
-
-if(existing){
-existing.qty++;
-}else{
-cart.push({key, name, size, basePrice:price, qty:1});
-}
-
-renderCart();
-
+document.getElementById("sizeGuideModal").classList.add("active").remove("active") || document.getElementById("sizeGuideModal").classList.remove("active");
 }
 
 function changeQty(key, delta){
-
 const idx = cart.findIndex(i => i.key === key);
 if(idx === -1) return;
-
 const item = cart[idx];
-
 if(item.qty + delta <= 0){
 if(cart.length === 1){
 if(!confirm("¿Querés eliminar todos los productos del carrito?")){
@@ -2421,25 +2616,48 @@ cart.splice(idx, 1);
 }else{
 item.qty += delta;
 }
-
 renderCart();
+}
 
+// Combo calculation helper
+function calculateCartTotals(){
+let buzoQty = 0;
+let pantQty = 0;
+let otherItemsTotal = 0;
+
+cart.forEach(item => {
+if(item.name.toLowerCase().includes("buzó") || item.name.toLowerCase().includes("buzo")){
+buzoQty += item.qty;
+}else if(item.name.toLowerCase().includes("pantalón") || item.name.toLowerCase().includes("pantalon")){
+pantQty += item.qty;
+}else{
+otherItemsTotal += item.basePrice * item.qty;
+}
+});
+
+const pairs = Math.min(buzoQty, pantQty);
+const remainingBuzos = buzoQty - pairs;
+const remainingPants = pantQty - pairs;
+
+// Combo base price is 65000 for 1 buzo + 1 pant (instead of 35000+35000 = 70000)
+const comboBaseTotal = pairs * 65000;
+const individualBuzosTotal = remainingBuzos * 35000;
+const individualPantsTotal = remainingPants * 35000;
+
+const baseSubtotal = comboBaseTotal + individualBuzosTotal + individualPantsTotal + otherItemsTotal;
+const finalSubtotal = getDiscountedPrice(baseSubtotal);
+
+return { baseSubtotal, finalSubtotal, pairs, remainingBuzos, remainingPants };
 }
 
 function renderCart(){
-
-const cartItems =
-document.getElementById("cartItems");
-
-const cartTotal =
-document.getElementById("cartTotal");
-
+const cartItems = document.getElementById("cartItems");
+const cartTotal = document.getElementById("cartTotal");
 cartItems.innerHTML = "";
 
 let total = 0;
 
 cart.forEach(item=>{
-
 const finalPrice = getDiscountedPrice(item.basePrice);
 total += finalPrice * item.qty;
 
@@ -2456,44 +2674,25 @@ $${finalPrice.toLocaleString()} ARS c/u<br>
 </div>
 </div>
 `;
-
 });
 
-cartTotal.innerHTML =
-`TOTAL: $${total.toLocaleString()} ARS`;
-
-}
-
-function buyNow(name,price,sizeId){
-
-const size =
-document.getElementById(sizeId).value;
-
-openPayModal(name, size, price, null, false);
-
+const totals = calculateCartTotals();
+cartTotal.innerHTML = `TOTAL: $${totals.finalSubtotal.toLocaleString()} ARS`;
 }
 
 function checkoutWhatsApp(){
-
 if(cart.length === 0){
 alert("Tu carrito está vacío.");
 return;
 }
-
-let baseTotal = 0;
 let resumen = "";
-
 cart.forEach(item=>{
-baseTotal += item.basePrice * item.qty;
 resumen += `${item.name} x${item.qty} (Talle: ${item.size})\n`;
 });
-
-openPayModal("Carrito", null, baseTotal, resumen, true);
-
+openPayModal("Carrito", null, calculateCartTotals().baseSubtotal, resumen, true);
 }
 
 // ── CHECKOUT ──────────────────────────────────────────────
-
 let checkoutData = null;
 
 function openPayModal(name, size, baseTotal, resumen, isCart){
@@ -2548,19 +2747,30 @@ document.querySelectorAll("."+cls).forEach(el => el.style.display="");
 });
 }
 
-function closePayModal(){ closeCheckout(); }
-function applyModalDiscount(){ applyCheckoutDiscount(); }
-
 function getProductImg(name){
-const map = {"Compresivo Tribal Rojo":"compresrojo.jpg","Compresivo Tribal Morado":"compresmorado.jpg","Compresivo Tribal Blanco":"compresblanco.jpg","Compresivo Básico":"compresbasico.jpg","Compresivo de Berserk":"berserk.jpg","Compresivo Clásico":"clasico.jpg","Musculosa Tribal":"muscu.jpg","Musculosa Mike Mentzer":"mentzer.jpg","Musculosa Kevin Levrone":"kevin.jpg","Calza de Lycra":"calza.jpg"};
+const map = {
+"Compresivo Tribal Rojo":"compresrojo.jpg",
+"Compresivo Tribal Morado":"compresmorado.jpg",
+"Compresivo Tribal Blanco":"compresblanco.jpg",
+"Compresivo Básico":"compresbasico.jpg",
+"Compresivo de Berserk":"berserk.jpg",
+"Compresivo Clásico":"clasico.jpg",
+"Musculosa Tribal":"muscu.jpg",
+"Musculosa Mike Mentzer":"mentzer.jpg",
+"Musculosa Kevin Levrone":"kevin.jpg",
+"Calza de Lycra":"calza.jpg",
+"Buzó Tribal Rojo":"buzorojo.jpg",
+"Buzó Tribal Morado":"buzomorado.jpg",
+"Pantalón Tribal Rojo":"pan rojo.jpg",
+"Pantalón Tribal Morado":"pantmor.jpg"
+};
 return map[name] || "";
 }
 
 function updateCheckoutSubtotal(){
 if(!checkoutData) return;
-let total = 0;
-checkoutData.items.forEach(i => { total += getDiscountedPrice(i.basePrice) * i.qty; });
-document.getElementById("checkoutSubtotal").innerText = `$${total.toLocaleString()} ARS`;
+const totals = calculateCartTotals();
+document.getElementById("checkoutSubtotal").innerText = `$${totals.finalSubtotal.toLocaleString()} ARS`;
 }
 
 function applyCheckoutDiscount(){
@@ -2572,11 +2782,6 @@ const code = document.getElementById("checkoutDiscountCode").value.trim().toUppe
 const msg = document.getElementById("checkoutDiscountMsg");
 if(validCodes.includes(code)){
 activeDiscount = code; updatePrices();
-const itemsEl = document.getElementById("checkoutItems");
-checkoutData.items.forEach(item => {
-const disc = getDiscountedPrice(item.basePrice);
-const total = disc * item.qty;
-});
 updateCheckoutSubtotal();
 msg.style.display="block"; msg.style.color="var(--green)"; msg.innerText="✅ ¡Descuento del 10% aplicado!";
 }else{
@@ -2592,44 +2797,33 @@ return total;
 }
 
 function getCheckoutSubtotal(){
-if(!checkoutData) return 0;
-let total = 0;
-checkoutData.items.forEach(i => { total += getDiscountedPrice(i.basePrice) * i.qty; });
-return total;
+return calculateCartTotals().finalSubtotal;
 }
 
 function getTotalWeight(){
 if(!checkoutData) return 0;
 let totalWeight = 0;
 checkoutData.items.forEach(item => {
-// Encontrar el producto en los arrays para obtener el peso
-let weight = 0;
-const prodInArray = products.find(p => p.name === item.name);
-if(prodInArray) weight = prodInArray.weight || 0;
-else {
-const muscuInArray = muscuProducts.find(p => p.name === item.name);
-if(muscuInArray) weight = muscuInArray.weight || 0;
-else {
-const calzaInArray = calzaProducts.find(p => p.name === item.name);
-if(calzaInArray) weight = calzaInArray.weight || 0;
-}
-}
+let weight = 200;
+const p1 = products.find(p => p.name === item.name);
+const p2 = buzoProducts.find(p => p.name === item.name);
+const p3 = panProducts.find(p => p.name === item.name);
+const p4 = muscuProducts.find(p => p.name === item.name);
+const p5 = calzaProducts.find(p => p.name === item.name);
+if(p1) weight = p1.weight;
+else if(p2) weight = p2.weight;
+else if(p3) weight = p3.weight;
+else if(p4) weight = p4.weight;
+else if(p5) weight = p5.weight;
 totalWeight += weight * item.qty;
 });
 return totalWeight;
 }
 
 function getShippingCostByWeight(totalWeightGrams){
-if(totalWeightGrams <= 800){
-return shippingCostsByWeight["0-800"];
-}else if(totalWeightGrams <= 1500){
-return shippingCostsByWeight["801-1500"];
-}else if(totalWeightGrams <= 3000){
+if(totalWeightGrams <= 800) return shippingCostsByWeight["0-800"];
+if(totalWeightGrams <= 1500) return shippingCostsByWeight["801-1500"];
 return shippingCostsByWeight["1501-3000"];
-}else{
-// Si excede 3kg, usar el máximo
-return shippingCostsByWeight["1501-3000"];
-}
 }
 
 function checkoutUpdateEnvio(){
@@ -2641,8 +2835,6 @@ const showOthers = prov !== "" && !isFormosaCapital;
 document.getElementById("envioFormosaCapital").style.display = isFormosaCapital ? "block" : "none";
 document.getElementById("envioOtros").style.display = showOthers ? "flex" : "none";
 document.getElementById("envioFormosaForm").style.display = isFormosaCapital ? "flex" : "none";
-
-// Show price summary box
 document.getElementById("priceSummaryBox").style.display = showOthers ? "block" : "none";
 
 if(showOthers){
@@ -2659,7 +2851,6 @@ checkoutValidate();
 
 function updatePriceSummary(province){
 if(!checkoutData) return;
-
 const itemsListEl = document.getElementById("priceSummaryItems");
 itemsListEl.innerHTML = "";
 
@@ -2676,15 +2867,8 @@ itemsListEl.appendChild(div);
 const totalWeight = getTotalWeight();
 const totalItems = getTotalItems();
 const subtotal = getCheckoutSubtotal();
-
-// Envío gratis si hay 3 o más artículos
 const isFreeShipping = totalItems >= 3;
-let shippingCost = 0;
-
-if(!isFreeShipping){
-shippingCost = getShippingCostByWeight(totalWeight);
-}
-
+let shippingCost = isFreeShipping ? 0 : getShippingCostByWeight(totalWeight);
 const finalTotal = subtotal + shippingCost;
 
 if(isFreeShipping){
@@ -2694,7 +2878,6 @@ document.getElementById("correoPrice").innerText = "GRATIS";
 document.getElementById("shippingCostDisplay").innerText = `$${shippingCost.toLocaleString()} ARS`;
 document.getElementById("correoPrice").innerText = `$${shippingCost.toLocaleString()} ARS`;
 }
-
 document.getElementById("priceTotalDisplay").innerText = `TOTAL: $${finalTotal.toLocaleString()} ARS`;
 }
 
@@ -2708,7 +2891,6 @@ let valid = false;
 if(isFormosaCapital){
 const fields = ["envFNombre","envFDireccion","envFTel"];
 valid = fields.every(id => document.getElementById(id).value.trim() !== "");
-// rebuild WA link live
 const waMsg = buildWAMessage(true);
 const btn = document.getElementById("envioWABtn");
 if(btn) btn.href = `https://wa.me/5493704509580?text=${encodeURIComponent(waMsg)}`;
@@ -2732,8 +2914,7 @@ checkoutData.items.forEach(item => {
 const price = getDiscountedPrice(item.basePrice) * item.qty;
 msg += `- ${item.name}\n  Cantidad: ${item.qty}\n  Talle: ${item.size}\n  Precio: $${price.toLocaleString()} ARS\n`;
 });
-let total = 0;
-checkoutData.items.forEach(i => { total += getDiscountedPrice(i.basePrice) * i.qty; });
+let total = getCheckoutSubtotal();
 msg += `\nSubtotal: $${total.toLocaleString()} ARS`;
 if(activeDiscount) msg += ` (código: ${activeDiscount})`;
 msg += "\n\n——————————————\n";
@@ -2752,10 +2933,7 @@ msg += "- Envío: A coordinar por WhatsApp\n";
 const totalWeight = getTotalWeight();
 const totalItems = getTotalItems();
 const isFreeShipping = totalItems >= 3;
-let shippingCost = 0;
-if(!isFreeShipping){
-shippingCost = getShippingCostByWeight(totalWeight);
-}
+let shippingCost = isFreeShipping ? 0 : getShippingCostByWeight(totalWeight);
 msg += `Datos de envío:\n- Nombre: ${document.getElementById("envNombre").value}\n- Dirección: ${document.getElementById("envDireccion").value}\n- Código Postal: ${document.getElementById("envCP").value}\n- Email: ${document.getElementById("envEmail").value}\n- DNI: ${document.getElementById("envDNI").value}\n- Teléfono: ${document.getElementById("envTel").value}\n`;
 const ind = document.getElementById("envIndicaciones").value.trim();
 if(ind) msg += `- Indicaciones: ${ind}\n`;
@@ -2797,12 +2975,9 @@ btn.style.borderColor = "#444";
 }
 
 // ── HAMBURGER MENU ────────────────────────────────────────────
-
 function toggleMenu(){
-const menu = document.getElementById("hamburgerMenu");
-const backdrop = document.getElementById("menuBackdrop");
-menu.classList.toggle("active");
-backdrop.classList.toggle("active");
+document.getElementById("hamburgerMenu").classList.toggle("active");
+document.getElementById("menuBackdrop").classList.toggle("active");
 }
 
 function closeMenu(){
@@ -2811,9 +2986,7 @@ document.getElementById("menuBackdrop").classList.remove("active");
 }
 
 // ── THEME TOGGLE ──────────────────────────────────────────────
-
 let isLightTheme = false;
-
 function toggleTheme(){
 isLightTheme = !isLightTheme;
 const body = document.body;
@@ -2835,42 +3008,39 @@ if(logo) logo.src = "blazelogo.png";
 }
 
 // ── SEARCH ────────────────────────────────────────────────────
-
 const searchCatalog = [
-{name:"Compresivo Tribal Rojo",   price:"$27.000 ARS",   img:"compresrojo.jpg",   fn:"openProductModal", arg:0},
-{name:"Compresivo Tribal Morado", price:"$27.000 ARS",   img:"compresmorado.jpg", fn:"openProductModal", arg:1},
-{name:"Compresivo Tribal Blanco", price:"$27.000 ARS",   img:"compresblanco.jpg", fn:"openProductModal", arg:2},
-{name:"Compresivo Básico",        price:"$22.500 ARS",   img:"compresbasico.jpg", fn:"openProductModal", arg:3},
-{name:"Compresivo de Berserk",    price:"$22.500 ARS",   img:"berserk.jpg",       fn:"openProductModal", arg:4},
-{name:"Compresivo Clásico",       price:"$22.500 ARS",   img:"clasico.jpg",       fn:"openProductModal", arg:5},
-{name:"Musculosa Tribal",         price:"Consultá precio", img:"muscu.jpg",       fn:"openMuscuModal",   arg:0},
-{name:"Musculosa Mike Mentzer",   price:"Consultá precio", img:"mentzer.jpg",     fn:"openMuscuModal",   arg:1},
-{name:"Musculosa Kevin Levrone",  price:"Consultá precio", img:"kevin.jpg",       fn:"openMuscuModal",   arg:2},
-{name:"Calza de Lycra",           price:"Consultá precio", img:"calza.jpg",       fn:"openCalzaModal",   arg:0},
+{name:"Buzó Tribal Rojo",        price:"$35.000 ARS",   img:"buzorojo.jpg",      fn:"openProductModalByName", arg:"Buzó Tribal Rojo"},
+{name:"Buzó Tribal Morado",      price:"$35.000 ARS",   img:"buzomorado.jpg",    fn:"openProductModalByName", arg:"Buzó Tribal Morado"},
+{name:"Pantalón Tribal Rojo",    price:"$35.000 ARS",   img:"pan rojo.jpg",      fn:"openProductModalByName", arg:"Pantalón Tribal Rojo"},
+{name:"Pantalón Tribal Morado",  price:"$35.000 ARS",   img:"pantmor.jpg",       fn:"openProductModalByName", arg:"Pantalón Tribal Morado"},
+{name:"Compresivo Tribal Rojo",  price:"$27.000 ARS",   img:"compresrojo.jpg",   fn:"openProductModal", arg:0},
+{name:"Compresivo Tribal Morado",price:"$27.000 ARS",   img:"compresmorado.jpg", fn:"openProductModal", arg:1},
+{name:"Compresivo Tribal Blanco",price:"$27.000 ARS",   img:"compresblanco.jpg", fn:"openProductModal", arg:2},
+{name:"Compresivo Básico",       price:"$22.500 ARS",   img:"compresbasico.jpg", fn:"openProductModal", arg:3},
+{name:"Compresivo de Berserk",   price:"$22.500 ARS",   img:"berserk.jpg",       fn:"openProductModal", arg:4},
+{name:"Compresivo Clásico",      price:"$22.500 ARS",   img:"clasico.jpg",       fn:"openProductModal", arg:5},
+{name:"Musculosa Tribal",        price:"Consultá",      img:"muscu.jpg",         fn:"openMuscuModal",   arg:0},
+{name:"Musculosa Mike Mentzer",  price:"Consultá",      img:"mentzer.jpg",     fn:"openMuscuModal",   arg:1},
+{name:"Musculosa Kevin Levrone", price:"Consultá",      img:"kevin.jpg",       fn:"openMuscuModal",   arg:2},
+{name:"Calza de Lycra",          price:"Consultá",      img:"calza.jpg",         fn:"openCalzaModal",   arg:0}
 ];
 
 let _lastSearchMatches = [];
 function handleSearch(){
 const query = document.getElementById("searchInput").value.trim().toLowerCase();
 const resultsEl = document.getElementById("searchResults");
-
 if(query.length === 0){
 resultsEl.innerHTML = "";
 resultsEl.classList.remove("visible");
 return;
 }
-
-const matches = searchCatalog.filter(p =>
-p.name.toLowerCase().includes(query)
-);
+const matches = searchCatalog.filter(p => p.name.toLowerCase().includes(query));
 _lastSearchMatches = matches;
-
 if(matches.length === 0){
-resultsEl.innerHTML = '<div class="search-no-results">Sin resultados para \"' + query + '\"</div>';
+resultsEl.innerHTML = '<div class="search-no-results">Sin resultados para "' + query + '"</div>';
 resultsEl.classList.add("visible");
 return;
 }
-
 resultsEl.innerHTML = matches.map((p,i) =>
 '<div class="search-result-item" onclick="selectSearchResult(' + i + ')">' +
 '<img src="' + p.img + '" class="search-result-thumb" alt="' + p.name + '">' +
@@ -2880,7 +3050,6 @@ resultsEl.innerHTML = matches.map((p,i) =>
 '</div>' +
 '</div>'
 ).join("");
-
 resultsEl.classList.add("visible");
 }
 
@@ -2889,7 +3058,13 @@ const p = _lastSearchMatches[i];
 document.getElementById("searchInput").value = "";
 document.getElementById("searchResults").classList.remove("visible");
 closeMenu();
-if(p) window[p.fn](p.arg);
+if(p){
+if(typeof p.arg === 'number'){
+window[p.fn](p.arg);
+}else{
+window[p.fn](p.arg);
+}
+}
 }
 
 function clearSearch(){
@@ -2899,36 +3074,24 @@ document.getElementById("searchResults").classList.remove("visible");
 document.getElementById("searchInput").focus();
 }
 
-document.addEventListener("click", function(e){
-const wrapper = document.getElementById("searchWrapper");
-if(wrapper && !wrapper.contains(e.target)){
-document.getElementById("searchResults").classList.remove("visible");
-}
-});
-
 let _lastInlineMatches = [];
-
 function handleInlineSearch(){
 const query = document.getElementById("inlineSearchInput").value.trim().toLowerCase();
 const resultsEl = document.getElementById("inlineSearchResults");
 const clearBtn = document.getElementById("inlineClearBtn");
 if(clearBtn) clearBtn.style.display = query.length > 0 ? "block" : "none";
-
 if(query.length === 0){
 resultsEl.style.display = "none";
 resultsEl.innerHTML = "";
 return;
 }
-
 const matches = searchCatalog.filter(p => p.name.toLowerCase().includes(query));
 _lastInlineMatches = matches;
-
 if(matches.length === 0){
 resultsEl.innerHTML = '<div class="search-no-results">Sin resultados</div>';
 resultsEl.style.display = "block";
 return;
 }
-
 resultsEl.innerHTML = matches.map((p,i) =>
 '<div class="search-result-item" onclick="inlineSelectResult(' + i + ')">' +
 '<img src="' + p.img + '" class="search-result-thumb" alt="' + p.name + '">' +
@@ -2945,11 +3108,10 @@ function commitInlineSearch(){
 const query = document.getElementById("inlineSearchInput").value.trim();
 if(!query) return;
 document.getElementById("inlineSearchResults").style.display = "none";
-
 const matches = searchCatalog.filter(p => p.name.toLowerCase().includes(query.toLowerCase()));
 _lastInlineMatches = matches;
 
-["secCompresion","secMusculosas","secCalzas"].forEach(id => {
+["secNovedades","secBuzos","secPantalon","secCompresion","secMusculosas","secCalzas"].forEach(id => {
 const el = document.getElementById(id);
 if(el) el.style.display = "none";
 });
@@ -2973,19 +3135,24 @@ grid.innerHTML = matches.map((p,i) =>
 '</div>'
 ).join("");
 }
-
 secResults.style.display = "block";
 secResults.scrollIntoView({behavior:"smooth", block:"start"});
 }
 
 function inlineSelectResult(i){
 const p = _lastInlineMatches[i];
-if(p) window[p.fn](p.arg);
+if(p){
+if(typeof p.arg === 'number'){
+window[p.fn](p.arg);
+}else{
+window[p.fn](p.arg);
+}
+}
 }
 
 function clearInlineSearch(){
 const inp = document.getElementById("inlineSearchInput");
-if(inp){ inp.value = ""; }
+if(inp) inp.value = "";
 const clearBtn = document.getElementById("inlineClearBtn");
 if(clearBtn) clearBtn.style.display = "none";
 const res = document.getElementById("inlineSearchResults");
@@ -2995,7 +3162,7 @@ if(secResults) secResults.style.display = "none";
 const grid = document.getElementById("searchResultsGrid");
 if(grid) grid.innerHTML = "";
 _lastInlineMatches = [];
-["secCompresion","secMusculosas","secCalzas"].forEach(id => {
+["secNovedades","secBuzos","secPantalon","secCompresion","secMusculosas","secCalzas"].forEach(id => {
 const el = document.getElementById(id);
 if(el) el.style.display = "";
 });
