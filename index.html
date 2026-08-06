@@ -2826,6 +2826,25 @@ if(totalWeightGrams <= 1500) return shippingCostsByWeight["801-1500"];
 return shippingCostsByWeight["1501-3000"];
 }
 
+function calculateShippingCost(){
+const totalItems = getTotalItems();
+if(totalItems >= 3) return 0;
+
+let hasBuzoOrPant = false;
+if(checkoutData && checkoutData.items){
+checkoutData.items.forEach(item => {
+const isBuz = buzoProducts.some(p => p.name === item.name);
+const isPan = panProducts.some(p => p.name === item.name);
+if(isBuz || isPan) hasBuzoOrPant = true;
+});
+}
+
+if(hasBuzoOrPant) return 11000;
+
+const totalWeight = getTotalWeight();
+return getShippingCostByWeight(totalWeight);
+}
+
 function checkoutUpdateEnvio(){
 const prov = document.getElementById("checkoutProvincia").value;
 const loc = document.getElementById("checkoutLocalidad").value.trim().toLowerCase();
@@ -2864,11 +2883,10 @@ div.innerText = line;
 itemsListEl.appendChild(div);
 });
 
-const totalWeight = getTotalWeight();
 const totalItems = getTotalItems();
 const subtotal = getCheckoutSubtotal();
 const isFreeShipping = totalItems >= 3;
-let shippingCost = isFreeShipping ? 0 : getShippingCostByWeight(totalWeight);
+let shippingCost = calculateShippingCost();
 const finalTotal = subtotal + shippingCost;
 
 if(isFreeShipping){
@@ -2930,10 +2948,9 @@ if(fTel) msg += `- Teléfono: ${fTel}\n`;
 if(fInd) msg += `- Indicaciones: ${fInd}\n`;
 msg += "- Envío: A coordinar por WhatsApp\n";
 }else{
-const totalWeight = getTotalWeight();
 const totalItems = getTotalItems();
 const isFreeShipping = totalItems >= 3;
-let shippingCost = isFreeShipping ? 0 : getShippingCostByWeight(totalWeight);
+let shippingCost = calculateShippingCost();
 msg += `Datos de envío:\n- Nombre: ${document.getElementById("envNombre").value}\n- Dirección: ${document.getElementById("envDireccion").value}\n- Código Postal: ${document.getElementById("envCP").value}\n- Email: ${document.getElementById("envEmail").value}\n- DNI: ${document.getElementById("envDNI").value}\n- Teléfono: ${document.getElementById("envTel").value}\n`;
 const ind = document.getElementById("envIndicaciones").value.trim();
 if(ind) msg += `- Indicaciones: ${ind}\n`;
@@ -3181,4 +3198,3 @@ res.style.display = "none";
 
 </body>
 </html>
-
