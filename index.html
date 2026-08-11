@@ -1648,18 +1648,26 @@ Pantalones
 <div class="products-grid" id="pantGrid">
 
 <div class="product-card" onclick="openPantModal(0)">
-<img src="pantrojo.jpg" class="card-thumb" alt="Pantalón Tribal Rojo">
+<img src="pantbasico.jpg" class="card-thumb" alt="Pantalón básico BlazeBorn">
 <div class="card-label">
-<div class="card-name">Pantalón Tribal Rojo</div>
-<div class="card-price" id="pantprice0"><span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$38.900 ARS</span><br>$35.000 ARS</div>
+<div class="card-name">Pantalón básico BlazeBorn</div>
+<div class="card-price" id="pantprice0"><span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$33.300 ARS</span><br>$30.000 ARS</div>
 </div>
 </div>
 
 <div class="product-card" onclick="openPantModal(1)">
+<img src="pantrojo.jpg" class="card-thumb" alt="Pantalón Tribal Rojo">
+<div class="card-label">
+<div class="card-name">Pantalón Tribal Rojo</div>
+<div class="card-price" id="pantprice1"><span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$38.900 ARS</span><br>$35.000 ARS</div>
+</div>
+</div>
+
+<div class="product-card" onclick="openPantModal(2)">
 <img src="pantmor.jpg" class="card-thumb" alt="Pantalón Tribal Morado">
 <div class="card-label">
 <div class="card-name">Pantalón Tribal Morado</div>
-<div class="card-price" id="pantprice1"><span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$38.900 ARS</span><br>$35.000 ARS</div>
+<div class="card-price" id="pantprice2"><span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$38.900 ARS</span><br>$35.000 ARS</div>
 </div>
 </div>
 
@@ -2044,6 +2052,16 @@ soldoutSizes: []
 // PANTALONES DATA
 const panProducts = [
 {
+name: "Pantalón básico BlazeBorn",
+desc: "El básico que no te puede faltar para entrenar un día de frío o salir a la calle con total comodidad y estilo.",
+imgs: ["pantbasico.jpg","pantbasico1.jpg"],
+price: 30000,
+oldPrice: 33300,
+weight: 600,
+soldOut: false,
+soldoutSizes: []
+},
+{
 name: "Pantalón Tribal Rojo",
 desc: "Pantalón urbano con detalles tribales rojos, durabilidad y máxima estética.",
 imgs: ["pantrojo.jpg","pantrojo1.jpg"],
@@ -2348,7 +2366,7 @@ grid.style.transform = `translateX(-${buzoIndex * (card.offsetWidth + 25)}px)`;
 
 // PANTALONES CAROUSEL
 let pantIndex = 0;
-const totalPants = 2;
+const totalPants = 3;
 function pantMove(direction){
 const visible = getVisibleCount();
 const maxIndex = Math.max(0, totalPants - visible);
@@ -2566,15 +2584,17 @@ if(el) el.innerHTML = html;
 if(novEl) novEl.innerHTML = html;
 }
 
-const pantPrices = [35000, 35000];
-const pantOld = [38900, 38900];
-for(let i=0; i<2; i++){
+const pantPrices = [30000, 35000, 35000];
+const pantOld = [33300, 38900, 38900];
+for(let i=0; i<3; i++){
 const fp = getDiscountedPrice(pantPrices[i]);
 const el = document.getElementById(`pantprice${i}`);
-const novEl = document.getElementById(`novprice${i+2}`);
 const html = `<span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$${pantOld[i].toLocaleString()} ARS</span><br>$${fp.toLocaleString()} ARS`;
 if(el) el.innerHTML = html;
+if(i < 2) {
+const novEl = document.getElementById(`novprice${i+2}`);
 if(novEl) novEl.innerHTML = html;
+}
 }
 
 renderCart();
@@ -2642,9 +2662,22 @@ const remainingPants = pantQty - pairs;
 // Combo base price is 65000 for 1 buzo + 1 pant (instead of 35000+35000 = 70000)
 const comboBaseTotal = pairs * 65000;
 const individualBuzosTotal = remainingBuzos * 35000;
-const individualPantsTotal = remainingPants * 35000;
+// Note: pants can be 30000 or 35000, but we can compute dynamically or handle items individually. Let's make it more precise based on actual cart items if needed, or approximate. Let's refine individual pants total by looking at actual items if needed.
+let individualPantsTotal = 0;
+cart.forEach(item => {
+if(item.name.toLowerCase().includes("pantalón") || item.name.toLowerCase().includes("pantalon")){
+// check how many of this item are part of remainingPants vs pairs
+}
+});
 
-const baseSubtotal = comboBaseTotal + individualBuzosTotal + individualPantsTotal + otherItemsTotal;
+// Simpler approach: calculate baseSubtotal directly from cart items with combo discount applied if pairs exist
+let totalWithoutCombo = 0;
+cart.forEach(item => {
+totalWithoutCombo += item.basePrice * item.qty;
+});
+
+// Combo discount: each pair of (buzo + pant) saves 5000 on the pants side (or 35+35=70 vs 65 -> 5000 discount)
+const baseSubtotal = totalWithoutCombo - (pairs * 5000);
 const finalSubtotal = getDiscountedPrice(baseSubtotal);
 
 return { baseSubtotal, finalSubtotal, pairs, remainingBuzos, remainingPants };
@@ -2761,6 +2794,7 @@ const map = {
 "Calza de Lycra":"calza.jpg",
 "Buzo Tribal Rojo":"buzorojo.jpg",
 "Buzo Tribal Morado":"buzomorado.jpg",
+"Pantalón básico BlazeBorn":"pantbasico.jpg",
 "Pantalón Tribal Rojo":"pantrojo.jpg",
 "Pantalón Tribal Morado":"pantmor.jpg"
 };
@@ -3028,6 +3062,7 @@ if(logo) logo.src = "blazelogo.png";
 const searchCatalog = [
 {name:"Buzo Tribal Rojo",        price:"$35.000 ARS",   img:"buzorojo.jpg",      fn:"openProductModalByName", arg:"Buzo Tribal Rojo"},
 {name:"Buzo Tribal Morado",      price:"$35.000 ARS",   img:"buzomorado.jpg",    fn:"openProductModalByName", arg:"Buzo Tribal Morado"},
+{name:"Pantalón básico BlazeBorn",price:"$30.000 ARS",  img:"pantbasico.jpg",    fn:"openProductModalByName", arg:"Pantalón básico BlazeBorn"},
 {name:"Pantalón Tribal Rojo",    price:"$35.000 ARS",   img:"pantrojo.jpg",      fn:"openProductModalByName", arg:"Pantalón Tribal Rojo"},
 {name:"Pantalón Tribal Morado",  price:"$35.000 ARS",   img:"pantmor.jpg",       fn:"openProductModalByName", arg:"Pantalón Tribal Morado"},
 {name:"Compresivo Tribal Rojo",  price:"$27.000 ARS",   img:"compresrojo.jpg",   fn:"openProductModal", arg:0},
