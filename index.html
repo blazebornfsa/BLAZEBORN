@@ -2620,7 +2620,7 @@ document.getElementById("sizeGuideModal").classList.add("active");
 }
 
 function closeSizeGuide(){
-document.getElementById("sizeGuideModal").classList.add("active").remove("active") || document.getElementById("sizeGuideModal").classList.remove("active");
+document.getElementById("sizeGuideModal").classList.remove("active");
 }
 
 function changeQty(key, delta){
@@ -2640,48 +2640,31 @@ item.qty += delta;
 renderCart();
 }
 
-// Combo calculation helper
-function calculateCartTotals(){
+// Combo calculation helper (updated to accept custom items array)
+function calculateCartTotals(itemsArg){
+const targetItems = itemsArg || (checkoutData && !checkoutData.isCart ? checkoutData.items : cart);
 let buzoQty = 0;
 let pantQty = 0;
-let otherItemsTotal = 0;
 
-cart.forEach(item => {
-if(item.name.toLowerCase().includes("buzó") || item.name.toLowerCase().includes("buzo")){
+targetItems.forEach(item => {
+const itemName = (item.name || "").toLowerCase();
+if(itemName.includes("buzó") || itemName.includes("buzo")){
 buzoQty += item.qty;
-}else if(item.name.toLowerCase().includes("pantalón") || item.name.toLowerCase().includes("pantalon")){
+}else if(itemName.includes("pantalón") || itemName.includes("pantalon")){
 pantQty += item.qty;
-}else{
-otherItemsTotal += item.basePrice * item.qty;
 }
 });
 
 const pairs = Math.min(buzoQty, pantQty);
-const remainingBuzos = buzoQty - pairs;
-const remainingPants = pantQty - pairs;
-
-// Combo base price is 65000 for 1 buzo + 1 pant (instead of 35000+35000 = 70000)
-const comboBaseTotal = pairs * 65000;
-const individualBuzosTotal = remainingBuzos * 35000;
-// Note: pants can be 30000 or 35000, but we can compute dynamically or handle items individually. Let's make it more precise based on actual cart items if needed, or approximate. Let's refine individual pants total by looking at actual items if needed.
-let individualPantsTotal = 0;
-cart.forEach(item => {
-if(item.name.toLowerCase().includes("pantalón") || item.name.toLowerCase().includes("pantalon")){
-// check how many of this item are part of remainingPants vs pairs
-}
-});
-
-// Simpler approach: calculate baseSubtotal directly from cart items with combo discount applied if pairs exist
 let totalWithoutCombo = 0;
-cart.forEach(item => {
+targetItems.forEach(item => {
 totalWithoutCombo += item.basePrice * item.qty;
 });
 
-// Combo discount: each pair of (buzo + pant) saves 5000 on the pants side (or 35+35=70 vs 65 -> 5000 discount)
 const baseSubtotal = totalWithoutCombo - (pairs * 5000);
 const finalSubtotal = getDiscountedPrice(baseSubtotal);
 
-return { baseSubtotal, finalSubtotal, pairs, remainingBuzos, remainingPants };
+return { baseSubtotal, finalSubtotal, pairs };
 }
 
 function renderCart(){
@@ -2710,7 +2693,7 @@ $${finalPrice.toLocaleString()} ARS c/u<br>
 `;
 });
 
-const totals = calculateCartTotals();
+const totals = calculateCartTotals(cart);
 cartTotal.innerHTML = `TOTAL: $${totals.finalSubtotal.toLocaleString()} ARS`;
 }
 
@@ -2723,7 +2706,7 @@ let resumen = "";
 cart.forEach(item=>{
 resumen += `${item.name} x${item.qty} (Talle: ${item.size})\n`;
 });
-openPayModal("Carrito", null, calculateCartTotals().baseSubtotal, resumen, true);
+openPayModal("Carrito", null, calculateCartTotals(cart).baseSubtotal, resumen, true);
 }
 
 // ── CHECKOUT ──────────────────────────────────────────────
@@ -2804,7 +2787,7 @@ return map[name] || "";
 
 function updateCheckoutSubtotal(){
 if(!checkoutData) return;
-const totals = calculateCartTotals();
+const totals = calculateCartTotals(checkoutData.items);
 document.getElementById("checkoutSubtotal").innerText = `$${totals.finalSubtotal.toLocaleString()} ARS`;
 }
 
@@ -2832,7 +2815,7 @@ return total;
 }
 
 function getCheckoutSubtotal(){
-return calculateCartTotals().finalSubtotal;
+return calculateCartTotals(checkoutData ? checkoutData.items : null).finalSubtotal;
 }
 
 function getTotalWeight(){
@@ -3234,3 +3217,4 @@ res.style.display = "none";
 
 </body>
 </html>
+
