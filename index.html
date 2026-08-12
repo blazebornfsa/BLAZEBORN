@@ -310,15 +310,15 @@ flex-wrap:wrap;
 }
 
 .size-btn{
-padding:10px 18px;
+padding:10px 14px;
 border-radius:10px;
 border:1px solid #444;
 background:#111;
 color:white;
-font-weight:700;
 cursor:pointer;
-font-size:0.95rem;
+text-align:center;
 transition:0.2s;
+min-width:55px;
 }
 
 .size-btn.active{
@@ -2089,6 +2089,14 @@ soldoutSizes: []
 ];
 
 const sizes = ["2","3","4","5","6"];
+const buzoPantSizes = [
+{ label: "S", num: "2" },
+{ label: "M", num: "3" },
+{ label: "L", num: "4" },
+{ label: "XL", num: "5" },
+{ label: "XXL", num: "6" }
+];
+
 let currentProduct = null;
 let modalSlideIndex = 0;
 let selectedSize = "3";
@@ -2172,7 +2180,7 @@ function openBuzosModal(idx){
 const p = buzoProducts[idx];
 currentProduct = p;
 modalSlideIndex = 0;
-selectedSize = "3";
+selectedSize = "M";
 
 document.getElementById("modalTitle").innerText = p.name;
 document.getElementById("modalTitle").style.color = "white";
@@ -2204,12 +2212,12 @@ sizesEl.style.display = "flex";
 const soldoutMsg = document.getElementById("sizeSoldoutMsg");
 soldoutMsg.style.display = "none";
 
-sizes.forEach(s => {
+buzoPantSizes.forEach(s => {
 const btn = document.createElement("button");
-btn.className = "size-btn" + (s === selectedSize ? " active" : "");
-btn.innerText = s;
+btn.className = "size-btn" + (s.label === selectedSize ? " active" : "");
+btn.innerHTML = `<span style="font-size:1.1rem;font-weight:900;display:block;line-height:1.2;">${s.label}</span><span style="font-size:0.7rem;color:inherit;font-weight:600;opacity:0.7;">(${s.num})</span>`;
 btn.onclick = () => {
-selectedSize = s;
+selectedSize = s.label;
 sizesEl.querySelectorAll(".size-btn").forEach(b => b.classList.remove("active"));
 btn.classList.add("active");
 };
@@ -2229,7 +2237,7 @@ function openPantModal(idx){
 const p = panProducts[idx];
 currentProduct = p;
 modalSlideIndex = 0;
-selectedSize = "3";
+selectedSize = "M";
 
 document.getElementById("modalTitle").innerText = p.name;
 document.getElementById("modalTitle").style.color = "white";
@@ -2261,12 +2269,12 @@ sizesEl.style.display = "flex";
 const soldoutMsg = document.getElementById("sizeSoldoutMsg");
 soldoutMsg.style.display = "none";
 
-sizes.forEach(s => {
+buzoPantSizes.forEach(s => {
 const btn = document.createElement("button");
-btn.className = "size-btn" + (s === selectedSize ? " active" : "");
-btn.innerText = s;
+btn.className = "size-btn" + (s.label === selectedSize ? " active" : "");
+btn.innerHTML = `<span style="font-size:1.1rem;font-weight:900;display:block;line-height:1.2;">${s.label}</span><span style="font-size:0.7rem;color:inherit;font-weight:600;opacity:0.7;">(${s.num})</span>`;
 btn.onclick = () => {
-selectedSize = s;
+selectedSize = s.label;
 sizesEl.querySelectorAll(".size-btn").forEach(b => b.classList.remove("active"));
 btn.classList.add("active");
 };
