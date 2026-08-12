@@ -1396,6 +1396,11 @@ COMPRAR YA
 <div class="modal-product-title" id="modalTitle"></div>
 <div class="modal-product-desc" id="modalDesc"></div>
 
+<div id="modalOfferBox" style="display:none;background:var(--green);border-radius:14px;padding:14px;text-align:center;color:#000;">
+<div style="font-size:0.75rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;margin-bottom:2px;">¡OFERTA!</div>
+<div style="font-size:0.95rem;font-weight:900;">$50.000 ¡conjunto buzo + pantalon!</div>
+</div>
+
 <div>
 <div class="modal-old-price" id="modalOldPrice"></div>
 <div class="modal-price" id="modalPrice"></div>
@@ -2099,6 +2104,7 @@ document.getElementById("modalTitle").style.color = p.soldOut ? "#ff0000" : "whi
 document.getElementById("modalTitle").style.fontSize = p.soldOut ? "3rem" : "";
 document.getElementById("modalTitle").style.letterSpacing = p.soldOut ? "6px" : "";
 document.getElementById("modalDesc").innerText = p.soldOut ? "Este producto está temporalmente agotado. ¡Seguinos en redes para enterarte cuando vuelva!" : p.desc;
+document.getElementById("modalOfferBox").style.display = "none";
 
 const finalPrice = getDiscountedPrice(p.price);
 const oldEl = document.getElementById("modalOldPrice");
@@ -2173,6 +2179,7 @@ document.getElementById("modalTitle").style.color = "white";
 document.getElementById("modalTitle").style.fontSize = "";
 document.getElementById("modalTitle").style.letterSpacing = "";
 document.getElementById("modalDesc").innerText = p.desc;
+document.getElementById("modalOfferBox").style.display = "block";
 
 const finalPrice = getDiscountedPrice(p.price);
 const oldEl = document.getElementById("modalOldPrice");
@@ -2229,6 +2236,7 @@ document.getElementById("modalTitle").style.color = "white";
 document.getElementById("modalTitle").style.fontSize = "";
 document.getElementById("modalTitle").style.letterSpacing = "";
 document.getElementById("modalDesc").innerText = p.desc;
+document.getElementById("modalOfferBox").style.display = "block";
 
 const finalPrice = getDiscountedPrice(p.price);
 const oldEl = document.getElementById("modalOldPrice");
@@ -2416,6 +2424,7 @@ document.getElementById("modalTitle").style.color = "#ff0000";
 document.getElementById("modalTitle").style.fontSize = "3rem";
 document.getElementById("modalTitle").style.letterSpacing = "6px";
 document.getElementById("modalDesc").innerText = p.desc;
+document.getElementById("modalOfferBox").style.display = "none";
 document.getElementById("modalOldPrice").style.display = "none";
 document.getElementById("modalPrice").innerText = "";
 document.getElementById("modalImg0").src = p.imgs[0];
@@ -2463,6 +2472,7 @@ document.getElementById("modalTitle").style.color = "white";
 document.getElementById("modalTitle").style.fontSize = "";
 document.getElementById("modalTitle").style.letterSpacing = "";
 document.getElementById("modalDesc").innerText = p.desc;
+document.getElementById("modalOfferBox").style.display = "none";
 document.getElementById("modalOldPrice").style.display = "none";
 document.getElementById("modalPrice").innerText = "";
 document.getElementById("modalImg0").src = p.imgs[0];
@@ -2640,31 +2650,46 @@ item.qty += delta;
 renderCart();
 }
 
-// Combo calculation helper (updated to accept custom items array)
+// Combo calculation helper (buzo + pantalón set for $50.000 ARS)
 function calculateCartTotals(itemsArg){
 const targetItems = itemsArg || (checkoutData && !checkoutData.isCart ? checkoutData.items : cart);
-let buzoQty = 0;
-let pantQty = 0;
+let buzos = [];
+let pants = [];
+let otherItemsTotal = 0;
 
 targetItems.forEach(item => {
 const itemName = (item.name || "").toLowerCase();
+const unitPrice = item.basePrice;
+for(let i = 0; i < item.qty; i++){
 if(itemName.includes("buzó") || itemName.includes("buzo")){
-buzoQty += item.qty;
+buzos.push(unitPrice);
 }else if(itemName.includes("pantalón") || itemName.includes("pantalon")){
-pantQty += item.qty;
+pants.push(unitPrice);
+}else{
+otherItemsTotal += unitPrice;
+}
 }
 });
 
-const pairs = Math.min(buzoQty, pantQty);
-let totalWithoutCombo = 0;
-targetItems.forEach(item => {
-totalWithoutCombo += item.basePrice * item.qty;
-});
+buzos.sort((a,b) => b - a);
+pants.sort((a,b) => b - a);
 
-const baseSubtotal = totalWithoutCombo - (pairs * 5000);
+const pairsCount = Math.min(buzos.length, pants.length);
+let comboTotal = 0;
+for(let i = 0; i < pairsCount; i++){
+comboTotal += 50000;
+}
+for(let i = pairsCount; i < buzos.length; i++){
+comboTotal += buzos[i];
+}
+for(let i = pairsCount; i < pants.length; i++){
+comboTotal += pants[i];
+}
+
+const baseSubtotal = comboTotal + otherItemsTotal;
 const finalSubtotal = getDiscountedPrice(baseSubtotal);
 
-return { baseSubtotal, finalSubtotal, pairs };
+return { baseSubtotal, finalSubtotal, pairs: pairsCount };
 }
 
 function renderCart(){
@@ -3217,4 +3242,3 @@ res.style.display = "none";
 
 </body>
 </html>
-
