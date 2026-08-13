@@ -1592,7 +1592,7 @@ Novedades
 <img src="pantrojo.jpg" class="card-thumb" alt="Pantalón Tribal Rojo">
 <div class="card-label">
 <div class="card-name">Pantalón Tribal Rojo</div>
-<div class="card-price" id="novprice2"><span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$38.900 ARS</span><br>$35.000 ARS</div>
+<div class="card-price" id="novprice2"><span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$35.500 ARS</span><br>$32.000 ARS</div>
 </div>
 </div>
 
@@ -1600,7 +1600,7 @@ Novedades
 <img src="pantmor.jpg" class="card-thumb" alt="Pantalón Tribal Morado">
 <div class="card-label">
 <div class="card-name">Pantalón Tribal Morado</div>
-<div class="card-price" id="novprice3"><span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$38.900 ARS</span><br>$35.000 ARS</div>
+<div class="card-price" id="novprice3"><span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$35.500 ARS</span><br>$32.000 ARS</div>
 </div>
 </div>
 
@@ -1656,7 +1656,7 @@ Pantalones
 <img src="pantbasico.jpg" class="card-thumb" alt="Pantalón básico BlazeBorn">
 <div class="card-label">
 <div class="card-name">Pantalón básico BlazeBorn</div>
-<div class="card-price" id="pantprice0"><span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$33.300 ARS</span><br>$30.000 ARS</div>
+<div class="card-price" id="pantprice0"><span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$28.000 ARS</span><br>$25.000 ARS</div>
 </div>
 </div>
 
@@ -1664,7 +1664,7 @@ Pantalones
 <img src="pantrojo.jpg" class="card-thumb" alt="Pantalón Tribal Rojo">
 <div class="card-label">
 <div class="card-name">Pantalón Tribal Rojo</div>
-<div class="card-price" id="pantprice1"><span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$38.900 ARS</span><br>$35.000 ARS</div>
+<div class="card-price" id="pantprice1"><span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$35.500 ARS</span><br>$32.000 ARS</div>
 </div>
 </div>
 
@@ -1672,7 +1672,7 @@ Pantalones
 <img src="pantmor.jpg" class="card-thumb" alt="Pantalón Tribal Morado">
 <div class="card-label">
 <div class="card-name">Pantalón Tribal Morado</div>
-<div class="card-price" id="pantprice2"><span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$38.900 ARS</span><br>$35.000 ARS</div>
+<div class="card-price" id="pantprice2"><span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$35.500 ARS</span><br>$32.000 ARS</div>
 </div>
 </div>
 
@@ -2060,8 +2060,8 @@ const panProducts = [
 name: "Pantalón básico BlazeBorn",
 desc: "El básico que no te puede faltar para entrenar un día de frío o salir a la calle con total comodidad y estilo.",
 imgs: ["pantbasico.jpg","pantbasico1.jpg"],
-price: 30000,
-oldPrice: 33300,
+price: 25000,
+oldPrice: 28000,
 weight: 600,
 soldOut: false,
 soldoutSizes: []
@@ -2070,8 +2070,8 @@ soldoutSizes: []
 name: "Pantalón Tribal Rojo",
 desc: "Pantalón urbano con detalles tribales rojos, durabilidad y máxima estética.",
 imgs: ["pantrojo.jpg","pantrojo1.jpg"],
-price: 35000,
-oldPrice: 38900,
+price: 32000,
+oldPrice: 35500,
 weight: 600,
 soldOut: false,
 soldoutSizes: []
@@ -2080,8 +2080,8 @@ soldoutSizes: []
 name: "Pantalón Tribal Morado",
 desc: "Pantalón urbano con diseño tribal morado, comodidad superior y estilo único.",
 imgs: ["pantmor.jpg","pantmor1.png"],
-price: 35000,
-oldPrice: 38900,
+price: 32000,
+oldPrice: 35500,
 weight: 600,
 soldOut: false,
 soldoutSizes: []
@@ -2099,7 +2099,7 @@ const buzoPantSizes = [
 
 let currentProduct = null;
 let modalSlideIndex = 0;
-let selectedSize = "3";
+let selectedSize = "M";
 
 function openProductModal(idx){
 const p = products[idx];
@@ -2603,8 +2603,8 @@ if(el) el.innerHTML = html;
 if(novEl) novEl.innerHTML = html;
 }
 
-const pantPrices = [30000, 35000, 35000];
-const pantOld = [33300, 38900, 38900];
+const pantPrices = [25000, 32000, 32000];
+const pantOld = [28000, 35500, 35500];
 for(let i=0; i<3; i++){
 const fp = getDiscountedPrice(pantPrices[i]);
 const el = document.getElementById(`pantprice${i}`);
@@ -3079,9 +3079,9 @@ if(logo) logo.src = "blazelogo.png";
 const searchCatalog = [
 {name:"Buzo Tribal Rojo",        price:"$35.000 ARS",   img:"buzorojo.jpg",      fn:"openProductModalByName", arg:"Buzo Tribal Rojo"},
 {name:"Buzo Tribal Morado",      price:"$35.000 ARS",   img:"buzomorado.jpg",    fn:"openProductModalByName", arg:"Buzo Tribal Morado"},
-{name:"Pantalón básico BlazeBorn",price:"$30.000 ARS",  img:"pantbasico.jpg",    fn:"openProductModalByName", arg:"Pantalón básico BlazeBorn"},
-{name:"Pantalón Tribal Rojo",    price:"$35.000 ARS",   img:"pantrojo.jpg",      fn:"openProductModalByName", arg:"Pantalón Tribal Rojo"},
-{name:"Pantalón Tribal Morado",  price:"$35.000 ARS",   img:"pantmor.jpg",       fn:"openProductModalByName", arg:"Pantalón Tribal Morado"},
+{name:"Pantalón básico BlazeBorn",price:"$25.000 ARS",  img:"pantbasico.jpg",    fn:"openProductModalByName", arg:"Pantalón básico BlazeBorn"},
+{name:"Pantalón Tribal Rojo",    price:"$32.000 ARS",   img:"pantrojo.jpg",      fn:"openProductModalByName", arg:"Pantalón Tribal Rojo"},
+{name:"Pantalón Tribal Morado",  price:"$32.000 ARS",   img:"pantmor.jpg",       fn:"openProductModalByName", arg:"Pantalón Tribal Morado"},
 {name:"Compresivo Tribal Rojo",  price:"$27.000 ARS",   img:"compresrojo.jpg",   fn:"openProductModal", arg:0},
 {name:"Compresivo Tribal Morado",price:"$27.000 ARS",   img:"compresmorado.jpg", fn:"openProductModal", arg:1},
 {name:"Compresivo Tribal Blanco",price:"$27.000 ARS",   img:"compresblanco.jpg", fn:"openProductModal", arg:2},
