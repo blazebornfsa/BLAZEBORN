@@ -1480,7 +1480,7 @@ COMPRAR YA
 
 <div class="discount-alert-overlay" id="discountAlert">
 <div class="discount-alert-box">
-<p>✅ ¡Código de descuento aplicado correctamente!</p>
+<p id="discountAlertText">✅ ¡Código de descuento aplicado correctamente!</p>
 <button class="discount-alert-ok" onclick="closeDiscountAlert()">OK</button>
 </div>
 </div>
@@ -1557,7 +1557,7 @@ Ropa diseñada para verte estético en el gym y en la calle.
 <section style="padding-top:40px;padding-bottom:20px;">
 <div style="background:rgba(0,255,115,0.1);border:2px solid var(--green);border-radius:16px;padding:24px;text-align:center;backdrop-filter:blur(4px);">
 <div style="font-size:2rem;font-weight:900;letter-spacing:3px;color:var(--green);text-shadow:0 0 20px rgba(0,255,115,0.3);">
-10% OFF HASTA AGOTAR STOCK
+10% OFF HASTA AGOTAR STOCK | ÚSA "WINTERBLAZE" PARA 15% OFF
 </div>
 </div>
 </section>
@@ -1953,6 +1953,15 @@ target="_blank">
 
 <script>
 
+// CÓDIGOS DE DESCUENTO
+const discountCodes = {
+  "WINTERBLAZE": 0.15,
+  "BLAZE10": 0.10
+};
+
+let activeDiscount = 0; // Porcentaje de descuento actual
+let cart = [];
+
 // SHIPPING COSTS BY WEIGHT
 const shippingCostsByWeight = {
   "0-800": 8000,
@@ -2088,6 +2097,19 @@ soldoutSizes: []
 }
 ];
 
+// CALZAS DATA
+const calzaProducts = [
+{ 
+name: "Calza de Lycra", 
+desc: "Diseñada para el entrenamiento femenino.", 
+imgs: ["calza.jpg"], 
+price: 22000, 
+weight: 100, 
+soldOut: false, 
+soldoutSizes: [] 
+}
+];
+
 const sizes = ["2","3","4","5","6"];
 const buzoPantSizes = [
 { label: "S", num: "2" },
@@ -2100,6 +2122,35 @@ const buzoPantSizes = [
 let currentProduct = null;
 let modalSlideIndex = 0;
 let selectedSize = "M";
+
+function getDiscountedPrice(price) {
+  return Math.round(price * (1 - activeDiscount));
+}
+
+function applyCheckoutDiscount() {
+  const codeInput = document.getElementById("checkoutDiscountCode");
+  const msgEl = document.getElementById("checkoutDiscountMsg");
+  if (!codeInput) return;
+
+  const code = codeInput.value.trim().toUpperCase();
+  if (discountCodes[code]) {
+    activeDiscount = discountCodes[code];
+    msgEl.style.display = "block";
+    msgEl.style.color = "var(--green)";
+    msgEl.innerText = `¡Código ${code} aplicado! (${activeDiscount * 100}% OFF)`;
+    
+    document.getElementById("discountAlertText").innerText = `✅ ¡Código ${code} (${activeDiscount * 100}% OFF) aplicado correctamente!`;
+    document.getElementById("discountAlert").classList.add("active");
+  } else {
+    msgEl.style.display = "block";
+    msgEl.style.color = "#ff0000";
+    msgEl.innerText = "Código de descuento inválido.";
+    document.getElementById("invalidAlert").classList.add("active");
+  }
+  
+  checkoutUpdateEnvio();
+  renderCart();
+}
 
 function openProductModal(idx){
 const p = products[idx];
@@ -2290,6 +2341,48 @@ document.getElementById("productModal").classList.add("active");
 document.body.style.overflow = "hidden";
 }
 
+function openCalzaModal(idx){
+const p = calzaProducts[idx];
+currentProduct = p;
+modalSlideIndex = 0;
+selectedSize = "M";
+
+document.getElementById("modalTitle").innerText = p.name;
+document.getElementById("modalTitle").style.color = "white";
+document.getElementById("modalDesc").innerText = p.desc;
+document.getElementById("modalOfferBox").style.display = "none";
+
+const finalPrice = getDiscountedPrice(p.price);
+document.getElementById("modalOldPrice").style.display = "none";
+document.getElementById("modalPrice").innerText = `$${finalPrice.toLocaleString()} ARS`;
+
+document.getElementById("modalImg0").src = p.imgs[0];
+document.getElementById("modalImg1").src = "";
+document.getElementById("modalSlides").style.transform = "translateX(0)";
+document.querySelectorAll(".modal-slide-btn").forEach(b => b.style.display = "none");
+
+const sizesEl = document.getElementById("modalSizes");
+sizesEl.innerHTML = "";
+sizesEl.style.display = "flex";
+
+buzoPantSizes.slice(0, 4).forEach(s => {
+const btn = document.createElement("button");
+btn.className = "size-btn" + (s.label === selectedSize ? " active" : "");
+btn.innerText = s.label;
+btn.onclick = () => {
+selectedSize = s.label;
+sizesEl.querySelectorAll(".size-btn").forEach(b => b.classList.remove("active"));
+btn.classList.add("active");
+};
+sizesEl.appendChild(btn);
+});
+
+document.querySelector(".modal-actions").style.display = "flex";
+document.querySelector(".size-guide-btn").style.display = "none";
+document.getElementById("productModal").classList.add("active");
+document.body.style.overflow = "hidden";
+}
+
 function openProductModalByName(name){
 const bIdx = buzoProducts.findIndex(p => p.name === name);
 if(bIdx !== -1){
@@ -2318,13 +2411,12 @@ document.getElementById("modalSlides").style.transform = `translateX(-${modalSli
 
 function modalAddToCart(){
 if(!currentProduct) return;
-const finalPrice = getDiscountedPrice(currentProduct.price);
 const key = `${currentProduct.name}||${selectedSize}`;
 const existing = cart.find(i => i.key === key);
 if(existing){
 existing.qty++;
 }else{
-cart.push({key, name:currentProduct.name, size:selectedSize, basePrice:currentProduct.price, qty:1});
+cart.push({key, name:currentProduct.name, size:selectedSize, basePrice:currentProduct.price, weight:currentProduct.weight || 200, qty:1});
 }
 renderCart();
 closeProductModal();
@@ -2333,7 +2425,436 @@ toggleCart();
 
 function modalBuyNow(){
 if(!currentProduct) return;
-openPayModal(currentProduct.name, selectedSize, currentProduct.price, null, false);
+modalAddToCart();
+checkoutWhatsApp();
+}
+
+function renderCart(){
+const container = document.getElementById("cartItems");
+if(!container) return;
+container.innerHTML = "";
+let total = 0;
+
+cart.forEach(item => {
+const discountedPrice = getDiscountedPrice(item.basePrice);
+const itemTotal = discountedPrice * item.qty;
+total += itemTotal;
+
+const div = document.createElement("div");
+div.className = "cart-item";
+div.innerHTML = `
+  <div style="display:flex;justify-content:space-between;align-items:center;">
+    <div>
+      <div style="font-weight:700;font-size:0.9rem;">${item.name}</div>
+      <div style="color:#888;font-size:0.8rem;">Talle: ${item.size}</div>
+      <div style="color:var(--green);font-size:0.85rem;font-weight:700;">$${discountedPrice.toLocaleString()} ARS c/u</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <button onclick="updateQty('${item.key}', -1)" style="background:#222;border:1px solid #444;color:white;width:26px;height:26px;border-radius:6px;cursor:pointer;">-</button>
+      <span style="font-weight:700;font-size:0.9rem;">${item.qty}</span>
+      <button onclick="updateQty('${item.key}', 1)" style="background:#222;border:1px solid #444;color:white;width:26px;height:26px;border-radius:6px;cursor:pointer;">+</button>
+    </div>
+  </div>
+`;
+container.appendChild(div);
+});
+
+document.getElementById("cartTotal").innerText = `TOTAL: $${total.toLocaleString()} ARS`;
+}
+
+function updateQty(key, delta){
+const item = cart.find(i => i.key === key);
+if(!item) return;
+item.qty += delta;
+if(item.qty <= 0){
+cart = cart.filter(i => i.key !== key);
+}
+renderCart();
+}
+
+function toggleCart(){
+document.getElementById("cartPanel").classList.toggle("active");
+}
+
+function checkoutWhatsApp(){
+if(cart.length === 0){
+alert("Tu carrito está vacío.");
+return;
+}
+document.getElementById("cartPanel").classList.remove("active");
+document.getElementById("checkoutOverlay").style.display = "flex";
+document.body.style.overflow = "hidden";
+checkoutUpdateEnvio();
+}
+
+function closeCheckout(){
+document.getElementById("checkoutOverlay").style.display = "none";
+document.body.style.overflow = "";
+}
+
+function checkoutUpdateEnvio(){
+const listEl = document.getElementById("checkoutItems");
+const summaryList = document.getElementById("priceSummaryItems");
+if(!listEl) return;
+
+listEl.innerHTML = "";
+if(summaryList) summaryList.innerHTML = "";
+
+let subtotal = 0;
+let totalQty = 0;
+let totalWeight = 0;
+
+cart.forEach(item => {
+const price = getDiscountedPrice(item.basePrice);
+const lineTotal = price * item.qty;
+subtotal += lineTotal;
+totalQty += item.qty;
+totalWeight += (item.weight || 200) * item.qty;
+
+const line = document.createElement("div");
+line.style.display = "flex";
+line.style.justifySpaceBetween = "space-between";
+line.style.fontSize = "0.85rem";
+line.innerHTML = `<span>${item.name} (${item.size}) x${item.qty}</span><span>$${lineTotal.toLocaleString()} ARS</span>`;
+listEl.appendChild(line);
+
+if(summaryList){
+const sumLine = document.createElement("div");
+sumLine.className = "price-item-line";
+sumLine.innerText = `${item.name} (${item.size}) x${item.qty} - $${lineTotal.toLocaleString()} ARS`;
+summaryList.appendChild(sumLine);
+}
+});
+
+document.getElementById("checkoutSubtotal").innerText = `$${subtotal.toLocaleString()} ARS`;
+
+const provincia = document.getElementById("checkoutProvincia").value;
+const localidad = document.getElementById("checkoutLocalidad").value.trim().toLowerCase();
+const summaryBox = document.getElementById("priceSummaryBox");
+const formosaBox = document.getElementById("envioFormosaCapital");
+const otrosBox = document.getElementById("envioOtros");
+
+let shippingCost = 0;
+
+if(provincia && localidad){
+summaryBox.style.display = "block";
+
+if(provincia === "Formosa" && (localidad === "formosa" || localidad === "formosa capital")){
+formosaBox.style.display = "flex";
+otrosBox.style.display = "none";
+shippingCost = 0;
+} else {
+formosaBox.style.display = "none";
+otrosBox.style.display = "flex";
+
+if(totalQty >= 3){
+shippingCost = 0;
+} else {
+if(totalWeight <= 800) shippingCost = shippingCostsByWeight["0-800"];
+else if(totalWeight <= 1500) shippingCost = shippingCostsByWeight["801-1500"];
+else shippingCost = shippingCostsByWeight["1501-3000"];
+}
+}
+} else {
+summaryBox.style.display = "none";
+formosaBox.style.display = "none";
+otrosBox.style.display = "none";
+}
+
+document.getElementById("shippingCostDisplay").innerText = shippingCost === 0 ? "GRATIS" : `$${shippingCost.toLocaleString()} ARS`;
+document.getElementById("correoPrice").innerText = shippingCost === 0 ? "GRATIS" : `$${shippingCost.toLocaleString()} ARS`;
+
+const grandTotal = subtotal + shippingCost;
+document.getElementById("priceTotalDisplay").innerText = `TOTAL: $${grandTotal.toLocaleString()} ARS`;
+
+checkoutValidate();
+}
+
+function checkoutValidate(){
+const provincia = document.getElementById("checkoutProvincia").value;
+const localidad = document.getElementById("checkoutLocalidad").value.trim().toLowerCase();
+const btn = document.getElementById("checkoutConfirmBtn");
+
+if(!provincia || !localidad) {
+btn.disabled = true;
+btn.style.cursor = "not-allowed";
+btn.style.filter = "blur(1.5px) opacity(0.4)";
+return;
+}
+
+let valid = false;
+if(provincia === "Formosa" && (localidad === "formosa" || localidad === "formosa capital")){
+valid = true;
+} else {
+const name = document.getElementById("envNombre").value.trim();
+const dir = document.getElementById("envDireccion").value.trim();
+const cp = document.getElementById("envCP").value.trim();
+const email = document.getElementById("envEmail").value.trim();
+const dni = document.getElementById("envDNI").value.trim();
+const tel = document.getElementById("envTel").value.trim();
+valid = !!(name && dir && cp && email && dni && tel);
+}
+
+btn.disabled = !valid;
+btn.style.cursor = valid ? "pointer" : "not-allowed";
+btn.style.filter = valid ? "none" : "blur(1.5px) opacity(0.4)";
+}
+
+function openTransferFromCheckout(){
+document.getElementById("checkoutOverlay").style.display = "none";
+document.getElementById("transferModal").classList.add("active");
+
+let text = "🛒 *NUEVO PEDIDO BLAZEBORN*\n\n";
+cart.forEach(i => {
+text += `- ${i.name} (Talle ${i.size}) x${i.qty}\n`;
+});
+
+if(activeDiscount > 0){
+text += `\n🏷️ *Descuento aplicado:* ${activeDiscount * 100}% OFF\n`;
+}
+
+text += `\n📍 *Provincia:* ${document.getElementById("checkoutProvincia").value}`;
+text += `\n🏙️ *Localidad:* ${document.getElementById("checkoutLocalidad").value}`;
+
+const link = document.getElementById("checkoutWALink");
+link.href = `https://wa.me/5493704509580?text=${encodeURIComponent(text)}`;
+}
+
+function closeTransferModal(){
+document.getElementById("transferModal").classList.remove("active");
+document.body.style.overflow = "";
+}
+
+function copyText(text, btn){
+navigator.clipboard.writeText(text);
+btn.innerText = "¡Copiado!";
+setTimeout(() => btn.innerText = "Copiar", 2000);
+}
+
+function closeDiscountAlert(){
+document.getElementById("discountAlert").classList.remove("active");
+}
+
+function closeInvalidAlert(){
+document.getElementById("invalidAlert").classList.remove("active");
+}
+
+function openSizeGuide(imgSrc){
+if(imgSrc) document.getElementById("sizeGuideImg").src = imgSrc;
+document.getElementById("sizeGuideModal").classList.add("active");
+}
+
+function closeSizeGuide(){
+document.getElementById("sizeGuideModal").classList.remove("active");
+}
+
+function getVisibleCount(){
+const width = window.innerWidth;
+if(width <= 680) return 2;
+if(width <= 1024) return 3;
+return 4;
+}
+
+// CAROUSEL LOGIC
+let novIndex = 0;
+function novMove(direction){
+const visible = getVisibleCount();
+const maxIndex = Math.max(0, 4 - visible);
+novIndex += direction;
+if(novIndex < 0) novIndex = maxIndex;
+if(novIndex > maxIndex) novIndex = 0;
+document.getElementById("novGrid").style.transform = `translateX(-${novIndex * (220 + 25)}px)`;
+}
+
+let buzoIndex = 0;
+function buzoMove(direction){
+const visible = getVisibleCount();
+const maxIndex = Math.max(0, 2 - visible);
+buzoIndex += direction;
+if(buzoIndex < 0) buzoIndex = maxIndex;
+if(buzoIndex > maxIndex) buzoIndex = 0;
+document.getElementById("buzoGrid").style.transform = `translateX(-${buzoIndex * (220 + 25)}px)`;
+}
+
+let pantIndex = 0;
+function pantMove(direction){
+const visible = getVisibleCount();
+const maxIndex = Math.max(0, 3 - visible);
+pantIndex += direction;
+if(pantIndex < 0) pantIndex = maxIndex;
+if(pantIndex > maxIndex) pantIndex = 0;
+document.getElementById("pantGrid").style.transform = `translateX(-${pantIndex * (220 + 25)}px)`;
+}
+
+let carouselIndex = 0;
+function carouselMove(direction){
+const visible = getVisibleCount();
+const maxIndex = Math.max(0, products.length - visible);
+carouselIndex += direction;
+if(carouselIndex < 0) carouselIndex = maxIndex;
+if(carouselIndex > maxIndex) carouselIndex = 0;
+document.getElementById("productsGrid").style.transform = `translateX(-${carouselIndex * (220 + 25)}px)`;
+}
+
+let muscuIndex = 0;
+function muscuMove(direction){
+const visible = getVisibleCount();
+const maxIndex = Math.max(0, 3 - visible);
+muscuIndex += direction;
+if(muscuIndex < 0) muscuIndex = maxIndex;
+if(muscuIndex > maxIndex) muscuIndex = 0;
+document.getElementById("muscuGrid").style.transform = `translateX(-${muscuIndex * (220 + 25)}px)`;
+}
+
+function muscuMove(direction){
+const visible = getVisibleCount();
+const maxIndex = Math.max(0, 3 - visible);
+muscuIndex += direction;
+if(muscuIndex < 0) muscuIndex = maxIndex;
+if(muscuIndex > maxIndex) muscuIndex = 0;
+document.getElementById("muscuGrid").style.transform = `translateX(-${muscuIndex * (220 + 25)}px)`;
+}
+
+let calzaIndex = 0;
+function calzaMove(direction){
+const visible = getVisibleCount();
+const maxIndex = Math.max(0, 1 - visible);
+calzaIndex += direction;
+if(calzaIndex < 0) calzaIndex = maxIndex;
+if(calzaIndex > maxIndex) calzaIndex = 0;
+document.getElementById("calzaGrid").style.transform = `translateX(-${calzaIndex * (220 + 25)}px)`;
+}
+
+// HAMBURGER & THEME
+function toggleMenu(){
+document.getElementById("hamburgerMenu").classList.toggle("active");
+document.getElementById("menuBackdrop").classList.toggle("active");
+}
+
+function closeMenu(){
+document.getElementById("hamburgerMenu").classList.remove("active");
+document.getElementById("menuBackdrop").classList.remove("active");
+}
+
+function toggleTheme(){
+document.body.classList.toggle("light-theme");
+document.getElementById("themeToggle").classList.toggle("light-on");
+const isLight = document.body.classList.contains("light-theme");
+document.getElementById("themeLabel").innerText = isLight ? "Tema oscuro" : "Tema claro";
+}
+
+// BUSCADOR
+function handleSearch(){
+const q = document.getElementById("searchInput").value.trim().toLowerCase();
+const res = document.getElementById("searchResults");
+if(!q){
+res.classList.remove("visible");
+return;
+}
+
+const all = [...products, ...buzoProducts, ...panProducts, ...calzaProducts];
+const matches = all.filter(p => p.name.toLowerCase().includes(q));
+
+res.innerHTML = "";
+if(matches.length === 0){
+res.innerHTML = `<div class="search-no-results">No se encontraron productos</div>`;
+}else{
+matches.forEach(p => {
+const div = document.createElement("div");
+div.className = "search-result-item";
+div.onclick = () => { openProductModalByName(p.name); closeMenu(); };
+div.innerHTML = `
+  <img src="${p.imgs[0]}" class="search-result-thumb">
+  <div>
+    <div class="search-result-name">${p.name}</div>
+    <div class="search-result-price">$${getDiscountedPrice(p.price).toLocaleString()} ARS</div>
+  </div>
+`;
+res.appendChild(div);
+});
+}
+res.classList.add("visible");
+}
+
+function clearSearch(){
+document.getElementById("searchInput").value = "";
+document.getElementById("searchResults").classList.remove("visible");
+}
+
+function handleInlineSearch(){
+const q = document.getElementById("inlineSearchInput").value.trim().toLowerCase();
+const btn = document.getElementById("inlineClearBtn");
+const res = document.getElementById("inlineSearchResults");
+
+btn.style.display = q ? "block" : "none";
+if(!q){
+res.style.display = "none";
+return;
+}
+
+const all = [...products, ...buzoProducts, ...panProducts, ...calzaProducts];
+const matches = all.filter(p => p.name.toLowerCase().includes(q));
+
+res.innerHTML = "";
+if(matches.length === 0){
+res.innerHTML = `<div class="search-no-results">No se encontraron productos</div>`;
+}else{
+matches.forEach(p => {
+const div = document.createElement("div");
+div.className = "search-result-item";
+div.onclick = () => { openProductModalByName(p.name); res.style.display = "none"; };
+div.innerHTML = `
+  <img src="${p.imgs[0]}" class="search-result-thumb">
+  <div>
+    <div class="search-result-name">${p.name}</div>
+    <div class="search-result-price">$${getDiscountedPrice(p.price).toLocaleString()} ARS</div>
+  </div>
+`;
+res.appendChild(div);
+});
+}
+res.style.display = "block";
+}
+
+function clearInlineSearch(){
+document.getElementById("inlineSearchInput").value = "";
+document.getElementById("inlineClearBtn").style.display = "none";
+document.getElementById("inlineSearchResults").style.display = "none";
+document.getElementById("secSearchResults").style.display = "none";
+}
+
+function commitInlineSearch(){
+const q = document.getElementById("inlineSearchInput").value.trim().toLowerCase();
+if(!q) return;
+
+document.getElementById("inlineSearchResults").style.display = "none";
+const grid = document.getElementById("searchResultsGrid");
+grid.innerHTML = "";
+
+const all = [...products, ...buzoProducts, ...panProducts, ...calzaProducts];
+const matches = all.filter(p => p.name.toLowerCase().includes(q));
+
+if(matches.length === 0){
+grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;color:#888;padding:40px 0;">No se encontraron productos que coincidan con "${q}".</div>`;
+}else{
+matches.forEach(p => {
+const card = document.createElement("div");
+card.className = "product-card";
+card.onclick = () => openProductModalByName(p.name);
+card.innerHTML = `
+  <img src="${p.imgs[0]}" class="card-thumb" alt="${p.name}">
+  <div class="card-label">
+    <div class="card-name">${p.name}</div>
+    <div class="card-price">$${getDiscountedPrice(p.price).toLocaleString()} ARS</div>
+  </div>
+`;
+grid.appendChild(card);
+});
+}
+
+document.getElementById("searchResultsTitle").innerText = `Resultados para "${q}"`;
+document.getElementById("secSearchResults").style.display = "block";
+document.getElementById("secSearchResults").scrollIntoView({ behavior: 'smooth' });
 }
 
 // Swipe on modal image slider
@@ -2348,904 +2869,6 @@ if(Math.abs(diff) > 40) modalSlide(diff > 0 ? 1 : -1);
 }, {passive:true});
 });
 
-// NOVEDADES CAROUSEL
-let novIndex = 0;
-const totalNov = 4;
-function novMove(direction){
-const visible = getVisibleCount();
-const maxIndex = Math.max(0, totalNov - visible);
-novIndex += direction;
-if(novIndex < 0) novIndex = maxIndex;
-if(novIndex > maxIndex) novIndex = 0;
-const grid = document.getElementById("novGrid");
-if(!grid) return;
-const card = grid.querySelector(".product-card");
-if(!card) return;
-grid.style.transform = `translateX(-${novIndex * (card.offsetWidth + 25)}px)`;
-}
-
-// BUZOS CAROUSEL
-let buzoIndex = 0;
-const totalBuzos = 2;
-function buzoMove(direction){
-const visible = getVisibleCount();
-const maxIndex = Math.max(0, totalBuzos - visible);
-buzoIndex += direction;
-if(buzoIndex < 0) buzoIndex = maxIndex;
-if(buzoIndex > maxIndex) buzoIndex = 0;
-const grid = document.getElementById("buzoGrid");
-if(!grid) return;
-const card = grid.querySelector(".product-card");
-if(!card) return;
-grid.style.transform = `translateX(-${buzoIndex * (card.offsetWidth + 25)}px)`;
-}
-
-// PANTALONES CAROUSEL
-let pantIndex = 0;
-const totalPants = 3;
-function pantMove(direction){
-const visible = getVisibleCount();
-const maxIndex = Math.max(0, totalPants - visible);
-pantIndex += direction;
-if(pantIndex < 0) pantIndex = maxIndex;
-if(pantIndex > maxIndex) pantIndex = 0;
-const grid = document.getElementById("pantGrid");
-if(!grid) return;
-const card = grid.querySelector(".product-card");
-if(!card) return;
-grid.style.transform = `translateX(-${pantIndex * (card.offsetWidth + 25)}px)`;
-}
-
-// MUSCULOSAS DATA
-const muscuProducts = [
-{ name: "Musculosa Tribal", desc: "Diseño tribal, corte musculoso.", imgs: ["muscu.jpg"], weight: 200, soldOut: true },
-{ name: "Musculosa Mike Mentzer", desc: "Tributo al maestro del Heavy Duty.", imgs: ["mentzer.jpg"], weight: 200, soldOut: true },
-{ name: "Musculosa Kevin Levrone", desc: "Tributo al Maryland Muscle Machine.", imgs: ["kevin.jpg"], weight: 200, soldOut: true }
-];
-
-let muscuIndex = 0;
-const totalMuscu = 3;
-
-function muscuMove(direction){
-const visible = getVisibleCount();
-const maxIndex = Math.max(0, totalMuscu - visible);
-muscuIndex += direction;
-if(muscuIndex < 0) muscuIndex = maxIndex;
-if(muscuIndex > maxIndex) muscuIndex = 0;
-updateMuscuCarousel();
-}
-
-function updateMuscuCarousel(){
-const grid = document.getElementById("muscuGrid");
-if(!grid) return;
-const card = grid.querySelector(".product-card");
-if(!card) return;
-grid.style.transform = `translateX(-${muscuIndex * (card.offsetWidth + 25)}px)`;
-}
-
-function openMuscuModal(idx){
-const p = muscuProducts[idx];
-currentProduct = p;
-modalSlideIndex = 0;
-document.getElementById("modalTitle").innerText = "AGOTADO";
-document.getElementById("modalTitle").style.color = "#ff0000";
-document.getElementById("modalTitle").style.fontSize = "3rem";
-document.getElementById("modalTitle").style.letterSpacing = "6px";
-document.getElementById("modalDesc").innerText = p.desc;
-document.getElementById("modalOfferBox").style.display = "none";
-document.getElementById("modalOldPrice").style.display = "none";
-document.getElementById("modalPrice").innerText = "";
-document.getElementById("modalImg0").src = p.imgs[0];
-document.getElementById("modalImg1").src = p.imgs[1] || "";
-document.getElementById("modalSlides").style.transform = "translateX(0)";
-document.querySelectorAll(".modal-slide-btn").forEach(b => b.style.display = p.imgs[1] ? "" : "none");
-document.getElementById("modalSizes").innerHTML = "";
-document.getElementById("modalSizes").style.display = "none";
-document.getElementById("sizeSoldoutMsg").style.display = "none";
-document.querySelector(".modal-actions").style.display = "none";
-document.getElementById("modalReviewSection").style.display = "none";
-document.querySelector(".size-guide-btn").style.display = "none";
-document.getElementById("productModal").classList.add("active");
-document.body.style.overflow = "hidden";
-}
-
-// CALZAS DATA
-const calzaProducts = [
-{ name: "Calza de Lycra", desc: "Diseñada para el entrenamiento femenino.", imgs: ["calza.jpg"], price: 0, weight: 100, soldOut: false, soldoutSizes: ["2","3"] }
-];
-
-let calzaIndex = 0;
-const totalCalza = 1;
-
-function calzaMove(direction){
-const visible = getVisibleCount();
-const maxIndex = Math.max(0, totalCalza - visible);
-calzaIndex += direction;
-if(calzaIndex < 0) calzaIndex = maxIndex;
-if(calzaIndex > maxIndex) calzaIndex = 0;
-const grid = document.getElementById("calzaGrid");
-if(!grid) return;
-const card = grid.querySelector(".product-card");
-if(!card) return;
-grid.style.transform = `translateX(-${calzaIndex * (card.offsetWidth + 25)}px)`;
-}
-
-function openCalzaModal(idx){
-const p = calzaProducts[idx];
-currentProduct = p;
-modalSlideIndex = 0;
-selectedSize = "4";
-document.getElementById("modalTitle").innerText = p.name;
-document.getElementById("modalTitle").style.color = "white";
-document.getElementById("modalTitle").style.fontSize = "";
-document.getElementById("modalTitle").style.letterSpacing = "";
-document.getElementById("modalDesc").innerText = p.desc;
-document.getElementById("modalOfferBox").style.display = "none";
-document.getElementById("modalOldPrice").style.display = "none";
-document.getElementById("modalPrice").innerText = "";
-document.getElementById("modalImg0").src = p.imgs[0];
-document.getElementById("modalImg1").src = p.imgs[1] || "";
-document.getElementById("modalSlides").style.transform = "translateX(0)";
-document.querySelectorAll(".modal-slide-btn").forEach(b => b.style.display = p.imgs[1] ? "" : "none");
-
-const sizesEl = document.getElementById("modalSizes");
-sizesEl.innerHTML = "";
-sizesEl.style.display = "flex";
-document.getElementById("sizeSoldoutMsg").style.display = "none";
-sizes.forEach(s => {
-const btn = document.createElement("button");
-btn.className = "size-btn" + (s === selectedSize ? " active" : "");
-btn.innerText = s;
-btn.onclick = () => {
-selectedSize = s;
-sizesEl.querySelectorAll(".size-btn").forEach(b => b.classList.remove("active"));
-btn.classList.add("active");
-};
-sizesEl.appendChild(btn);
-});
-document.querySelector(".modal-actions").style.display = "flex";
-document.getElementById("modalReviewSection").style.display = "none";
-document.getElementById("productModal").classList.add("active");
-document.body.style.overflow = "hidden";
-}
-
-let carouselIndex = 0;
-const totalProducts = 6;
-
-function getVisibleCount(){
-const w = window.innerWidth;
-if(w <= 680) return 2;
-if(w <= 1024) return 3;
-return 4;
-}
-
-function updateCarousel(){
-const grid = document.getElementById("productsGrid");
-if(!grid) return;
-const card = grid.querySelector(".product-card");
-if(!card) return;
-grid.style.transform = `translateX(-${carouselIndex * (card.offsetWidth + 25)}px)`;
-}
-
-function carouselMove(direction){
-const visible = getVisibleCount();
-const maxIndex = Math.max(0, totalProducts - visible);
-carouselIndex += direction;
-if(carouselIndex < 0) carouselIndex = maxIndex;
-if(carouselIndex > maxIndex) carouselIndex = 0;
-updateCarousel();
-}
-
-window.addEventListener("resize", ()=>{
-const visible = getVisibleCount();
-if(carouselIndex > Math.max(0, totalProducts - visible)) carouselIndex = 0;
-updateCarousel();
-updateMuscuCarousel();
-});
-
-window.addEventListener("load", ()=>{ updatePrices(); updateCarousel(); updateMuscuCarousel(); });
-
-let cart = [];
-let activeDiscount = "";
-
-const validCodes = [
-"NAVARRETE",
-"NATY",
-"IVANMG",
-"THELONELYONE",
-"RIVATOMY",
-"SUAR",
-"SANTI10"
-];
-
-function applyDiscount(){
-if(activeDiscount !== ""){
-alert("Ya tenés un código aplicado. Solo se puede usar un código por compra.");
-return;
-}
-const code = document.getElementById("discountCode").value.trim().toUpperCase();
-if(validCodes.includes(code)){
-activeDiscount = code;
-updatePrices();
-document.getElementById("discountAlert").classList.add("active");
-}else{
-document.getElementById("invalidAlert").classList.add("active");
-}
-}
-
-function getDiscountedPrice(price){
-if(activeDiscount !== ""){
-return Math.round(price * 0.9);
-}
-return price;
-}
-
-function updatePrices(){
-const basePrices = [27000,27000,27000,22500,22500,22500];
-const oldPrices = [30000, 30000, 30000, 25000, 25000, 25000];
-for(let i=0;i<basePrices.length;i++){
-const finalPrice = getDiscountedPrice(basePrices[i]);
-const priceEl = document.getElementById(`price${i}`);
-if(priceEl) {
-priceEl.innerHTML = `<span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$${oldPrices[i].toLocaleString()} ARS</span><br>$${finalPrice.toLocaleString()} ARS`;
-}
-}
-
-// Update buzos & pants prices
-const buzoPrices = [35000, 35000];
-const buzoOld = [38900, 38900];
-for(let i=0; i<2; i++){
-const fp = getDiscountedPrice(buzoPrices[i]);
-const el = document.getElementById(`buzoprice${i}`);
-const novEl = document.getElementById(`novprice${i}`);
-const html = `<span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$${buzoOld[i].toLocaleString()} ARS</span><br>$${fp.toLocaleString()} ARS`;
-if(el) el.innerHTML = html;
-if(novEl) novEl.innerHTML = html;
-}
-
-const pantPrices = [25000, 32000, 32000];
-const pantOld = [28000, 35500, 35500];
-for(let i=0; i<3; i++){
-const fp = getDiscountedPrice(pantPrices[i]);
-const el = document.getElementById(`pantprice${i}`);
-const html = `<span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$${pantOld[i].toLocaleString()} ARS</span><br>$${fp.toLocaleString()} ARS`;
-if(el) el.innerHTML = html;
-if(i < 2) {
-const novEl = document.getElementById(`novprice${i+2}`);
-if(novEl) novEl.innerHTML = html;
-}
-}
-
-renderCart();
-}
-
-function toggleCart(){
-document.getElementById("cartPanel").classList.toggle("active");
-}
-
-function closeDiscountAlert(){
-document.getElementById("discountAlert").classList.remove("active");
-}
-
-function closeInvalidAlert(){
-document.getElementById("invalidAlert").classList.remove("active");
-}
-
-function openSizeGuide(src){
-src = src || "tallecompres.jpg";
-document.getElementById("sizeGuideImg").src = src;
-document.getElementById("sizeGuideModal").classList.add("active");
-}
-
-function closeSizeGuide(){
-document.getElementById("sizeGuideModal").classList.remove("active");
-}
-
-function changeQty(key, delta){
-const idx = cart.findIndex(i => i.key === key);
-if(idx === -1) return;
-const item = cart[idx];
-if(item.qty + delta <= 0){
-if(cart.length === 1){
-if(!confirm("¿Querés eliminar todos los productos del carrito?")){
-return;
-}
-}
-cart.splice(idx, 1);
-}else{
-item.qty += delta;
-}
-renderCart();
-}
-
-// Combo calculation helper (buzo + pantalón set for $50.000 ARS)
-function calculateCartTotals(itemsArg){
-const targetItems = itemsArg || (checkoutData && !checkoutData.isCart ? checkoutData.items : cart);
-let buzos = [];
-let pants = [];
-let otherItemsTotal = 0;
-
-targetItems.forEach(item => {
-const itemName = (item.name || "").toLowerCase();
-const unitPrice = item.basePrice;
-for(let i = 0; i < item.qty; i++){
-if(itemName.includes("buzó") || itemName.includes("buzo")){
-buzos.push(unitPrice);
-}else if(itemName.includes("pantalón") || itemName.includes("pantalon")){
-pants.push(unitPrice);
-}else{
-otherItemsTotal += unitPrice;
-}
-}
-});
-
-buzos.sort((a,b) => b - a);
-pants.sort((a,b) => b - a);
-
-const pairsCount = Math.min(buzos.length, pants.length);
-let comboTotal = 0;
-for(let i = 0; i < pairsCount; i++){
-comboTotal += 50000;
-}
-for(let i = pairsCount; i < buzos.length; i++){
-comboTotal += buzos[i];
-}
-for(let i = pairsCount; i < pants.length; i++){
-comboTotal += pants[i];
-}
-
-const baseSubtotal = comboTotal + otherItemsTotal;
-const finalSubtotal = getDiscountedPrice(baseSubtotal);
-
-return { baseSubtotal, finalSubtotal, pairs: pairsCount };
-}
-
-function renderCart(){
-const cartItems = document.getElementById("cartItems");
-const cartTotal = document.getElementById("cartTotal");
-cartItems.innerHTML = "";
-
-let total = 0;
-
-cart.forEach(item=>{
-const finalPrice = getDiscountedPrice(item.basePrice);
-total += finalPrice * item.qty;
-
-cartItems.innerHTML += `
-<div class="cart-item">
-<strong>${item.name}</strong><br>
-Talle: ${item.size}<br>
-$${finalPrice.toLocaleString()} ARS c/u<br>
-<div style="display:flex;align-items:center;gap:12px;margin-top:8px;">
-<button onclick="changeQty('${item.key}',-1)" style="width:32px;height:32px;border-radius:50%;border:none;background:#ff0000;color:white;font-size:1.1rem;font-weight:700;cursor:pointer;line-height:1;">−</button>
-<span style="font-size:1rem;font-weight:700;">${item.qty}</span>
-<button onclick="changeQty('${item.key}',1)" style="width:32px;height:32px;border-radius:50%;border:none;background:#00ff73;color:#000;font-size:1.1rem;font-weight:700;cursor:pointer;line-height:1;">+</button>
-<span style="color:#aaa;font-size:0.9rem;">= $${(finalPrice * item.qty).toLocaleString()} ARS</span>
-</div>
-</div>
-`;
-});
-
-const totals = calculateCartTotals(cart);
-cartTotal.innerHTML = `TOTAL: $${totals.finalSubtotal.toLocaleString()} ARS`;
-}
-
-function checkoutWhatsApp(){
-if(cart.length === 0){
-alert("Tu carrito está vacío.");
-return;
-}
-let resumen = "";
-cart.forEach(item=>{
-resumen += `${item.name} x${item.qty} (Talle: ${item.size})\n`;
-});
-openPayModal("Carrito", null, calculateCartTotals(cart).baseSubtotal, resumen, true);
-}
-
-// ── CHECKOUT ──────────────────────────────────────────────
-let checkoutData = null;
-
-function openPayModal(name, size, baseTotal, resumen, isCart){
-let items = [];
-if(isCart && cart.length > 0){
-items = cart.map(i => ({name:i.name, size:i.size, qty:i.qty, basePrice:i.basePrice}));
-}else{
-items = [{name, size, qty:1, basePrice:baseTotal}];
-}
-checkoutData = {items, baseTotal, isCart};
-openCheckout();
-}
-
-function openCheckout(){
-if(!checkoutData) return;
-["cart-floating","whatsapp-float","hamburger-btn"].forEach(cls => {
-document.querySelectorAll("."+cls).forEach(el => el.style.display="none");
-});
-const itemsEl = document.getElementById("checkoutItems");
-itemsEl.innerHTML = "";
-checkoutData.items.forEach(item => {
-const disc = getDiscountedPrice(item.basePrice);
-const total = disc * item.qty;
-itemsEl.innerHTML += `<div style="display:flex;align-items:center;gap:14px;background:#0f0f0f;border:1px solid #222;border-radius:14px;padding:14px;"><img src="${getProductImg(item.name)}" style="width:70px;height:70px;object-fit:cover;border-radius:10px;flex-shrink:0;"><div style="flex:1;min-width:0;"><div style="font-weight:700;font-size:0.95rem;margin-bottom:4px;">${item.name}</div><div style="color:#aaa;font-size:0.82rem;">Talle: ${item.size} &nbsp;·&nbsp; Cantidad: ${item.qty}</div><div style="color:var(--red);font-weight:700;font-size:0.95rem;margin-top:4px;">$${total.toLocaleString()} ARS</div></div></div>`;
-});
-updateCheckoutSubtotal();
-document.getElementById("checkoutDiscountCode").value = "";
-document.getElementById("checkoutDiscountMsg").style.display = "none";
-document.getElementById("checkoutProvincia").value = "";
-document.getElementById("checkoutLocalidad").value = "";
-document.getElementById("priceSummaryBox").style.display = "none";
-document.getElementById("envioFormosaCapital").style.display = "none";
-document.getElementById("envioOtros").style.display = "none";
-["envNombre","envDireccion","envCP","envEmail","envDNI","envTel","envIndicaciones",
-"envFNombre","envFDireccion","envFTel","envFIndicaciones"].forEach(id => {
-const el = document.getElementById(id); if(el) el.value = "";
-});
-document.getElementById("envioFormosaForm").style.display = "none";
-const overlay = document.getElementById("checkoutOverlay");
-overlay.style.display = "flex";
-overlay.style.flexDirection = "column";
-overlay.scrollTop = 0;
-document.body.style.overflow = "hidden";
-checkoutValidate();
-}
-
-function closeCheckout(){
-document.getElementById("checkoutOverlay").style.display = "none";
-document.body.style.overflow = "";
-["cart-floating","whatsapp-float","hamburger-btn"].forEach(cls => {
-document.querySelectorAll("."+cls).forEach(el => el.style.display="");
-});
-}
-
-function getProductImg(name){
-const map = {
-"Compresivo Tribal Rojo":"compresrojo.jpg",
-"Compresivo Tribal Morado":"compresmorado.jpg",
-"Compresivo Tribal Blanco":"compresblanco.jpg",
-"Compresivo Básico":"compresbasico.jpg",
-"Compresivo de Berserk":"berserk.jpg",
-"Compresivo Clásico":"clasico.jpg",
-"Musculosa Tribal":"muscu.jpg",
-"Musculosa Mike Mentzer":"mentzer.jpg",
-"Musculosa Kevin Levrone":"kevin.jpg",
-"Calza de Lycra":"calza.jpg",
-"Buzo Tribal Rojo":"buzorojo.jpg",
-"Buzo Tribal Morado":"buzomorado.jpg",
-"Pantalón básico BlazeBorn":"pantbasico.jpg",
-"Pantalón Tribal Rojo":"pantrojo.jpg",
-"Pantalón Tribal Morado":"pantmor.jpg"
-};
-return map[name] || "";
-}
-
-function updateCheckoutSubtotal(){
-if(!checkoutData) return;
-const totals = calculateCartTotals(checkoutData.items);
-document.getElementById("checkoutSubtotal").innerText = `$${totals.finalSubtotal.toLocaleString()} ARS`;
-}
-
-function applyCheckoutDiscount(){
-if(activeDiscount !== ""){
-const msg = document.getElementById("checkoutDiscountMsg");
-msg.style.display="block"; msg.style.color="#ff0000"; msg.innerText="Ya tenés un código aplicado."; return;
-}
-const code = document.getElementById("checkoutDiscountCode").value.trim().toUpperCase();
-const msg = document.getElementById("checkoutDiscountMsg");
-if(validCodes.includes(code)){
-activeDiscount = code; updatePrices();
-updateCheckoutSubtotal();
-msg.style.display="block"; msg.style.color="var(--green)"; msg.innerText="✅ ¡Descuento del 10% aplicado!";
-}else{
-msg.style.display="block"; msg.style.color="#ff0000"; msg.innerText="❌ Código inválido.";
-}
-}
-
-function getTotalItems(){
-if(!checkoutData) return 0;
-let total = 0;
-checkoutData.items.forEach(i => { total += i.qty; });
-return total;
-}
-
-function getCheckoutSubtotal(){
-return calculateCartTotals(checkoutData ? checkoutData.items : null).finalSubtotal;
-}
-
-function getTotalWeight(){
-if(!checkoutData) return 0;
-let totalWeight = 0;
-checkoutData.items.forEach(item => {
-let weight = 200;
-const p1 = products.find(p => p.name === item.name);
-const p2 = buzoProducts.find(p => p.name === item.name);
-const p3 = panProducts.find(p => p.name === item.name);
-const p4 = muscuProducts.find(p => p.name === item.name);
-const p5 = calzaProducts.find(p => p.name === item.name);
-if(p1) weight = p1.weight;
-else if(p2) weight = p2.weight;
-else if(p3) weight = p3.weight;
-else if(p4) weight = p4.weight;
-else if(p5) weight = p5.weight;
-totalWeight += weight * item.qty;
-});
-return totalWeight;
-}
-
-function getShippingCostByWeight(totalWeightGrams){
-if(totalWeightGrams <= 800) return shippingCostsByWeight["0-800"];
-if(totalWeightGrams <= 1500) return shippingCostsByWeight["801-1500"];
-return shippingCostsByWeight["1501-3000"];
-}
-
-function calculateShippingCost(){
-const totalItems = getTotalItems();
-if(totalItems >= 3) return 0;
-
-let hasBuzoOrPant = false;
-if(checkoutData && checkoutData.items){
-checkoutData.items.forEach(item => {
-const isBuz = buzoProducts.some(p => p.name === item.name);
-const isPan = panProducts.some(p => p.name === item.name);
-if(isBuz || isPan) hasBuzoOrPant = true;
-});
-}
-
-if(hasBuzoOrPant) return 11000;
-
-const totalWeight = getTotalWeight();
-return getShippingCostByWeight(totalWeight);
-}
-
-function checkoutUpdateEnvio(){
-const prov = document.getElementById("checkoutProvincia").value;
-const loc = document.getElementById("checkoutLocalidad").value.trim().toLowerCase();
-const isFormosaCapital = prov === "Formosa" && loc === "formosa";
-const showOthers = prov !== "" && !isFormosaCapital;
-
-document.getElementById("envioFormosaCapital").style.display = isFormosaCapital ? "block" : "none";
-document.getElementById("envioOtros").style.display = showOthers ? "flex" : "none";
-document.getElementById("envioFormosaForm").style.display = isFormosaCapital ? "flex" : "none";
-document.getElementById("priceSummaryBox").style.display = showOthers ? "block" : "none";
-
-if(showOthers){
-updatePriceSummary(prov);
-}
-
-if(isFormosaCapital){
-const waMsg = buildWAMessage(true);
-document.getElementById("envioWABtn").href = `https://wa.me/5493704509580?text=${encodeURIComponent(waMsg)}`;
-}
-
-checkoutValidate();
-}
-
-function updatePriceSummary(province){
-if(!checkoutData) return;
-const itemsListEl = document.getElementById("priceSummaryItems");
-itemsListEl.innerHTML = "";
-
-checkoutData.items.forEach(item => {
-const finalPrice = getDiscountedPrice(item.basePrice);
-const total = finalPrice * item.qty;
-const line = `${item.name} x${item.qty} = $${total.toLocaleString()} ARS`;
-const div = document.createElement("div");
-div.className = "price-item-line";
-div.innerText = line;
-itemsListEl.appendChild(div);
-});
-
-const totalItems = getTotalItems();
-const subtotal = getCheckoutSubtotal();
-const isFreeShipping = totalItems >= 3;
-let shippingCost = calculateShippingCost();
-const finalTotal = subtotal + shippingCost;
-
-if(isFreeShipping){
-document.getElementById("shippingCostDisplay").innerText = "GRATIS";
-document.getElementById("correoPrice").innerText = "GRATIS";
-}else{
-document.getElementById("shippingCostDisplay").innerText = `$${shippingCost.toLocaleString()} ARS`;
-document.getElementById("correoPrice").innerText = `$${shippingCost.toLocaleString()} ARS`;
-}
-document.getElementById("priceTotalDisplay").innerText = `TOTAL: $${finalTotal.toLocaleString()} ARS`;
-}
-
-function checkoutValidate(){
-const prov = document.getElementById("checkoutProvincia").value;
-const loc = document.getElementById("checkoutLocalidad").value.trim().toLowerCase();
-const isFormosaCapital = prov === "Formosa" && loc === "formosa";
-const othersVisible = document.getElementById("envioOtros").style.display !== "none";
-let valid = false;
-
-if(isFormosaCapital){
-const fields = ["envFNombre","envFDireccion","envFTel"];
-valid = fields.every(id => document.getElementById(id).value.trim() !== "");
-const waMsg = buildWAMessage(true);
-const btn = document.getElementById("envioWABtn");
-if(btn) btn.href = `https://wa.me/5493704509580?text=${encodeURIComponent(waMsg)}`;
-}else if(othersVisible){
-const fields = ["envNombre","envDireccion","envCP","envEmail","envDNI","envTel"];
-valid = fields.every(id => document.getElementById(id).value.trim() !== "");
-}
-
-const btn = document.getElementById("checkoutConfirmBtn");
-if(valid && !isFormosaCapital){
-btn.disabled=false; btn.style.filter="none"; btn.style.cursor="pointer"; btn.style.opacity="1";
-}else{
-btn.disabled=true; btn.style.filter="blur(1.5px) opacity(0.4)"; btn.style.cursor="not-allowed";
-}
-}
-
-function buildWAMessage(isFormosa){
-if(!checkoutData) return "";
-let msg = "Hola, quiero confirmar mi compra:\n\n";
-checkoutData.items.forEach(item => {
-const price = getDiscountedPrice(item.basePrice) * item.qty;
-msg += `- ${item.name}\n  Cantidad: ${item.qty}\n  Talle: ${item.size}\n  Precio: $${price.toLocaleString()} ARS\n`;
-});
-let total = getCheckoutSubtotal();
-msg += `\nSubtotal: $${total.toLocaleString()} ARS`;
-if(activeDiscount) msg += ` (código: ${activeDiscount})`;
-msg += "\n\n——————————————\n";
-if(isFormosa){
-const fNombre = document.getElementById("envFNombre") ? document.getElementById("envFNombre").value : "";
-const fDireccion = document.getElementById("envFDireccion") ? document.getElementById("envFDireccion").value : "";
-const fTel = document.getElementById("envFTel") ? document.getElementById("envFTel").value : "";
-const fInd = document.getElementById("envFIndicaciones") ? document.getElementById("envFIndicaciones").value.trim() : "";
-msg += `Localidad: Formosa Capital\n`;
-if(fNombre) msg += `- Nombre: ${fNombre}\n`;
-if(fDireccion) msg += `- Dirección: ${fDireccion}\n`;
-if(fTel) msg += `- Teléfono: ${fTel}\n`;
-if(fInd) msg += `- Indicaciones: ${fInd}\n`;
-msg += "- Envío: A coordinar por WhatsApp\n";
-}else{
-const totalItems = getTotalItems();
-const isFreeShipping = totalItems >= 3;
-let shippingCost = calculateShippingCost();
-msg += `Datos de envío:\n- Nombre: ${document.getElementById("envNombre").value}\n- Dirección: ${document.getElementById("envDireccion").value}\n- Código Postal: ${document.getElementById("envCP").value}\n- Email: ${document.getElementById("envEmail").value}\n- DNI: ${document.getElementById("envDNI").value}\n- Teléfono: ${document.getElementById("envTel").value}\n`;
-const ind = document.getElementById("envIndicaciones").value.trim();
-if(ind) msg += `- Indicaciones: ${ind}\n`;
-msg += `- Provincia: ${document.getElementById("checkoutProvincia").value}\n`;
-if(isFreeShipping){
-msg += `- Costo de envío: GRATIS (por 3+ artículos)\n`;
-}else{
-msg += `- Costo de envío: $${shippingCost.toLocaleString()} ARS\n`;
-}
-}
-return msg;
-}
-
-function openTransferFromCheckout(){
-const waMsg = buildWAMessage(false);
-document.getElementById("checkoutWALink").href = `https://wa.me/5493704509580?text=${encodeURIComponent(waMsg)}`;
-document.getElementById("transferModal").classList.add("active");
-}
-
-function openTransferModal(){
-document.getElementById("transferModal").classList.add("active");
-}
-
-function closeTransferModal(){
-document.getElementById("transferModal").classList.remove("active");
-}
-
-function copyText(text, btn){
-navigator.clipboard.writeText(text).then(()=>{
-btn.innerText = "¡Copiado!";
-btn.style.color = "var(--green)";
-btn.style.borderColor = "var(--green)";
-setTimeout(()=>{
-btn.innerText = "Copiar";
-btn.style.color = "#aaa";
-btn.style.borderColor = "#444";
-}, 2000);
-});
-}
-
-// ── HAMBURGER MENU ────────────────────────────────────────────
-function toggleMenu(){
-document.getElementById("hamburgerMenu").classList.toggle("active");
-document.getElementById("menuBackdrop").classList.toggle("active");
-}
-
-function closeMenu(){
-document.getElementById("hamburgerMenu").classList.remove("active");
-document.getElementById("menuBackdrop").classList.remove("active");
-}
-
-// ── THEME TOGGLE ──────────────────────────────────────────────
-let isLightTheme = false;
-function toggleTheme(){
-isLightTheme = !isLightTheme;
-const body = document.body;
-const toggle = document.getElementById("themeToggle");
-const label = document.getElementById("themeLabel");
-const logo = document.querySelector(".logo");
-
-if(isLightTheme){
-body.classList.add("light-theme");
-toggle.classList.add("light-on");
-label.textContent = "Tema oscuro";
-if(logo) logo.src = "blazelogo1.png";
-} else {
-body.classList.remove("light-theme");
-toggle.classList.remove("light-on");
-label.textContent = "Tema claro";
-if(logo) logo.src = "blazelogo.png";
-}
-}
-
-// ── SEARCH ────────────────────────────────────────────────────
-const searchCatalog = [
-{name:"Buzo Tribal Rojo",        price:"$35.000 ARS",   img:"buzorojo.jpg",      fn:"openProductModalByName", arg:"Buzo Tribal Rojo"},
-{name:"Buzo Tribal Morado",      price:"$35.000 ARS",   img:"buzomorado.jpg",    fn:"openProductModalByName", arg:"Buzo Tribal Morado"},
-{name:"Pantalón básico BlazeBorn",price:"$25.000 ARS",  img:"pantbasico.jpg",    fn:"openProductModalByName", arg:"Pantalón básico BlazeBorn"},
-{name:"Pantalón Tribal Rojo",    price:"$32.000 ARS",   img:"pantrojo.jpg",      fn:"openProductModalByName", arg:"Pantalón Tribal Rojo"},
-{name:"Pantalón Tribal Morado",  price:"$32.000 ARS",   img:"pantmor.jpg",       fn:"openProductModalByName", arg:"Pantalón Tribal Morado"},
-{name:"Compresivo Tribal Rojo",  price:"$27.000 ARS",   img:"compresrojo.jpg",   fn:"openProductModal", arg:0},
-{name:"Compresivo Tribal Morado",price:"$27.000 ARS",   img:"compresmorado.jpg", fn:"openProductModal", arg:1},
-{name:"Compresivo Tribal Blanco",price:"$27.000 ARS",   img:"compresblanco.jpg", fn:"openProductModal", arg:2},
-{name:"Compresivo Básico",       price:"$22.500 ARS",   img:"compresbasico.jpg", fn:"openProductModal", arg:3},
-{name:"Compresivo de Berserk",   price:"$22.500 ARS",   img:"berserk.jpg",       fn:"openProductModal", arg:4},
-{name:"Compresivo Clásico",      price:"$22.500 ARS",   img:"clasico.jpg",       fn:"openProductModal", arg:5},
-{name:"Musculosa Tribal",        price:"Consultá",      img:"muscu.jpg",         fn:"openMuscuModal",   arg:0},
-{name:"Musculosa Mike Mentzer",  price:"Consultá",      img:"mentzer.jpg",     fn:"openMuscuModal",   arg:1},
-{name:"Musculosa Kevin Levrone", price:"Consultá",      img:"kevin.jpg",       fn:"openMuscuModal",   arg:2},
-{name:"Calza de Lycra",          price:"Consultá",      img:"calza.jpg",         fn:"openCalzaModal",   arg:0}
-];
-
-let _lastSearchMatches = [];
-function handleSearch(){
-const query = document.getElementById("searchInput").value.trim().toLowerCase();
-const resultsEl = document.getElementById("searchResults");
-if(query.length === 0){
-resultsEl.innerHTML = "";
-resultsEl.classList.remove("visible");
-return;
-}
-const matches = searchCatalog.filter(p => p.name.toLowerCase().includes(query));
-_lastSearchMatches = matches;
-if(matches.length === 0){
-resultsEl.innerHTML = '<div class="search-no-results">Sin resultados para "' + query + '"</div>';
-resultsEl.classList.add("visible");
-return;
-}
-resultsEl.innerHTML = matches.map((p,i) =>
-'<div class="search-result-item" onclick="selectSearchResult(' + i + ')">' +
-'<img src="' + p.img + '" class="search-result-thumb" alt="' + p.name + '">' +
-'<div>' +
-'<div class="search-result-name">' + p.name + '</div>' +
-'<div class="search-result-price">' + p.price + '</div>' +
-'</div>' +
-'</div>'
-).join("");
-resultsEl.classList.add("visible");
-}
-
-function selectSearchResult(i){
-const p = _lastSearchMatches[i];
-document.getElementById("searchInput").value = "";
-document.getElementById("searchResults").classList.remove("visible");
-closeMenu();
-if(p){
-if(typeof p.arg === 'number'){
-window[p.fn](p.arg);
-}else{
-window[p.fn](p.arg);
-}
-}
-}
-
-function clearSearch(){
-document.getElementById("searchInput").value = "";
-document.getElementById("searchResults").innerHTML = "";
-document.getElementById("searchResults").classList.remove("visible");
-document.getElementById("searchInput").focus();
-}
-
-let _lastInlineMatches = [];
-function handleInlineSearch(){
-const query = document.getElementById("inlineSearchInput").value.trim().toLowerCase();
-const resultsEl = document.getElementById("inlineSearchResults");
-const clearBtn = document.getElementById("inlineClearBtn");
-if(clearBtn) clearBtn.style.display = query.length > 0 ? "block" : "none";
-if(query.length === 0){
-resultsEl.style.display = "none";
-resultsEl.innerHTML = "";
-return;
-}
-const matches = searchCatalog.filter(p => p.name.toLowerCase().includes(query));
-_lastInlineMatches = matches;
-if(matches.length === 0){
-resultsEl.innerHTML = '<div class="search-no-results">Sin resultados</div>';
-resultsEl.style.display = "block";
-return;
-}
-resultsEl.innerHTML = matches.map((p,i) =>
-'<div class="search-result-item" onclick="inlineSelectResult(' + i + ')">' +
-'<img src="' + p.img + '" class="search-result-thumb" alt="' + p.name + '">' +
-'<div>' +
-'<div class="search-result-name">' + p.name + '</div>' +
-'<div class="search-result-price">' + p.price + '</div>' +
-'</div>' +
-'</div>'
-).join("");
-resultsEl.style.display = "block";
-}
-
-function commitInlineSearch(){
-const query = document.getElementById("inlineSearchInput").value.trim();
-if(!query) return;
-document.getElementById("inlineSearchResults").style.display = "none";
-const matches = searchCatalog.filter(p => p.name.toLowerCase().includes(query.toLowerCase()));
-_lastInlineMatches = matches;
-
-["secNovedades","secBuzos","secPantalon","secCompresion","secMusculosas","secCalzas"].forEach(id => {
-const el = document.getElementById(id);
-if(el) el.style.display = "none";
-});
-
-const secResults = document.getElementById("secSearchResults");
-const grid = document.getElementById("searchResultsGrid");
-const title = document.getElementById("searchResultsTitle");
-
-if(matches.length === 0){
-title.textContent = 'Sin resultados para "' + query + '"';
-grid.innerHTML = '<p style="color:#666;font-size:0.95rem;">Probá con otro término.</p>';
-} else {
-title.textContent = matches.length + ' resultado' + (matches.length > 1 ? 's' : '') + ' para "' + query + '"';
-grid.innerHTML = matches.map((p,i) =>
-'<div class="product-card" onclick="inlineSelectResult(' + i + ')">' +
-'<img src="' + p.img + '" class="card-thumb" alt="' + p.name + '">' +
-'<div class="card-label">' +
-'<div class="card-name">' + p.name + '</div>' +
-'<div class="card-price">' + p.price + '</div>' +
-'</div>' +
-'</div>'
-).join("");
-}
-secResults.style.display = "block";
-secResults.scrollIntoView({behavior:"smooth", block:"start"});
-}
-
-function inlineSelectResult(i){
-const p = _lastInlineMatches[i];
-if(p){
-if(typeof p.arg === 'number'){
-window[p.fn](p.arg);
-}else{
-window[p.fn](p.arg);
-}
-}
-}
-
-function clearInlineSearch(){
-const inp = document.getElementById("inlineSearchInput");
-if(inp) inp.value = "";
-const clearBtn = document.getElementById("inlineClearBtn");
-if(clearBtn) clearBtn.style.display = "none";
-const res = document.getElementById("inlineSearchResults");
-if(res){ res.style.display = "none"; res.innerHTML = ""; }
-const secResults = document.getElementById("secSearchResults");
-if(secResults) secResults.style.display = "none";
-const grid = document.getElementById("searchResultsGrid");
-if(grid) grid.innerHTML = "";
-_lastInlineMatches = [];
-["secNovedades","secBuzos","secPantalon","secCompresion","secMusculosas","secCalzas"].forEach(id => {
-const el = document.getElementById(id);
-if(el) el.style.display = "";
-});
-if(inp) inp.focus();
-}
-
-document.addEventListener("click", function(e){
-const inp = document.getElementById("inlineSearchInput");
-const res = document.getElementById("inlineSearchResults");
-const btn = document.getElementById("inlineClearBtn");
-if(inp && res && !inp.contains(e.target) && !res.contains(e.target) && e.target !== btn){
-res.style.display = "none";
-}
-});
 </script>
 
 </body>
