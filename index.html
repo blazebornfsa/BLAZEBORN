@@ -213,39 +213,12 @@
       overflow: hidden;
       border: 1px solid var(--border-color);
       cursor: pointer;
-      position: relative;
       transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
     .product-card:hover {
       transform: translateY(-5px);
       box-shadow: 0 8px 20px var(--shadow-color);
-    }
-
-    .product-card.disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-      filter: grayscale(0.5);
-    }
-
-    .product-card.disabled:hover {
-      transform: none;
-      box-shadow: none;
-    }
-
-    .badge-out-of-stock {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background-color: #d32f2f;
-      color: #ffffff;
-      font-size: 0.75rem;
-      font-weight: 800;
-      padding: 4px 8px;
-      border-radius: 4px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      z-index: 5;
     }
 
     .card-thumb {
@@ -268,31 +241,6 @@
       font-size: 1.1rem;
       font-weight: 800;
       color: var(--accent-color);
-    }
-
-    .size-select-container {
-      margin-top: 10px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .size-select-container label {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      font-weight: 600;
-    }
-
-    .size-select {
-      background-color: var(--modal-bg);
-      color: var(--text-color);
-      border: 1px solid var(--border-color);
-      border-radius: 4px;
-      padding: 3px 6px;
-      font-size: 0.8rem;
-      font-weight: 700;
-      outline: none;
-      cursor: pointer;
     }
 
     .carousel-btn {
@@ -484,16 +432,6 @@
     🔥 15% OFF abonando por Transferencia | 3 Cuotas Sin Interés | Envío GRATIS en Formosa
   </div>
 
-  <!-- SECCIÓN REMERAS & COMPRESIÓN -->
-  <section class="section-container">
-    <div class="section-title">Remeras & Compresión ⚡</div>
-    <div class="carousel-wrapper">
-      <button class="carousel-btn prev" onclick="remeraMove(-1)">❮</button>
-      <div class="product-grid" id="remeraGrid"></div>
-      <button class="carousel-btn next" onclick="remeraMove(1)">❯</button>
-    </div>
-  </section>
-
   <!-- SECCIÓN NOVEDADES -->
   <section class="section-container">
     <div class="section-title">Novedades 🔥</div>
@@ -612,30 +550,23 @@
   <!-- JAVASCRIPT LOGIC -->
   <script>
     // --- CATALOG PRODUCT DATA ---
-    const remeraProducts = [
-      { id: 101, name: "Remera de Compresión Tribal Morada", price: 33000, inStock: true, sizes: ["XS", "S", "M", "L", "XL"], imgs: ["https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500"] },
-      { id: 102, name: "Remera de Compresión Básico", price: 25000, inStock: true, sizes: ["XS", "S", "M", "L", "XL"], imgs: ["https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=500"] },
-      { id: 103, name: "Remera de Compresión Berserk", price: 25000, inStock: true, sizes: ["XS", "S", "M", "L", "XL"], imgs: ["https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=500"] },
-      { id: 104, name: "Remera de Compresión Clásico", price: 25000, inStock: true, sizes: ["XS", "S", "M", "L", "XL"], imgs: ["https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=500"] },
-      { id: 105, name: "Remera de Compresión Tribal Roja", price: 33000, inStock: false, sizes: ["XS", "S", "M", "L", "XL"], imgs: ["https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=500"] },
-      { id: 106, name: "Remera de Compresión Tribal Blanca", price: 33000, inStock: false, sizes: ["XS", "S", "M", "L", "XL"], imgs: ["https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?w=500"] }
-    ];
-
     const products = [
-      { id: 1, name: "Conjunto Street Oversize Black", price: 45000, inStock: true, sizes: ["XS", "S", "M", "L", "XL"], imgs: ["https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=500"] },
-      { id: 2, name: "Hoodie Blaze Flame Red", price: 38000, inStock: true, sizes: ["XS", "S", "M", "L", "XL"], imgs: ["https://images.unsplash.com/photo-1509967419530-da38b4704bc6?w=500"] },
-      { id: 3, name: "Jogger Cargo Dark Urban", price: 32000, inStock: true, sizes: ["XS", "S", "M", "L", "XL"], imgs: ["https://images.unsplash.com/photo-1517445312882-bc9910d016b7?w=500"] }
+      { id: 1, name: "Conjunto Street Oversize Black", price: 45000, imgs: ["https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=500"] },
+      { id: 2, name: "Hoodie Blaze Flame Red", price: 38000, imgs: ["https://images.unsplash.com/photo-1509967419530-da38b4704bc6?w=500"] },
+      { id: 3, name: "Jogger Cargo Dark Urban", price: 32000, imgs: ["https://images.unsplash.com/photo-1517445312882-bc9910d016b7?w=500"] }
     ];
 
     const buzoProducts = [
-      { id: 4, name: "Buzo Heavyweight Charcoal", price: 39000, inStock: true, sizes: ["XS", "S", "M", "L", "XL"], imgs: ["https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=500"] },
-      { id: 5, name: "Hoodie Acid Wash Grey", price: 41000, inStock: true, sizes: ["XS", "S", "M", "L", "XL"], imgs: ["https://images.unsplash.com/photo-1509967419530-da38b4704bc6?w=500"] }
+      { id: 4, name: "Buzo Heavyweight Charcoal", price: 39000, imgs: ["https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=500"] },
+      { id: 5, name: "Hoodie Acid Wash Grey", price: 41000, imgs: ["https://images.unsplash.com/photo-1509967419530-da38b4704bc6?w=500"] }
     ];
 
     const panProducts = [
-      { id: 6, name: "Pantalón Parachute Black", price: 35000, inStock: true, sizes: ["XS", "S", "M", "L", "XL"], imgs: ["https://images.unsplash.com/photo-1517445312882-bc9910d016b7?w=500"] },
-      { id: 7, name: "Short Gym Training Pro", price: 22000, inStock: true, sizes: ["XS", "S", "M", "L", "XL"], imgs: ["https://images.unsplash.com/photo-1517445312882-bc9910d016b7?w=500"] }
+      { id: 6, name: "Pantalón Parachute Black", price: 35000, imgs: ["https://images.unsplash.com/photo-1517445312882-bc9910d016b7?w=500"] },
+      { id: 7, name: "Short Gym Training Pro", price: 22000, imgs: ["https://images.unsplash.com/photo-1517445312882-bc9910d016b7?w=500"] }
     ];
+
+    const calzaProducts = [];
 
     // --- LOCAL STORAGE CART PERSISTENCE ---
     let cart = JSON.parse(localStorage.getItem("bb_cart")) || [];
@@ -649,10 +580,8 @@
       return price; // 15% discount handled visually or dynamically
     }
 
-    function addToCart(product, size) {
-      if (product.inStock === false) return alert("Este producto está agotado actualmente.");
-      const selectedSize = size || (product.sizes ? product.sizes[0] : "L");
-      const existingIndex = cart.findIndex(item => item.id === product.id && item.size === selectedSize);
+    function addToCart(product, size = "L") {
+      const existingIndex = cart.findIndex(item => item.id === product.id && item.size === size);
       if (existingIndex > -1) {
         cart[existingIndex].qty += 1;
       } else {
@@ -661,27 +590,12 @@
           name: product.name,
           basePrice: product.price,
           img: product.imgs[0],
-          size: selectedSize,
+          size: size,
           qty: 1
         });
       }
       saveCart();
       toggleCart();
-    }
-
-    function handleCardClick(productId, listName) {
-      let list;
-      if (listName === 'remera') list = remeraProducts;
-      else if (listName === 'nov') list = products;
-      else if (listName === 'buzo') list = buzoProducts;
-      else if (listName === 'pant') list = panProducts;
-
-      const p = list.find(item => item.id === productId);
-      if (!p || p.inStock === false) return;
-
-      const selectEl = document.getElementById(`size-select-${p.id}`);
-      const chosenSize = selectEl ? selectEl.value : (p.sizes ? p.sizes[0] : "L");
-      addToCart(p, chosenSize);
     }
 
     function updateQty(index, change) {
@@ -732,41 +646,26 @@
 
     // --- CAROUSEL RENDER & MOVEMENT ---
     function renderGrids() {
-      const renderCards = (list, targetId, categoryKey) => {
+      const renderCards = (list, targetId) => {
         const grid = document.getElementById(targetId);
         if (!grid) return;
-        grid.innerHTML = list.map(p => {
-          const isAgotado = p.inStock === false;
-          const sizesOptions = (p.sizes || ["XS", "S", "M", "L", "XL"]).map(s => `<option value="${s}">${s}</option>`).join("");
-          
-          return `
-            <div class="product-card ${isAgotado ? 'disabled' : ''}" onclick="handleCardClick(${p.id}, '${categoryKey}')">
-              ${isAgotado ? '<div class="badge-out-of-stock">Agotado</div>' : ''}
-              <img src="${p.imgs[0]}" class="card-thumb" alt="${p.name}">
-              <div class="card-label">
-                <div class="card-name">${p.name}</div>
-                <div class="card-price">$${p.price.toLocaleString()} ARS</div>
-                ${!isAgotado ? `
-                  <div class="size-select-container" onclick="event.stopPropagation()">
-                    <label>Talle:</label>
-                    <select class="size-select" id="size-select-${p.id}">
-                      ${sizesOptions}
-                    </select>
-                  </div>
-                ` : ''}
-              </div>
+        grid.innerHTML = list.map(p => `
+          <div class="product-card" onclick="addToCart({id:${p.id}, name:'${p.name}', price:${p.price}, imgs:['${p.imgs[0]}']})">
+            <img src="${p.imgs[0]}" class="card-thumb" alt="${p.name}">
+            <div class="card-label">
+              <div class="card-name">${p.name}</div>
+              <div class="card-price">$${p.price.toLocaleString()} ARS</div>
             </div>
-          `;
-        }).join("");
+          </div>
+        `).join("");
       };
 
-      renderCards(remeraProducts, "remeraGrid", "remera");
-      renderCards(products, "novGrid", "nov");
-      renderCards(buzoProducts, "buzoGrid", "buzo");
-      renderCards(panProducts, "pantGrid", "pant");
+      renderCards(products, "novGrid");
+      renderCards(buzoProducts, "buzoGrid");
+      renderCards(panProducts, "pantGrid");
     }
 
-    let remeraPos = 0, novPos = 0, buzoPos = 0, pantPos = 0;
+    let novPos = 0, buzoPos = 0, pantPos = 0;
 
     function moveGrid(gridId, pos, dir) {
       const grid = document.getElementById(gridId);
@@ -780,7 +679,6 @@
       return newPos;
     }
 
-    function remeraMove(dir) { remeraPos = moveGrid("remeraGrid", remeraPos, dir); }
     function novMove(dir) { novPos = moveGrid("novGrid", novPos, dir); }
     function buzoMove(dir) { buzoPos = moveGrid("buzoGrid", buzoPos, dir); }
     function pantMove(dir) { pantPos = moveGrid("pantGrid", pantPos, dir); }
@@ -804,24 +702,21 @@
         resultsDiv.classList.remove("visible");
         return;
       }
-      const allProds = [...remeraProducts, ...products, ...buzoProducts, ...panProducts];
+      const allProds = [...products, ...buzoProducts, ...panProducts];
       const matches = allProds.filter(p => p.name.toLowerCase().includes(query));
 
       if (matches.length === 0) {
         resultsDiv.innerHTML = `<div style="padding:10px; font-size:0.8rem; color:var(--text-muted);">Sin resultados</div>`;
       } else {
-        resultsDiv.innerHTML = matches.map(p => {
-          const isAgotado = p.inStock === false;
-          return `
-            <div class="search-result-item" style="${isAgotado ? 'opacity:0.5; cursor:not-allowed;' : ''}" onclick="${isAgotado ? '' : `addToCart({id:${p.id}, name:'${p.name}', price:${p.price}, imgs:['${p.imgs[0]}'], inStock:true}, 'XS'); document.getElementById('searchResults').classList.remove('visible');`}">
-              <img src="${p.imgs[0]}" class="search-result-thumb">
-              <div>
-                <div class="search-result-name">${p.name} ${isAgotado ? '(Agotado)' : ''}</div>
-                <div class="search-result-price">$${p.price.toLocaleString()} ARS</div>
-              </div>
+        resultsDiv.innerHTML = matches.map(p => `
+          <div class="search-result-item" onclick="addToCart({id:${p.id}, name:'${p.name}', price:${p.price}, imgs:['${p.imgs[0]}']}); document.getElementById('searchResults').classList.remove('visible');">
+            <img src="${p.imgs[0]}" class="search-result-thumb">
+            <div>
+              <div class="search-result-name">${p.name}</div>
+              <div class="search-result-price">$${p.price.toLocaleString()} ARS</div>
             </div>
-          `;
-        }).join("");
+          </div>
+        `).join("");
       }
       resultsDiv.classList.add("visible");
     }
