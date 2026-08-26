@@ -1,40 +1,30 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>BlazeBorn - Fitness & Streetwear</title>
-
 <link rel="icon" type="image/png" href="favicon.png">
-
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-
+<link href="[https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700;900&display=swap](https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700;900&display=swap)" rel="stylesheet">
 <style>
-
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
 font-family:'Montserrat',sans-serif;
 }
-
 body{
 background:#000;
 color:white;
 overflow-x:hidden;
 }
-
 html{
 scroll-behavior:smooth;
 }
-
 :root{
 --red:#ff0000;
 --green:#00ff73;
 }
-
 header{
 width:100%;
 padding:40px 20px;
@@ -45,62 +35,52 @@ text-align:center;
 border-bottom:2px solid var(--red);
 background:linear-gradient(to bottom,#000,#080808);
 }
-
 .logo{
 width:50%;
 max-width:450px;
 min-width:220px;
 margin-bottom:20px;
 }
-
 h1{
 font-size:clamp(2rem,5vw,4rem);
 font-weight:900;
 letter-spacing:2px;
 margin-bottom:10px;
 }
-
 .subtitle{
 color:#ccc;
 margin-bottom:10px;
 }
-
 .social-subtitle{
 color:var(--green);
 font-weight:700;
 }
-
 section{
 max-width:1300px;
 margin:auto;
 padding:60px 20px;
 }
-
 .section-title{
 font-size:2rem;
 border-left:4px solid var(--red);
 padding-left:15px;
 margin-bottom:30px;
 }
-
 .carousel-wrapper{
 position:relative;
 display:flex;
 align-items:center;
 gap:10px;
 }
-
 .carousel-viewport{
 overflow:hidden;
 width:100%;
 }
-
 .products-grid{
 display:flex;
 gap:25px;
 transition:transform 0.4s ease;
 }
-
 .product-card{
 background:#0f0f0f;
 border:1px solid #222;
@@ -111,13 +91,11 @@ flex:0 0 calc(25% - 19px);
 min-width:0;
 cursor:pointer;
 }
-
 .product-card:hover{
 transform:translateY(-5px);
 border-color:var(--red);
 box-shadow:0 0 20px rgba(255,0,0,0.25);
 }
-
 .carousel-arrow{
 flex-shrink:0;
 width:44px;
@@ -134,58 +112,47 @@ justify-content:center;
 z-index:5;
 transition:0.2s;
 }
-
 .carousel-arrow:hover{
 background:var(--red);
 }
-
 .carousel-arrow:disabled{
 opacity:0.3;
 cursor:default;
 background:#0f0f0f;
 }
-
 @media (max-width:1024px){
 .product-card{
 flex:0 0 calc(33.333% - 17px);
 }
 }
-
 @media (max-width:680px){
 .product-card{
 flex:0 0 calc(50% - 13px);
 }
 }
-
 /* CATALOG CARDS */
-
 .card-thumb{
 width:100%;
 aspect-ratio:1/1;
 object-fit:cover;
 display:block;
 }
-
 .card-label{
 padding:12px;
 background:#0f0f0f;
 }
-
 .card-name{
 font-size:0.9rem;
 font-weight:700;
 margin-bottom:4px;
 }
-
 .card-price{
 color:var(--red);
 font-size:0.95rem;
 font-weight:700;
 line-height:1.3;
 }
-
 /* PRODUCT MODAL */
-
 .product-modal-overlay{
 display:none;
 position:fixed;
@@ -196,11 +163,9 @@ z-index:2000;
 overflow-y:auto;
 -webkit-overflow-scrolling:touch;
 }
-
 .product-modal-overlay.active{
 display:block;
 }
-
 .modal-close-top{
 position:sticky;
 top:0;
@@ -211,7 +176,6 @@ padding:15px 20px;
 background:rgba(0,0,0,0.85);
 backdrop-filter:blur(6px);
 }
-
 .modal-close-btn{
 width:44px;height:44px;
 border-radius:50%;
@@ -222,20 +186,17 @@ font-size:1.3rem;
 cursor:pointer;
 display:flex;align-items:center;justify-content:center;
 }
-
 .modal-img-slider{
 position:relative;
 width:100%;
 background:#0a0a0a;
 overflow:hidden;
 }
-
 .modal-slides{
 display:flex;
 transition:transform 0.4s ease;
 width:100%;
 }
-
 .modal-slides img{
 width:100%;
 min-width:100%;
@@ -245,7 +206,6 @@ object-fit:contain;
 background:#0a0a0a;
 flex-shrink:0;
 }
-
 .modal-slide-btn{
 position:absolute;
 top:50%;
@@ -259,10 +219,8 @@ font-size:1.1rem;
 cursor:pointer;
 z-index:5;
 }
-
 .modal-slide-btn.left{ left:12px; }
 .modal-slide-btn.right{ right:12px; }
-
 .modal-product-info{
 padding:24px 20px 60px;
 display:flex;
@@ -272,43 +230,36 @@ max-width:700px;
 margin:0 auto;
 width:100%;
 }
-
 .modal-product-title{
 font-size:1.6rem;
 font-weight:900;
 }
-
 .modal-product-desc{
 color:#aaa;
 font-size:0.95rem;
 line-height:1.7;
 }
-
 .modal-old-price{
 color:#888;
 font-size:0.95rem;
 text-decoration:line-through;
 display:none;
 }
-
 .modal-price{
 color:var(--red);
 font-size:1.4rem;
 font-weight:700;
 }
-
 .modal-size-label{
 font-size:0.85rem;
 color:#aaa;
 margin-bottom:4px;
 }
-
 .modal-sizes{
 display:flex;
 gap:10px;
 flex-wrap:wrap;
 }
-
 .size-btn{
 padding:10px 14px;
 border-radius:10px;
@@ -320,12 +271,10 @@ text-align:center;
 transition:0.2s;
 min-width:55px;
 }
-
 .size-btn.active{
 border-color:var(--red);
 background:var(--red);
 }
-
 .size-btn.soldout{
 border-color:#444;
 color:#555;
@@ -334,7 +283,6 @@ position:relative;
 cursor:pointer;
 text-decoration:line-through;
 }
-
 .size-btn.soldout::after{
 content:"✕";
 position:absolute;
@@ -344,7 +292,6 @@ font-size:0.6rem;
 color:#ff0000;
 font-weight:900;
 }
-
 .size-soldout-msg{
 color:#ff0000;
 font-size:0.75rem;
@@ -352,27 +299,23 @@ margin-top:6px;
 min-height:1rem;
 display:none;
 }
-
 .modal-actions{
 display:flex;
 flex-direction:column;
 gap:12px;
 margin-top:4px;
 }
-
 .price{
 color:var(--red);
 font-size:1.1rem;
 font-weight:700;
 }
-
 .old-price{
 color:#888;
 font-size:0.6rem;
 text-decoration:line-through;
 display:none;
 }
-
 select{
 padding:12px;
 border:none;
@@ -380,7 +323,6 @@ border-radius:10px;
 background:#1a1a1a;
 color:white;
 }
-
 .btn{
 border:none;
 padding:13px;
@@ -389,31 +331,25 @@ font-weight:700;
 cursor:pointer;
 transition:0.3s;
 }
-
 .cart-btn{
 background:var(--red);
 color:white;
 }
-
 .wa-btn{
 background:#25d366;
 color:white;
 }
-
 .cart-btn:hover,
 .wa-btn:hover{
 opacity:0.85;
 }
-
 /* DESCUENTO */
-
 .discount-box{
 display:flex;
 gap:15px;
 margin-bottom:35px;
 flex-wrap:wrap;
 }
-
 .discount-box input{
 flex:1;
 min-width:220px;
@@ -423,7 +359,6 @@ border-radius:10px;
 background:#1a1a1a;
 color:white;
 }
-
 .apply-btn{
 background:var(--red);
 color:white;
@@ -433,19 +368,15 @@ border-radius:10px;
 font-weight:700;
 cursor:pointer;
 }
-
 /* GUIA TALLES */
-
 .size-guide-btn{
 background:#1a1a1a;
 color:white;
 border:1px solid var(--red);
 }
-
 .size-guide-btn:hover{
 background:var(--red);
 }
-
 .modal-overlay{
 display:none;
 position:fixed;
@@ -459,11 +390,9 @@ justify-content:center;
 align-items:center;
 padding:20px;
 }
-
 .modal-overlay.active{
 display:flex;
 }
-
 .modal-box{
 background:#f4f4f4;
 color:#111;
@@ -476,7 +405,6 @@ overflow-y:auto;
 position:relative;
 text-align:center;
 }
-
 .modal-close{
 position:absolute;
 top:15px;
@@ -492,15 +420,12 @@ font-weight:700;
 cursor:pointer;
 z-index:5;
 }
-
 .size-guide-img{
 width:100%;
 border-radius:12px;
 display:block;
 }
-
 /* AVISO DESCUENTO */
-
 .discount-alert-overlay{
 display:none;
 position:fixed;
@@ -514,11 +439,9 @@ justify-content:center;
 align-items:center;
 padding:20px;
 }
-
 .discount-alert-overlay.active{
 display:flex;
 }
-
 .discount-alert-box{
 background:#000;
 border:2px solid var(--green);
@@ -531,14 +454,12 @@ display:flex;
 flex-direction:column;
 gap:20px;
 }
-
 .discount-alert-box p{
 color:white;
 font-size:1.1rem;
 font-weight:500;
 line-height:1.6;
 }
-
 .discount-alert-ok{
 background:var(--green);
 color:#000;
@@ -550,13 +471,10 @@ font-size:1rem;
 cursor:pointer;
 align-self:center;
 }
-
 .discount-alert-ok:hover{
 opacity:0.85;
 }
-
 /* CARRITO */
-
 .cart-floating{
 position:fixed;
 top:20px;
@@ -572,7 +490,6 @@ font-size:1.5rem;
 cursor:pointer;
 z-index:999;
 }
-
 .cart-panel{
 position:fixed;
 top:0;
@@ -586,11 +503,9 @@ z-index:1000;
 padding:20px;
 overflow-y:auto;
 }
-
 .cart-panel.active{
 right:0;
 }
-
 .close-cart{
 width:45px;
 height:45px;
@@ -602,64 +517,51 @@ font-size:1.4rem;
 cursor:pointer;
 margin-bottom:20px;
 }
-
 .cart-item{
 border-bottom:1px solid #222;
 padding:12px 0;
 }
-
 .cart-total{
 margin-top:20px;
 font-size:1.2rem;
 font-weight:700;
 color:var(--green);
 }
-
 /* MOCKUP */
-
 .mockup{
 width:100%;
 border-radius:20px;
 border:2px solid var(--red);
 margin-bottom:30px;
 }
-
 .about{
 line-height:1.8;
 color:#ccc;
 }
-
 /* OPINIONES */
-
 .reviews{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
 gap:20px;
 }
-
 .review{
 background:#0f0f0f;
 border:1px solid #222;
 padding:20px;
 border-radius:15px;
 }
-
 .stars{
 color:gold;
 margin-bottom:10px;
 }
-
 /* REDES */
-
 .socials{
 display:flex;
 flex-direction:column;
 gap:15px;
 font-size:1.1rem;
 }
-
 /* FOOTER */
-
 footer{
 text-align:center;
 padding:30px 20px;
@@ -667,9 +569,7 @@ border-top:2px solid var(--red);
 color:#888;
 background:#050505;
 }
-
 /* WHATSAPP */
-
 .whatsapp-float{
 position:fixed;
 bottom:20px;
@@ -686,9 +586,7 @@ color:white;
 font-size:1.8rem;
 z-index:999;
 }
-
 /* HAMBURGER MENU */
-
 .hamburger-btn{
 position:fixed;
 top:20px;
@@ -707,11 +605,9 @@ justify-content:center;
 z-index:1100;
 transition:0.2s;
 }
-
 .hamburger-btn:hover{
 background:var(--red);
 }
-
 .hamburger-menu{
 position:fixed;
 top:0;
@@ -728,11 +624,9 @@ flex-direction:column;
 gap:8px;
 overflow-y:auto;
 }
-
 .hamburger-menu.active{
 left:0;
 }
-
 .menu-title{
 color:#555;
 font-size:0.7rem;
@@ -742,7 +636,6 @@ text-transform:uppercase;
 margin:16px 0 8px;
 padding-left:4px;
 }
-
 .menu-item{
 display:flex;
 align-items:center;
@@ -759,39 +652,32 @@ width:100%;
 text-align:left;
 transition:0.2s;
 }
-
 .menu-item:hover{
 background:#1a1a1a;
 color:white;
 }
-
 .menu-item .menu-icon{
 width:20px;
 text-align:center;
 font-size:1.1rem;
 }
-
 .menu-divider{
 height:1px;
 background:#1e1e1e;
 margin:8px 0;
 }
-
 /* THEME TOGGLE */
-
 .theme-toggle-row{
 display:flex;
 align-items:center;
-justify-content:space-between;
+justify-space-between;
 padding:13px 16px;
 border-radius:12px;
 cursor:pointer;
 }
-
 .theme-toggle-row:hover{
 background:#1a1a1a;
 }
-
 .toggle-switch{
 width:44px;
 height:24px;
@@ -801,7 +687,6 @@ position:relative;
 transition:0.3s;
 flex-shrink:0;
 }
-
 .toggle-switch::after{
 content:"";
 position:absolute;
@@ -813,25 +698,20 @@ border-radius:50%;
 background:#888;
 transition:0.3s;
 }
-
 .toggle-switch.light-on{
 background:var(--red);
 }
-
 .toggle-switch.light-on::after{
 left:23px;
 background:white;
 }
-
 /* SEARCH */
-
 .search-wrapper{
 position:relative;
 display:flex;
 align-items:center;
 margin-top:16px;
 }
-
 .search-icon-btn{
 position:absolute;
 right:0;
@@ -845,11 +725,9 @@ cursor:pointer;
 padding:8px 12px;
 transition:0.2s;
 }
-
 .search-icon-btn:hover{
 color:var(--red);
 }
-
 .search-input{
 width:0;
 padding:0;
@@ -863,18 +741,15 @@ transition:0.35s cubic-bezier(0.4,0,0.2,1);
 outline:none;
 opacity:0;
 }
-
 .search-input.open{
 width:100%;
 padding:11px 42px 11px 14px;
 border:1px solid #333;
 opacity:1;
 }
-
 .search-input::placeholder{
 color:#555;
 }
-
 .search-results{
 position:absolute;
 top:calc(100% + 6px);
@@ -887,11 +762,9 @@ overflow:hidden;
 z-index:200;
 display:none;
 }
-
 .search-results.visible{
 display:block;
 }
-
 .search-result-item{
 display:flex;
 align-items:center;
@@ -901,15 +774,12 @@ cursor:pointer;
 transition:0.15s;
 border-bottom:1px solid #1e1e1e;
 }
-
 .search-result-item:last-child{
 border-bottom:none;
 }
-
 .search-result-item:hover{
 background:#1c1c1c;
 }
-
 .search-result-thumb{
 width:40px;
 height:40px;
@@ -917,28 +787,23 @@ object-fit:cover;
 border-radius:8px;
 flex-shrink:0;
 }
-
 .search-result-name{
 font-size:0.85rem;
 font-weight:600;
 color:#ddd;
 }
-
 .search-result-price{
 font-size:0.75rem;
 color:var(--red);
 font-weight:700;
 }
-
 .search-no-results{
 padding:14px;
 color:#555;
 font-size:0.85rem;
 text-align:center;
 }
-
 /* MENU BACKDROP */
-
 .menu-backdrop{
 display:none;
 position:fixed;
@@ -947,144 +812,112 @@ width:100%;height:100%;
 background:rgba(0,0,0,0.5);
 z-index:1040;
 }
-
 .menu-backdrop.active{
 display:block;
 }
-
 /* LIGHT THEME */
-
 body.light-theme{
 background:#fff;
 color:#111;
 }
-
 body.light-theme header{
 background:linear-gradient(to bottom,#fff,#f5f5f5);
 }
-
 body.light-theme .product-card{
 background:#f5f5f5;
 border-color:#e0e0e0;
 }
-
 body.light-theme .card-label{
 background:#f5f5f5;
 }
-
 body.light-theme .card-name{
 color:#111;
 }
-
 body.light-theme .cart-panel{
 background:#f5f5f5;
 }
-
 body.light-theme .cart-item{
 border-color:#ddd;
 }
-
 body.light-theme .hamburger-btn{
 background:#f0f0f0;
 color:#111;
 }
-
 body.light-theme .hamburger-menu{
 background:#f5f5f5;
 border-color:#000;
 }
-
 body.light-theme .menu-item{
 color:#333;
 }
-
 body.light-theme .menu-item:hover{
 background:#e5e5e5;
 color:#000;
 }
-
 body.light-theme .theme-toggle-row:hover{
 background:#e5e5e5;
 }
-
 body.light-theme .menu-divider{
 background:#ddd;
 }
-
 body.light-theme .search-input{
 background:#ececec;
 color:#111;
 border-color:#ccc;
 }
-
 body.light-theme .search-results{
 background:#fff;
 border-color:#ddd;
 }
-
 body.light-theme .search-result-item:hover{
 background:#f0f0f0;
 }
-
 body.light-theme .search-result-name{
 color:#222;
 }
-
 body.light-theme .review{
 background:#f5f5f5;
 border-color:#e0e0e0;
 }
-
 body.light-theme footer{
 background:#f0f0f0;
 color:#555;
 }
-
 body.light-theme .modal-close-top{
 background:rgba(255,255,255,0.9);
 }
-
 body.light-theme .modal-close-btn{
 background:#eee;
 color:#111;
 border-color:#ccc;
 }
-
 body.light-theme .modal-slides img{
 background:#f0f0f0;
 }
-
 body.light-theme .product-modal-overlay{
 background:#fff;
 }
-
 body.light-theme .modal-product-desc{
 color:#555;
 }
-
 body.light-theme .size-btn{
 background:#eee;
 border-color:#ccc;
 color:#111;
 }
-
 body.light-theme select{
 background:#ececec;
 color:#111;
 }
-
 body.light-theme .about{
 color:#444;
 }
-
 body.light-theme .subtitle{
 color:#555;
 }
-
 body.light-theme .search-no-results{
 color:#999;
 }
-
 body.light-theme .menu-title{
 color:#999;
 }
@@ -1093,17 +926,14 @@ background:#ececec;
 color:#111;
 border-color:#ccc;
 }
-
 body.light-theme #inlineSearchResults{
 background:#fff;
 border-color:#ddd;
 }
-
 body.light-theme #checkoutOverlay{
 background:#fff;
 color:#111;
 }
-
 body.light-theme #checkoutOverlay input,
 body.light-theme #checkoutOverlay select,
 body.light-theme #checkoutOverlay textarea{
@@ -1111,12 +941,10 @@ background:#f0f0f0;
 color:#111;
 border-color:#ccc;
 }
-
 body.light-theme #checkoutOverlay .discount-block{
 background:#f5f5f5;
 border-color:#e0e0e0;
 }
-
 /* PRICE SUMMARY BOX */
 .checkout-price-summary{
 background:#333;
@@ -1127,7 +955,6 @@ flex-direction:column;
 gap:12px;
 margin-bottom:18px;
 }
-
 .price-items-list{
 display:flex;
 flex-direction:column;
@@ -1135,26 +962,22 @@ gap:6px;
 border-bottom:1px solid #555;
 padding-bottom:12px;
 }
-
 .price-item-line{
 font-size:0.8rem;
 color:#bbb;
 font-weight:500;
 }
-
 .price-shipping-line{
 font-size:1.05rem;
 color:#ccc;
 font-weight:700;
 }
-
 .price-total-line{
 font-size:1.6rem;
 color:#00ff73;
 font-weight:900;
 letter-spacing:1px;
 }
-
 .free-shipping-msg{
 color:var(--green);
 font-size:0.75rem;
@@ -1163,7 +986,6 @@ letter-spacing:1px;
 text-align:center;
 margin-top:8px;
 }
-
 /* COURIER DISPLAY */
 .courier-display{
 display:flex;
@@ -1175,213 +997,170 @@ border-radius:12px;
 background:#1a1a1a;
 cursor:default;
 }
-
 .courier-display img{
 width:28px;
 height:28px;
 object-fit:contain;
 border-radius:4px;
 }
-
 .courier-display-name{
 font-weight:600;
 font-size:0.95rem;
 color:#ccc;
 }
-
 </style>
 </head>
-
 <body>
-
 <button class="hamburger-btn" onclick="toggleMenu()" id="hamburgerBtn" aria-label="Menú">☰</button>
-
 <div class="menu-backdrop" id="menuBackdrop" onclick="closeMenu()"></div>
-
 <div class="hamburger-menu" id="hamburgerMenu">
-
-  <span class="menu-title">Opciones</span>
-
-  <div class="theme-toggle-row" onclick="toggleTheme()">
-    <div style="display:flex;align-items:center;gap:12px;">
-      <span class="menu-icon">🌙</span>
-      <span id="themeLabel" style="font-size:0.95rem;font-weight:600;color:#ccc;">Tema claro</span>
-    </div>
-    <div class="toggle-switch" id="themeToggle"></div>
-  </div>
-
-  <div class="menu-divider"></div>
-
-  <span class="menu-title">Buscar productos</span>
-
-  <div class="search-wrapper" id="searchWrapper">
-    <input
-      class="search-input open"
-      id="searchInput"
-      type="text"
-      placeholder="Buscar en BlazeBorn..."
-      oninput="handleSearch()"
-      autocomplete="off"
-    >
-    <button class="search-icon-btn" onclick="clearSearch()">🔍</button>
-    <div class="search-results" id="searchResults"></div>
-  </div>
-
+<span class="menu-title">Opciones</span>
+<div class="theme-toggle-row" onclick="toggleTheme()">
+<div style="display:flex;align-items:center;gap:12px;">
+<span class="menu-icon">🌙</span>
+<span id="themeLabel" style="font-size:0.95rem;font-weight:600;color:#ccc;">Tema claro</span>
 </div>
-
+<div class="toggle-switch" id="themeToggle"></div>
+</div>
+<div class="menu-divider"></div>
+<span class="menu-title">Buscar productos</span>
+<div class="search-wrapper" id="searchWrapper">
+<input
+class="search-input open"
+id="searchInput"
+type="text"
+placeholder="Buscar en BlazeBorn..."
+oninput="handleSearch()"
+autocomplete="off"
+>
+<button class="search-icon-btn" onclick="clearSearch()">🔍</button>
+<div class="search-results" id="searchResults"></div>
+</div>
+</div>
 <div class="cart-floating" onclick="toggleCart()">
 <img src="carrito.png" style="width:34px;height:34px;object-fit:contain;">
 </div>
-
 <div class="cart-panel" id="cartPanel">
-
 <button class="close-cart" onclick="toggleCart()">
 ←
 </button>
-
 <h2 style="margin-bottom:20px;">
 Tu Carrito
 </h2>
-
 <div id="cartItems"></div>
-
 <div class="cart-total" id="cartTotal">
 TOTAL: $0 ARS
 </div>
-
 <button class="btn wa-btn" style="width:100%;margin-top:20px;" onclick="checkoutWhatsApp()">
 COMPRAR YA
 </button>
-
 </div>
-
 <div id="checkoutOverlay" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#000;z-index:3000;overflow-y:auto;flex-direction:column;">
-
-  <div style="position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:16px 20px;background:rgba(0,0,0,0.92);backdrop-filter:blur(8px);border-bottom:1px solid #222;">
-    <h2 style="font-size:1.1rem;font-weight:900;letter-spacing:1px;">💳 RESUMEN DE COMPRA</h2>
-    <button onclick="closeCheckout()" style="background:#111;border:1px solid #444;color:white;padding:8px 16px;border-radius:10px;font-weight:700;cursor:pointer;font-size:0.9rem;">✕ Volver</button>
-  </div>
-
-  <div style="max-width:600px;margin:0 auto;width:100%;padding:24px 20px 60px;display:flex;flex-direction:column;gap:28px;">
-
-    <div>
-      <div id="checkoutItems" style="display:flex;flex-direction:column;gap:12px;"></div>
-      <div style="margin-top:16px;padding-top:16px;border-top:1px solid #222;display:flex;justify-content:space-between;align-items:center;">
-        <span style="color:#aaa;font-size:0.9rem;">Subtotal</span>
-        <span id="checkoutSubtotal" style="font-size:1.1rem;font-weight:700;color:var(--green);"></span>
-      </div>
-    </div>
-
-    <div style="background:#0f0f0f;border:1px solid #222;border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:10px;">
-      <span style="font-size:0.75rem;font-weight:700;color:#888;letter-spacing:2px;text-transform:uppercase;">Código de descuento</span>
-      <div style="display:flex;gap:10px;">
-        <input type="text" id="checkoutDiscountCode" placeholder="Ingresá tu código"
-          style="flex:1;padding:11px 14px;border:1px solid #333;border-radius:10px;background:#1a1a1a;color:white;font-size:0.9rem;font-family:'Montserrat',sans-serif;outline:none;">
-        <button onclick="applyCheckoutDiscount()"
-          style="background:var(--green);color:#000;border:none;padding:11px 16px;border-radius:10px;font-weight:700;cursor:pointer;font-size:0.85rem;">
-          Aplicar
-        </button>
-      </div>
-      <div id="checkoutDiscountMsg" style="font-size:0.8rem;display:none;"></div>
-    </div>
-
-    <div style="display:flex;flex-direction:column;gap:16px;">
-      <div style="font-size:1rem;font-weight:900;letter-spacing:1px;border-left:3px solid var(--red);padding-left:12px;">Seleccionar envío</div>
-
-      <div style="display:flex;flex-direction:column;gap:8px;">
-        <label style="font-size:0.8rem;color:#aaa;font-weight:600;">Provincia</label>
-        <select id="checkoutProvincia" onchange="checkoutUpdateEnvio()" style="padding:12px;border:1px solid #333;border-radius:10px;background:#1a1a1a;color:white;font-size:0.9rem;font-family:'Montserrat',sans-serif;outline:none;">
-          <option value="">— Seleccioná tu provincia —</option>
-          <option>Buenos Aires</option><option>Catamarca</option><option>Chaco</option>
-          <option>Chubut</option><option>Córdoba</option><option>Corrientes</option>
-          <option>Entre Ríos</option><option>Formosa</option><option>Jujuy</option>
-          <option>La Pampa</option><option>La Rioja</option><option>Mendoza</option>
-          <option>Misiones</option><option>Neuquén</option><option>Río Negro</option>
-          <option>Salta</option><option>San Juan</option><option>San Luis</option>
-          <option>Santa Cruz</option><option>Santa Fe</option><option>Santiago del Estero</option>
-          <option>Tierra del Fuego</option><option>Tucumán</option>
-        </select>
-      </div>
-
-      <div style="display:flex;flex-direction:column;gap:8px;">
-        <label style="font-size:0.8rem;color:#aaa;font-weight:600;">Localidad</label>
-        <input type="text" id="checkoutLocalidad" placeholder="Ej: Formosa" oninput="checkoutUpdateEnvio()"
-          style="padding:12px 14px;border:1px solid #333;border-radius:10px;background:#1a1a1a;color:white;font-size:0.9rem;font-family:'Montserrat',sans-serif;outline:none;">
-      </div>
-
-      <div id="priceSummaryBox" style="display:none;">
-        <div class="checkout-price-summary">
-          <div class="price-items-list" id="priceSummaryItems"></div>
-          <div class="price-shipping-line">Envío: <span id="shippingCostDisplay">$0 ARS</span></div>
-          <div class="price-total-line" id="priceTotalDisplay">TOTAL: $0 ARS</div>
-        </div>
-        <div class="free-shipping-msg">¡Envío gratis a partir de 3 unidades!</div>
-      </div>
-
-      <div id="envioFormosaCapital" style="display:none;flex-direction:column;gap:14px;">
-
-        <div id="envioFormosaForm" style="display:none;flex-direction:column;gap:12px;">
-          <input type="text" id="envFNombre" placeholder="Nombre Completo — Ej: Fulano González" oninput="checkoutValidate()"
-            style="padding:12px 14px;border:1px solid #333;border-radius:10px;background:#1a1a1a;color:white;font-size:0.9rem;font-family:'Montserrat',sans-serif;outline:none;">
-          <input type="text" id="envFDireccion" placeholder="Dirección" oninput="checkoutValidate()"
-            style="padding:12px 14px;border:1px solid #333;border-radius:10px;background:#1a1a1a;color:white;font-size:0.9rem;font-family:'Montserrat',sans-serif;outline:none;">
-          <input type="tel" id="envFTel" placeholder="Número telefónico" oninput="checkoutValidate()"
-            style="padding:12px 14px;border:1px solid #333;border-radius:10px;background:#1a1a1a;color:white;font-size:0.9rem;font-family:'Montserrat',sans-serif;outline:none;">
-          <textarea id="envFIndicaciones" placeholder="Indicaciones extra (opcional)" oninput="checkoutValidate()" rows="3"
-            style="padding:12px 14px;border:1px solid #333;border-radius:10px;background:#1a1a1a;color:white;font-size:0.9rem;font-family:'Montserrat',sans-serif;outline:none;resize:vertical;"></textarea>
-        </div>
-
-        <a id="envioWABtn" href="#" target="_blank"
-          style="display:block;text-align:center;background:#25d366;color:#000;text-decoration:none;padding:14px;border-radius:12px;font-weight:700;font-size:1rem;">
-          <img src="wsp.png" style="width:22px;height:22px;object-fit:contain;vertical-align:middle;margin-right:8px;"> Si sos de Formosa, coordiná el envío por WhatsApp
-        </a>
-      </div>
-
-      <div id="envioOtros" style="display:none;flex-direction:column;gap:14px;">
-
-        <input type="text" id="envNombre" placeholder="Nombre Completo — Ej: Fulano González" oninput="checkoutValidate()"
-          style="padding:12px 14px;border:1px solid #333;border-radius:10px;background:#1a1a1a;color:white;font-size:0.9rem;font-family:'Montserrat',sans-serif;outline:none;">
-        <input type="text" id="envDireccion" placeholder="Dirección" oninput="checkoutValidate()"
-          style="padding:12px 14px;border:1px solid #333;border-radius:10px;background:#1a1a1a;color:white;font-size:0.9rem;font-family:'Montserrat',sans-serif;outline:none;">
-        <input type="text" id="envCP" placeholder="Código Postal (CP)" oninput="checkoutValidate()"
-          style="padding:12px 14px;border:1px solid #333;border-radius:10px;background:#1a1a1a;color:white;font-size:0.9rem;font-family:'Montserrat',sans-serif;outline:none;">
-        <input type="email" id="envEmail" placeholder="Correo Electrónico" oninput="checkoutValidate()"
-          style="padding:12px 14px;border:1px solid #333;border-radius:10px;background:#1a1a1a;color:white;font-size:0.9rem;font-family:'Montserrat',sans-serif;outline:none;">
-        <input type="text" id="envDNI" placeholder="Número de Documento (DNI)" oninput="checkoutValidate()"
-          style="padding:12px 14px;border:1px solid #333;border-radius:10px;background:#1a1a1a;color:white;font-size:0.9rem;font-family:'Montserrat',sans-serif;outline:none;">
-        <input type="tel" id="envTel" placeholder="Número telefónico" oninput="checkoutValidate()"
-          style="padding:12px 14px;border:1px solid #333;border-radius:10px;background:#1a1a1a;color:white;font-size:0.9rem;font-family:'Montserrat',sans-serif;outline:none;">
-        <textarea id="envIndicaciones" placeholder="Indicaciones extra (opcional)" oninput="checkoutValidate()" rows="4"
-          style="padding:12px 14px;border:1px solid #333;border-radius:10px;background:#1a1a1a;color:white;font-size:0.9rem;font-family:'Montserrat',sans-serif;outline:none;resize:vertical;"></textarea>
-
-        <div style="display:flex;flex-direction:column;gap:10px;">
-          <label style="font-size:0.8rem;color:#aaa;font-weight:600;letter-spacing:1px;text-transform:uppercase;">Servicio de envío</label>
-
-          <div class="courier-display">
-            <img src="correo argentino.jpg" style="width:28px;height:28px;object-fit:contain;border-radius:4px;">
-            <div>
-              <div class="courier-display-name">Correo Argentino - <span id="correoPrice">$0 ARS</span></div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <button id="checkoutConfirmBtn" onclick="openTransferFromCheckout()" disabled
-      style="padding:16px;border-radius:14px;border:none;background:#25d366;color:#000;font-weight:900;font-size:1.1rem;cursor:not-allowed;filter:blur(1.5px) opacity(0.4);transition:0.3s;width:100%;">
-      Confirmar compra
-    </button>
-
-  </div>
+<div style="position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:16px 20px;background:rgba(0,0,0,0.92);backdrop-filter:blur(8px);border-bottom:1px solid #222;">
+<h2 style="font-size:1.1rem;font-weight:900;letter-spacing:1px;">💳 RESUMEN DE COMPRA</h2>
+<button onclick="closeCheckout()" style="background:#111;border:1px solid #444;color:white;padding:8px 16px;border-radius:10px;font-weight:700;cursor:pointer;font-size:0.9rem;">✕ Volver</button>
 </div>
-
+<div style="max-width:600px;margin:0 auto;width:100%;padding:24px 20px 60px;display:flex;flex-direction:column;gap:28px;">
+<div>
+<div id="checkoutItems" style="display:flex;flex-direction:column;gap:12px;"></div>
+<div style="margin-top:16px;padding-top:16px;border-top:1px solid #222;display:flex;justify-content:space-between;align-items:center;">
+<span style="color:#aaa;font-size:0.9rem;">Subtotal</span>
+<span id="checkoutSubtotal" style="font-size:1.1rem;font-weight:700;color:var(--green);"></span>
+</div>
+</div>
+<div style="background:#0f0f0f;border:1px solid #222;border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:10px;">
+<span style="font-size:0.75rem;font-weight:700;color:#888;letter-spacing:2px;text-transform:uppercase;">Código de descuento</span>
+<div style="display:flex;gap:10px;">
+<input type="text" id="checkoutDiscountCode" placeholder="Ingresá tu código"
+style="flex:1;padding:11px 14px;border:1px solid #333;border-radius:10px;background:#1a1a1a;color:white;font-size:0.9rem;font-family:'Montserrat',sans-serif;outline:none;">
+<button onclick="applyCheckoutDiscount()"
+style="background:var(--green);color:#000;border:none;padding:11px 16px;border-radius:10px;font-weight:700;cursor:pointer;font-size:0.85rem;">
+Aplicar
+</button>
+</div>
+<div id="checkoutDiscountMsg" style="font-size:0.8rem;display:none;"></div>
+</div>
+<div style="display:flex;flex-direction:column;gap:16px;">
+<div style="font-size:1rem;font-weight:900;letter-spacing:1px;border-left:3px solid var(--red);padding-left:12px;">Seleccionar envío</div>
+<div style="display:flex;flex-direction:column;gap:8px;">
+<label style="font-size:0.8rem;color:#aaa;font-weight:600;">Provincia</label>
+<select id="checkoutProvincia" onchange="checkoutUpdateEnvio()" style="padding:12px;border:1px solid #333;border-radius:10px;background:#1a1a1a;color:white;font-size:0.9rem;font-family:'Montserrat',sans-serif;outline:none;">
+<option value="">— Seleccioná tu provincia —</option>
+<option>Buenos Aires</option><option>Catamarca</option><option>Chaco</option>
+<option>Chubut</option><option>Córdoba</option><option>Corrientes</option>
+<option>Entre Ríos</option><option>Formosa</option><option>Jujuy</option>
+<option>La Pampa</option><option>La Rioja</option><option>Mendoza</option>
+<option>Misiones</option><option>Neuquén</option><option>Río Negro</option>
+<option>Salta</option><option>San Juan</option><option>San Luis</option>
+<option>Santa Cruz</option><option>Santa Fe</option><option>Santiago del Estero</option>
+<option>Tierra del Fuego</option><option>Tucumán</option>
+</select>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px;">
+<label style="font-size:0.8rem;color:#aaa;font-weight:600;">Localidad</label>
+<input type="text" id="checkoutLocalidad" placeholder="Ej: Formosa" oninput="checkoutUpdateEnvio()"
+style="padding:12px 14px;border:1px solid #333;border-radius:10px;background:#1a1a1a;color:white;font-size:0.9rem;font-family:'Montserrat',sans-serif;outline:none;">
+</div>
+<div id="priceSummaryBox" style="display:none;">
+<div class="checkout-price-summary">
+<div class="price-items-list" id="priceSummaryItems"></div>
+<div class="price-shipping-line">Envío: <span id="shippingCostDisplay">$0 ARS</span></div>
+<div class="price-total-line" id="priceTotalDisplay">TOTAL: $0 ARS</div>
+</div>
+<div class="free-shipping-msg">¡Envío gratis a partir de 3 unidades!</div>
+</div>
+<div id="envioFormosaCapital" style="display:none;flex-direction:column;gap:14px;">
+<div id="envioFormosaForm" style="display:none;flex-direction:column;gap:12px;">
+<input type="text" id="envFNombre" placeholder="Nombre Completo — Ej: Fulano González" oninput="checkoutValidate()"
+style="padding:12px 14px;border:1px solid #333;border-radius:10px;background:#1a1a1a;color:white;font-size:0.9rem;font-family:'Montserrat',sans-serif;outline:none;">
+<input type="text" id="envFDireccion" placeholder="Dirección" oninput="checkoutValidate()"
+style="padding:12px 14px;border:1px solid #333;border-radius:10px;background:#1a1a1a;color:white;font-size:0.9rem;font-family:'Montserrat',sans-serif;outline:none;">
+<input type="tel" id="envFTel" placeholder="Número telefónico" oninput="checkoutValidate()"
+style="padding:12px 14px;border:1px solid #333;border-radius:10px;background:#1a1a1a;color:white;font-size:0.9rem;font-family:'Montserrat',sans-serif;outline:none;">
+<textarea id="envFIndicaciones" placeholder="Indicaciones extra (opcional)" oninput="checkoutValidate()" rows="3"
+style="padding:12px 14px;border:1px solid #333;border-radius:10px;background:#1a1a1a;color:white;font-size:0.9rem;font-family:'Montserrat',sans-serif;outline:none;resize:vertical;"></textarea>
+</div>
+<a id="envioWABtn" href="#" target="_blank"
+style="display:block;text-align:center;background:#25d366;color:#000;text-decoration:none;padding:14px;border-radius:12px;font-weight:700;font-size:1rem;">
+<img src="wsp.png" style="width:22px;height:22px;object-fit:contain;vertical-align:middle;margin-right:8px;"> Si sos de Formosa, coordiná el envío por WhatsApp
+</a>
+</div>
+<div id="envioOtros" style="display:none;flex-direction:column;gap:14px;">
+<input type="text" id="envNombre" placeholder="Nombre Completo — Ej: Fulano González" oninput="checkoutValidate()"
+style="padding:12px 14px;border:1px solid #333;border-radius:10px;background:#1a1a1a;color:white;font-size:0.9rem;font-family:'Montserrat',sans-serif;outline:none;">
+<input type="text" id="envDireccion" placeholder="Dirección" oninput="checkoutValidate()"
+style="padding:12px 14px;border:1px solid #333;border-radius:10px;background:#1a1a1a;color:white;font-size:0.9rem;font-family:'Montserrat',sans-serif;outline:none;">
+<input type="text" id="envCP" placeholder="Código Postal (CP)" oninput="checkoutValidate()"
+style="padding:12px 14px;border:1px solid #333;border-radius:10px;background:#1a1a1a;color:white;font-size:0.9rem;font-family:'Montserrat',sans-serif;outline:none;">
+<input type="email" id="envEmail" placeholder="Correo Electrónico" oninput="checkoutValidate()"
+style="padding:12px 14px;border:1px solid #333;border-radius:10px;background:#1a1a1a;color:white;font-size:0.9rem;font-family:'Montserrat',sans-serif;outline:none;">
+<input type="text" id="envDNI" placeholder="Número de Documento (DNI)" oninput="checkoutValidate()"
+style="padding:12px 14px;border:1px solid #333;border-radius:10px;background:#1a1a1a;color:white;font-size:0.9rem;font-family:'Montserrat',sans-serif;outline:none;">
+<input type="tel" id="envTel" placeholder="Número telefónico" oninput="checkoutValidate()"
+style="padding:12px 14px;border:1px solid #333;border-radius:10px;background:#1a1a1a;color:white;font-size:0.9rem;font-family:'Montserrat',sans-serif;outline:none;">
+<textarea id="envIndicaciones" placeholder="Indicaciones extra (opcional)" oninput="checkoutValidate()" rows="4"
+style="padding:12px 14px;border:1px solid #333;border-radius:10px;background:#1a1a1a;color:white;font-size:0.9rem;font-family:'Montserrat',sans-serif;outline:none;resize:vertical;"></textarea>
+<div style="display:flex;flex-direction:column;gap:10px;">
+<label style="font-size:0.8rem;color:#aaa;font-weight:600;letter-spacing:1px;text-transform:uppercase;">Servicio de envío</label>
+<div class="courier-display">
+<img src="correo argentino.jpg" style="width:28px;height:28px;object-fit:contain;border-radius:4px;">
+<div>
+<div class="courier-display-name">Correo Argentino - <span id="correoPrice">$0 ARS</span></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<button id="checkoutConfirmBtn" onclick="openTransferFromCheckout()" disabled
+style="padding:16px;border-radius:14px;border:none;background:#25d366;color:#000;font-weight:900;font-size:1.1rem;cursor:not-allowed;filter:blur(1.5px) opacity(0.4);transition:0.3s;width:100%;">
+Confirmar compra
+</button>
+</div>
+</div>
 <div class="product-modal-overlay" id="productModal">
-
 <div class="modal-close-top">
 <button class="modal-close-btn" onclick="closeProductModal()">✕</button>
 </div>
-
 <div class="modal-img-slider">
 <button class="modal-slide-btn left" onclick="modalSlide(-1)">❮</button>
 <div class="modal-slides" id="modalSlides">
@@ -1390,32 +1169,25 @@ COMPRAR YA
 </div>
 <button class="modal-slide-btn right" onclick="modalSlide(1)">❯</button>
 </div>
-
 <div class="modal-product-info">
-
 <div class="modal-product-title" id="modalTitle"></div>
 <div class="modal-product-desc" id="modalDesc"></div>
-
 <div id="modalOfferBox" style="display:none;background:var(--green);border-radius:14px;padding:14px;text-align:center;color:#000;">
 <div style="font-size:0.75rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;margin-bottom:2px;">¡OFERTA!</div>
 <div style="font-size:0.95rem;font-weight:900;">$50.000 ¡conjunto buzo + pantalon!</div>
 </div>
-
 <div>
 <div class="modal-old-price" id="modalOldPrice"></div>
 <div class="modal-price" id="modalPrice"></div>
 </div>
-
 <div>
 <div class="modal-size-label">Seleccioná tu talle:</div>
 <div class="modal-sizes" id="modalSizes"></div>
 <div class="size-soldout-msg" id="sizeSoldoutMsg">Este talle está agotado.</div>
 </div>
-
 <button class="btn size-guide-btn" onclick="openSizeGuide()" style="width:100%;">
 Ver Guía de Talles
 </button>
-
 <div class="modal-actions">
 <button class="btn cart-btn" onclick="modalAddToCart()" style="width:100%;">
 Agregar al Carrito
@@ -1424,7 +1196,6 @@ Agregar al Carrito
 COMPRAR YA
 </button>
 </div>
-
 <div id="modalReviewSection" style="display:none;border-top:1px solid #222;padding-top:20px;margin-top:8px;">
 <div style="font-size:0.75rem;font-weight:700;color:#888;letter-spacing:2px;text-transform:uppercase;margin-bottom:12px;">Opinión de cliente</div>
 <div style="background:#0f0f0f;border:1px solid #222;border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:12px;">
@@ -1433,119 +1204,100 @@ COMPRAR YA
 <p style="color:#ccc;font-size:0.9rem;line-height:1.6;">"La calidad es increíble. La tela ajusta perfecto y se nota muchísimo el físico."</p>
 </div>
 </div>
-
 </div>
 </div>
-
 <div class="discount-alert-overlay" id="transferModal">
 <div class="discount-alert-box" style="max-width:420px;gap:16px;text-align:left;">
+<h3 style="color:white;font-size:1.1rem;font-weight:900;text-align:center;letter-spacing:1px;">💳 DATOS PARA TRANSFERIR</h3>
+<p style="color:#ccc;font-size:0.85rem;line-height:1.6;text-align:center;background:#0f0f0f;border:1px solid #333;border-radius:10px;padding:12px;">
+Copiá y pegá el alias o CVU al hacer la transferencia, luego confirmá tu compra enviando tus datos de envío junto con el comprobante de pago por WhatsApp.
+</p>
+<div style="display:flex;flex-direction:column;gap:12px;">
+<div>
+<span style="color:var(--green);font-size:0.75rem;font-weight:700;">ALIAS</span>
 
-  <h3 style="color:white;font-size:1.1rem;font-weight:900;text-align:center;letter-spacing:1px;">💳 DATOS PARA TRANSFERIR</h3>
+<span style="color:white;font-size:1rem;font-weight:700;letter-spacing:1px;">blazeborn.ar</span>
+<button onclick="copyText('blazeborn.ar', this)"
+style="margin-left:10px;background:#1a1a1a;border:1px solid #444;color:#aaa;padding:4px 10px;border-radius:8px;font-size:0.75rem;cursor:pointer;">Copiar</button>
+</div>
+<div>
+<span style="color:var(--green);font-size:0.75rem;font-weight:700;">CVU</span>
 
-  <p style="color:#ccc;font-size:0.85rem;line-height:1.6;text-align:center;background:#0f0f0f;border:1px solid #333;border-radius:10px;padding:12px;">
-    Copiá y pegá el alias o CVU al hacer la transferencia, luego confirmá tu compra enviando tus datos de envío junto con el comprobante de pago por WhatsApp.
-  </p>
+<span style="color:white;font-size:0.9rem;font-weight:700;letter-spacing:1px;">0000003100066889905144</span>
+<button onclick="copyText('0000003100066889905144', this)"
+style="margin-left:10px;background:#1a1a1a;border:1px solid #444;color:#aaa;padding:4px 10px;border-radius:8px;font-size:0.75rem;cursor:pointer;">Copiar</button>
+</div>
+<div>
+<span style="color:var(--green);font-size:0.75rem;font-weight:700;">A NOMBRE DE</span>
 
-  <div style="display:flex;flex-direction:column;gap:12px;">
-    <div>
-      <span style="color:var(--green);font-size:0.75rem;font-weight:700;">ALIAS</span><br>
-      <span style="color:white;font-size:1rem;font-weight:700;letter-spacing:1px;">blazeborn.ar</span>
-      <button onclick="copyText('blazeborn.ar', this)"
-        style="margin-left:10px;background:#1a1a1a;border:1px solid #444;color:#aaa;padding:4px 10px;border-radius:8px;font-size:0.75rem;cursor:pointer;">Copiar</button>
-    </div>
-    <div>
-      <span style="color:var(--green);font-size:0.75rem;font-weight:700;">CVU</span><br>
-      <span style="color:white;font-size:0.9rem;font-weight:700;letter-spacing:1px;">0000003100066889905144</span>
-      <button onclick="copyText('0000003100066889905144', this)"
-        style="margin-left:10px;background:#1a1a1a;border:1px solid #444;color:#aaa;padding:4px 10px;border-radius:8px;font-size:0.75rem;cursor:pointer;">Copiar</button>
-    </div>
-    <div>
-      <span style="color:var(--green);font-size:0.75rem;font-weight:700;">A NOMBRE DE</span><br>
-      <span style="color:white;font-size:1rem;font-weight:700;">Matías Emanuel Cherñac</span>
-    </div>
-  </div>
-
-  <a id="checkoutWALink" href="#" target="_blank"
-    style="display:block;text-align:center;background:#25d366;color:#000;text-decoration:none;padding:13px;border-radius:12px;font-weight:700;font-size:0.95rem;width:100%;">
-    ✅ Confirmar pedido por WhatsApp
-  </a>
-
-  <button onclick="closeTransferModal()"
-    style="background:transparent;border:1px solid #ff0000;color:#ff0000;padding:10px;border-radius:10px;cursor:pointer;font-size:0.9rem;width:100%;">
-    Cerrar
-  </button>
-
+<span style="color:white;font-size:1rem;font-weight:700;">Matías Emanuel Cherñac</span>
 </div>
 </div>
-
+<a id="checkoutWALink" href="#" target="_blank"
+style="display:block;text-align:center;background:#25d366;color:#000;text-decoration:none;padding:13px;border-radius:12px;font-weight:700;font-size:0.95rem;width:100%;">
+✅ Confirmar pedido por WhatsApp
+</a>
+<button onclick="closeTransferModal()"
+style="background:transparent;border:1px solid #ff0000;color:#ff0000;padding:10px;border-radius:10px;cursor:pointer;font-size:0.9rem;width:100%;">
+Cerrar
+</button>
+</div>
+</div>
 <div class="discount-alert-overlay" id="discountAlert">
 <div class="discount-alert-box">
 <p id="discountAlertText">✅ ¡Código de descuento aplicado correctamente!</p>
 <button class="discount-alert-ok" onclick="closeDiscountAlert()">OK</button>
 </div>
 </div>
-
 <div class="discount-alert-overlay" id="invalidAlert">
 <div class="discount-alert-box" style="border-color:#ff0000;">
 <p>❌ Código inválido.</p>
 <button class="discount-alert-ok" style="background:#ff0000;" onclick="closeInvalidAlert()">OK</button>
 </div>
 </div>
-
 <div class="modal-overlay" id="sizeGuideModal">
-
 <div class="modal-box">
-
 <button class="modal-close" onclick="closeSizeGuide()">
 ✕
 </button>
-
 <img id="sizeGuideImg" src="tallecompres.jpg" class="size-guide-img">
-
 </div>
 </div>
-
 <header>
-
 <img src="blazelogo.png" class="logo">
-
 <h1>
 FITNESS & STREETWEAR
 </h1>
-
 <p class="subtitle">
 Ropa diseñada para verte estético en el gym y en la calle.
 </p>
-
 <p class="social-subtitle">
 ¡Para enterarte de todo lo mejor seguinos en nuestras redes!
 </p>
-
 </header>
-
 <section style="padding-bottom:0;">
 <div style="position:relative;max-width:520px;">
 <input
-  id="inlineSearchInput"
-  type="text"
-  placeholder="🔍  Buscar productos..."
-  oninput="handleInlineSearch()"
-  onkeydown="if(event.key==='Enter') commitInlineSearch()"
-  autocomplete="off"
-  style="width:100%;padding:14px 48px 14px 18px;border-radius:14px;border:1px solid #2a2a2a;background:#111;color:white;font-size:0.95rem;font-family:'Montserrat',sans-serif;outline:none;transition:border-color 0.2s;"
-  onfocus="this.style.borderColor='var(--red)'"
-  onblur="this.style.borderColor='#2a2a2a'"
->
+id="inlineSearchInput"
+type="text"
+placeholder="🔍  Buscar productos..."
+oninput="handleInlineSearch()"
+onkeydown="if(event.key==='Enter') commitInlineSearch()"
+autocomplete="off"
+style="width:100%;padding:14px 48px 14px 18px;border-radius:14px;border:1px solid #2a2a2a;background:#111;color:white;font-size:0.95rem;font-family:'Montserrat',sans-serif;outline:none;transition:border-color 0.2s;"
+onfocus="this.style.borderColor='var(--red)'"
+onblur="this.style.borderColor='#2a2a2a'"
+> 
 <button
-  id="inlineClearBtn"
-  onclick="clearInlineSearch()"
-  style="display:none;position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:#888;font-size:1.1rem;cursor:pointer;line-height:1;padding:4px;"
-  title="Borrar búsqueda"
->✕</button>
-<div id="inlineSearchResults" style="display:none;position:absolute;top:calc(100% + 6px);left:0;right:0;background:#111;border:1px solid #2a2a2a;border-radius:14px;overflow:hidden;z-index:200;"></div>
-</div>
-</section>
-
+id="inlineClearBtn"
+onclick="clearInlineSearch()"
+style="display:none;position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:#888;font-size:1.1rem;cursor:pointer;line-height:1;padding:4px;"
+title="Borrar búsqueda"
+> ✕</button>
+> <div id="inlineSearchResults" style="display:none;position:absolute;top:calc(100% + 6px);left:0;right:0;background:#111;border:1px solid #2a2a2a;border-radius:14px;overflow:hidden;z-index:200;"></div>
+> </div>
+> </section>
+> 
 <section id="secSearchResults" style="display:none;">
 <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:24px;">
 <h2 class="section-title" id="searchResultsTitle" style="margin-bottom:0;border:none;padding:0;font-size:1.6rem;">Resultados</h2>
@@ -1553,7 +1305,6 @@ Ropa diseñada para verte estético en el gym y en la calle.
 </div>
 <div id="searchResultsGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:25px;"></div>
 </section>
-
 <section style="padding-top:40px;padding-bottom:20px;">
 <div style="background:rgba(0,255,115,0.1);border:2px solid var(--green);border-radius:16px;padding:24px;text-align:center;backdrop-filter:blur(4px);">
 <div style="font-size:2rem;font-weight:900;letter-spacing:3px;color:var(--green);text-shadow:0 0 20px rgba(0,255,115,0.3);">
@@ -1561,7 +1312,6 @@ Ropa diseñada para verte estético en el gym y en la calle.
 </div>
 </div>
 </section>
-
 <!-- NOVEDADES SECTION -->
 <section id="secNovedades">
 <h2 class="section-title">
@@ -1571,45 +1321,43 @@ Novedades
 <button class="carousel-arrow" onclick="novMove(-1)">❮</button>
 <div class="carousel-viewport" id="novViewport">
 <div class="products-grid" id="novGrid">
-
 <div class="product-card" onclick="openProductModalByName('Buzo Tribal Rojo')">
 <img src="buzorojo.jpg" class="card-thumb" alt="Buzo Tribal Rojo">
 <div class="card-label">
 <div class="card-name">Buzo Tribal Rojo</div>
-<div class="card-price" id="novprice0"><span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$38.900 ARS</span><br>$35.000 ARS</div>
+<div class="card-price" id="novprice0"><span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$38.900 ARS</span>
+$35.000 ARS</div>
 </div>
 </div>
-
 <div class="product-card" onclick="openProductModalByName('Buzo Tribal Morado')">
 <img src="buzomorado.jpg" class="card-thumb" alt="Buzo Tribal Morado">
 <div class="card-label">
 <div class="card-name">Buzo Tribal Morado</div>
-<div class="card-price" id="novprice1"><span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$38.900 ARS</span><br>$35.000 ARS</div>
+<div class="card-price" id="novprice1"><span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$38.900 ARS</span>
+$35.000 ARS</div>
 </div>
 </div>
-
 <div class="product-card" onclick="openProductModalByName('Pantalón Tribal Rojo')">
 <img src="pantrojo.jpg" class="card-thumb" alt="Pantalón Tribal Rojo">
 <div class="card-label">
 <div class="card-name">Pantalón Tribal Rojo</div>
-<div class="card-price" id="novprice2"><span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$35.500 ARS</span><br>$32.000 ARS</div>
+<div class="card-price" id="novprice2"><span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$35.500 ARS</span>
+$32.000 ARS</div>
 </div>
 </div>
-
 <div class="product-card" onclick="openProductModalByName('Pantalón Tribal Morado')">
 <img src="pantmor.jpg" class="card-thumb" alt="Pantalón Tribal Morado">
 <div class="card-label">
 <div class="card-name">Pantalón Tribal Morado</div>
-<div class="card-price" id="novprice3"><span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$35.500 ARS</span><br>$32.000 ARS</div>
+<div class="card-price" id="novprice3"><span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$35.500 ARS</span>
+$32.000 ARS</div>
 </div>
 </div>
-
 </div>
 </div>
 <button class="carousel-arrow" onclick="novMove(1)">❯</button>
 </div>
 </section>
-
 <!-- BUZOS SECTION -->
 <section id="secBuzos">
 <h2 class="section-title">
@@ -1619,29 +1367,27 @@ Buzos
 <button class="carousel-arrow" onclick="buzoMove(-1)">❮</button>
 <div class="carousel-viewport" id="buzoViewport">
 <div class="products-grid" id="buzoGrid">
-
 <div class="product-card" onclick="openBuzosModal(0)">
 <img src="buzorojo.jpg" class="card-thumb" alt="Buzo Tribal Rojo">
 <div class="card-label">
 <div class="card-name">Buzo Tribal Rojo</div>
-<div class="card-price" id="buzoprice0"><span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$38.900 ARS</span><br>$35.000 ARS</div>
+<div class="card-price" id="buzoprice0"><span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$38.900 ARS</span>
+$35.000 ARS</div>
 </div>
 </div>
-
 <div class="product-card" onclick="openBuzosModal(1)">
 <img src="buzomorado.jpg" class="card-thumb" alt="Buzo Tribal Morado">
 <div class="card-label">
 <div class="card-name">Buzo Tribal Morado</div>
-<div class="card-price" id="buzoprice1"><span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$38.900 ARS</span><br>$35.000 ARS</div>
+<div class="card-price" id="buzoprice1"><span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$38.900 ARS</span>
+$35.000 ARS</div>
 </div>
 </div>
-
 </div>
 </div>
 <button class="carousel-arrow" onclick="buzoMove(1)">❯</button>
 </div>
 </section>
-
 <!-- PANTALONES SECTION -->
 <section id="secPantalon">
 <h2 class="section-title">
@@ -1651,50 +1397,43 @@ Pantalones
 <button class="carousel-arrow" onclick="pantMove(-1)">❮</button>
 <div class="carousel-viewport" id="pantViewport">
 <div class="products-grid" id="pantGrid">
-
 <div class="product-card" onclick="openPantModal(0)">
 <img src="pantbasico.jpg" class="card-thumb" alt="Pantalón básico BlazeBorn">
 <div class="card-label">
 <div class="card-name">Pantalón básico BlazeBorn</div>
-<div class="card-price" id="pantprice0"><span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$28.000 ARS</span><br>$25.000 ARS</div>
+<div class="card-price" id="pantprice0"><span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$28.000 ARS</span>
+$25.000 ARS</div>
 </div>
 </div>
-
 <div class="product-card" onclick="openPantModal(1)">
 <img src="pantrojo.jpg" class="card-thumb" alt="Pantalón Tribal Rojo">
 <div class="card-label">
 <div class="card-name">Pantalón Tribal Rojo</div>
-<div class="card-price" id="pantprice1"><span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$35.500 ARS</span><br>$32.000 ARS</div>
+<div class="card-price" id="pantprice1"><span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$35.500 ARS</span>
+$32.000 ARS</div>
 </div>
 </div>
-
 <div class="product-card" onclick="openPantModal(2)">
 <img src="pantmor.jpg" class="card-thumb" alt="Pantalón Tribal Morado">
 <div class="card-label">
 <div class="card-name">Pantalón Tribal Morado</div>
-<div class="card-price" id="pantprice2"><span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$35.500 ARS</span><br>$32.000 ARS</div>
+<div class="card-price" id="pantprice2"><span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$35.500 ARS</span>
+$32.000 ARS</div>
 </div>
 </div>
-
 </div>
 </div>
 <button class="carousel-arrow" onclick="pantMove(1)">❯</button>
 </div>
 </section>
-
 <section id="secCompresion">
-
 <h2 class="section-title">
 Remeras de Compresión
 </h2>
-
 <div class="carousel-wrapper">
-
 <button class="carousel-arrow" id="carouselPrev" onclick="carouselMove(-1)">❮</button>
-
 <div class="carousel-viewport" id="carouselViewport">
 <div class="products-grid" id="productsGrid">
-
 <div class="product-card" onclick="openProductModal(0)">
 <div style="position:relative;">
 <img src="compresrojo.jpg" class="card-thumb" alt="Compresivo Tribal Rojo">
@@ -1704,10 +1443,10 @@ Remeras de Compresión
 </div>
 <div class="card-label">
 <div class="card-name" style="color:#ff0000;font-weight:900;">AGOTADO</div>
-<div class="card-price" id="price0"><span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$30.000 ARS</span><br>$27.000 ARS</div>
+<div class="card-price" id="price0"><span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$30.000 ARS</span>
+$27.000 ARS</div>
 </div>
 </div>
-
 <div class="product-card" onclick="openProductModal(1)">
 <img src="compresmorado.jpg" class="card-thumb" alt="Compresivo Tribal Morado">
 <div class="card-label">
@@ -1715,7 +1454,6 @@ Remeras de Compresión
 <div class="card-price" id="price1">$33.000 ARS</div>
 </div>
 </div>
-
 <div class="product-card" onclick="openProductModal(2)">
 <div style="position:relative;">
 <img src="compresblanco.jpg" class="card-thumb" alt="Compresivo Tribal Blanco">
@@ -1725,10 +1463,10 @@ Remeras de Compresión
 </div>
 <div class="card-label">
 <div class="card-name" style="color:#ff0000;font-weight:900;">AGOTADO</div>
-<div class="card-price" id="price2"><span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$30.000 ARS</span><br>$27.000 ARS</div>
+<div class="card-price" id="price2"><span style="text-decoration:line-through; color:#888; font-size:0.75rem; font-weight:500;">$30.000 ARS</span>
+$27.000 ARS</div>
 </div>
 </div>
-
 <div class="product-card" onclick="openProductModal(3)">
 <img src="compresbasico.jpg" class="card-thumb" alt="Compresivo Básico">
 <div class="card-label">
@@ -1736,7 +1474,6 @@ Remeras de Compresión
 <div class="card-price" id="price3">$25.000 ARS</div>
 </div>
 </div>
-
 <div class="product-card" onclick="openProductModal(4)">
 <img src="berserk.jpg" class="card-thumb" alt="Compresivo de Berserk">
 <div class="card-label">
@@ -1744,7 +1481,6 @@ Remeras de Compresión
 <div class="card-price" id="price4">$25.000 ARS</div>
 </div>
 </div>
-
 <div class="product-card" onclick="openProductModal(5)">
 <img src="clasico.jpg" class="card-thumb" alt="Compresivo Clásico">
 <div class="card-label">
@@ -1752,29 +1488,19 @@ Remeras de Compresión
 <div class="card-price" id="price5">$25.000 ARS</div>
 </div>
 </div>
-
 </div>
 </div>
-
 <button class="carousel-arrow" id="carouselNext" onclick="carouselMove(1)">❯</button>
-
 </div>
-
 </section>
-
 <section id="secMusculosas">
-
 <h2 class="section-title">
 Musculosas
 </h2>
-
 <div class="carousel-wrapper">
-
 <button class="carousel-arrow" onclick="muscuMove(-1)">❮</button>
-
 <div class="carousel-viewport" id="muscuViewport">
 <div class="products-grid" id="muscuGrid">
-
 <div class="product-card" onclick="openMuscuModal(0)">
 <div style="position:relative;">
 <img src="muscu.jpg" class="card-thumb" alt="Musculosa Tribal">
@@ -1786,7 +1512,6 @@ Musculosas
 <div class="card-name" style="color:#ff0000;font-weight:900;">AGOTADO</div>
 </div>
 </div>
-
 <div class="product-card" onclick="openMuscuModal(1)">
 <div style="position:relative;">
 <img src="mentzer.jpg" class="card-thumb" alt="Musculosa Mike Mentzer">
@@ -1798,7 +1523,6 @@ Musculosas
 <div class="card-name" style="color:#ff0000;font-weight:900;">AGOTADO</div>
 </div>
 </div>
-
 <div class="product-card" onclick="openMuscuModal(2)">
 <div style="position:relative;">
 <img src="kevin.jpg" class="card-thumb" alt="Musculosa Kevin Levrone">
@@ -1810,146 +1534,97 @@ Musculosas
 <div class="card-name" style="color:#ff0000;font-weight:900;">AGOTADO</div>
 </div>
 </div>
-
 </div>
 </div>
-
 <button class="carousel-arrow" onclick="muscuMove(1)">❯</button>
-
 </div>
-
 </section>
-
 <section id="secCalzas">
-
 <h2 class="section-title">
 Calzas <span style="color:#aaa;font-weight:400;font-size:1.4rem;">(para mujeres)</span>
 </h2>
-
 <div class="carousel-wrapper">
-
 <button class="carousel-arrow" onclick="calzaMove(-1)">❮</button>
-
 <div class="carousel-viewport" id="calzaViewport">
 <div class="products-grid" id="calzaGrid">
-
 <div class="product-card" onclick="openCalzaModal(0)">
 <img src="calza.jpg" class="card-thumb" alt="Calza de Lycra">
 <div class="card-label">
 <div class="card-name">Calza de Lycra</div>
 </div>
 </div>
-
 </div>
 </div>
-
 <button class="carousel-arrow" onclick="calzaMove(1)">❯</button>
-
 </div>
-
 </section>
-
 <section>
-
 <img src="mockup.jpg" class="mockup">
-
 <h2 class="section-title">
 SOBRE NOSOTROS
 </h2>
-
 <p class="about">
-
 Somos una marca ubicada en la capital de Formosa, dedicada a hacer ropa para gente que entrena duro y necesita vestir luciendo sus resultados.
-
-<br><br>
-
 Nos especializamos en ropa que no solo se adapta a tu cuerpo, sino que también te hace lucir estético tanto en el gimnasio como en la calle.
-
-<br><br>
-
 Cuando escuches música pesada, ya sea Rock o Metal, te acordarás de nosotros.
-
 </p>
-
 </section>
-
 <section>
-
 <h2 class="section-title">
 Opiniones
 </h2>
-
 <div class="reviews">
-
 <div class="review">
 <div class="stars">★★★★★</div>
 <p>"La calidad es increíble. La tela ajusta perfecto y se nota muchísimo el físico."</p>
 </div>
-
 <div class="review">
 <div class="stars">★★★★★</div>
 <p>"Compré el tribal rojo y literalmente todos me preguntan dónde lo conseguí."</p>
 </div>
-
 <div class="review">
 <div class="stars">★★★★★</div>
 <p>"Muy cómodo para entrenar y usar en la calle. Se siente premium."</p>
 </div>
-
 <div class="review">
 <div class="stars">★★★★★</div>
 <p>"Excelente atención y el envío llegó rapidísimo. Recomendado."</p>
 </div>
-
 </div>
-
 </section>
-
 <section>
-
 <h2 class="section-title">
 Nuestras Redes
 </h2>
-
 <div class="socials">
-
 <div>Instagram: @blazeborn.ar</div>
 <div>TikTok: @blazeborn.ar</div>
-
 </div>
-
 </section>
-
 <footer>
 © BlazeBorn 2026 - Todos los derechos reservados
 </footer>
-
 <a
 class="whatsapp-float"
-href="https://wa.me/5493704509580"
+href="[https://wa.me/5493704509580](https://wa.me/5493704509580)"
 target="_blank">
 <img src="wsp.png" style="width:38px;height:38px;object-fit:contain;">
 </a>
-
 <script>
-
 // CÓDIGOS DE DESCUENTO
 const discountCodes = {
-  "WINTERBLAZE": 0.15,
-  "BLAZE10": 0.10
+"WINTERBLAZE": 0.15,
+"BLAZE10": 0.10
 };
-
 let activeDiscount = 0; // Porcentaje de descuento actual
 let cart = [];
-
 // SHIPPING COSTS BY WEIGHT
 const shippingCostsByWeight = {
-  "0-800": 8000,
-  "801-1500": 9500,
-  "1501-3000": 11500
+"0-800": 8000,
+"801-1500": 9500,
+"1501-3000": 11500
 };
-
-// PRODUCT DATA
+// PRODUCT DATA (REMERAS DE COMPRESIÓN)
 const products = [
 {
 name: "Compresivo Tribal Rojo",
@@ -1960,7 +1635,7 @@ oldPrice: 30000,
 idx: 0,
 weight: 200,
 soldOut: true,
-soldoutSizes: ["1","2","3","4","5","6"]
+soldoutSizes: ["XS","S","M","L","XL","XXL"]
 },
 {
 name: "Compresivo Tribal Morado",
@@ -1971,7 +1646,7 @@ oldPrice: null,
 idx: 1,
 weight: 200,
 soldOut: false,
-soldoutSizes: []
+soldoutSizes: ["L","XL","XXL"]
 },
 {
 name: "Compresivo Tribal Blanco",
@@ -1982,7 +1657,7 @@ oldPrice: 30000,
 idx: 2,
 weight: 200,
 soldOut: true,
-soldoutSizes: ["1","2","3","4","5","6"]
+soldoutSizes: ["XS","S","M","L","XL","XXL"]
 },
 {
 name: "Compresivo Básico",
@@ -1993,7 +1668,7 @@ oldPrice: null,
 idx: 3,
 weight: 200,
 soldOut: false,
-soldoutSizes: []
+soldoutSizes: ["L","XL","XXL"]
 },
 {
 name: "Compresivo de Berserk",
@@ -2004,7 +1679,7 @@ oldPrice: null,
 idx: 4,
 weight: 200,
 soldOut: false,
-soldoutSizes: []
+soldoutSizes: ["L","XL","XXL"]
 },
 {
 name: "Compresivo Clásico",
@@ -2015,10 +1690,9 @@ oldPrice: null,
 idx: 5,
 weight: 200,
 soldOut: false,
-soldoutSizes: []
+soldoutSizes: ["L","XL","XXL"]
 }
 ];
-
 // BUZOS DATA
 const buzoProducts = [
 {
@@ -2042,7 +1716,6 @@ soldOut: false,
 soldoutSizes: []
 }
 ];
-
 // PANTALONES DATA
 const panProducts = [
 {
@@ -2076,21 +1749,19 @@ soldOut: false,
 soldoutSizes: []
 }
 ];
-
 // CALZAS DATA
 const calzaProducts = [
-{ 
-name: "Calza de Lycra", 
-desc: "Diseñada para el entrenamiento femenino.", 
-imgs: ["calza.jpg"], 
-price: 22000, 
-weight: 100, 
-soldOut: false, 
-soldoutSizes: [] 
+{
+name: "Calza de Lycra",
+desc: "Diseñada para el entrenamiento femenino.",
+imgs: ["calza.jpg"],
+price: 22000,
+weight: 100,
+soldOut: false,
+soldoutSizes: []
 }
 ];
-
-const sizes = ["1","2","3","4","5","6"];
+const sizes = ["XS","S","M","L","XL","XXL"];
 const buzoPantSizes = [
 { label: "XS", num: "1" },
 { label: "S", num: "2" },
@@ -2099,76 +1770,62 @@ const buzoPantSizes = [
 { label: "XL", num: "5" },
 { label: "XXL", num: "6" }
 ];
-
 let currentProduct = null;
 let modalSlideIndex = 0;
-let selectedSize = "2";
-
+let selectedSize = "S";
 function getDiscountedPrice(price) {
-  return Math.round(price * (1 - activeDiscount));
+return Math.round(price * (1 - activeDiscount));
 }
-
 function applyCheckoutDiscount() {
-  const codeInput = document.getElementById("checkoutDiscountCode");
-  const msgEl = document.getElementById("checkoutDiscountMsg");
-  if (!codeInput) return;
-
-  const code = codeInput.value.trim().toUpperCase();
-  if (discountCodes[code]) {
-    activeDiscount = discountCodes[code];
-    msgEl.style.display = "block";
-    msgEl.style.color = "var(--green)";
-    msgEl.innerText = `¡Código ${code} aplicado! (${activeDiscount * 100}% OFF)`;
-    
-    document.getElementById("discountAlertText").innerText = `✅ ¡Código ${code} (${activeDiscount * 100}% OFF) aplicado correctamente!`;
-    document.getElementById("discountAlert").classList.add("active");
-  } else {
-    msgEl.style.display = "block";
-    msgEl.style.color = "#ff0000";
-    msgEl.innerText = "Código de descuento inválido.";
-    document.getElementById("invalidAlert").classList.add("active");
-  }
-  
-  checkoutUpdateEnvio();
-  renderCart();
+const codeInput = document.getElementById("checkoutDiscountCode");
+const msgEl = document.getElementById("checkoutDiscountMsg");
+if (!codeInput) return;
+const code = codeInput.value.trim().toUpperCase();
+if (discountCodes[code]) {
+activeDiscount = discountCodes[code];
+msgEl.style.display = "block";
+msgEl.style.color = "var(--green)";
+msgEl.innerText = ¡Código ${code} aplicado! (${activeDiscount * 100}% OFF);
+document.getElementById("discountAlertText").innerText = ✅ ¡Código ${code} (${activeDiscount * 100}% OFF) aplicado correctamente!;
+document.getElementById("discountAlert").classList.add("active");
+} else {
+msgEl.style.display = "block";
+msgEl.style.color = "#ff0000";
+msgEl.innerText = "Código de descuento inválido.";
+document.getElementById("invalidAlert").classList.add("active");
 }
-
+checkoutUpdateEnvio();
+renderCart();
+}
 function openProductModal(idx){
 const p = products[idx];
 currentProduct = p;
 modalSlideIndex = 0;
-selectedSize = "2";
-
+selectedSize = "S";
 document.getElementById("modalTitle").innerText = p.soldOut ? "AGOTADO" : p.name;
 document.getElementById("modalTitle").style.color = p.soldOut ? "#ff0000" : "white";
 document.getElementById("modalTitle").style.fontSize = p.soldOut ? "3rem" : "";
 document.getElementById("modalTitle").style.letterSpacing = p.soldOut ? "6px" : "";
 document.getElementById("modalDesc").innerText = p.soldOut ? "Este producto está temporalmente agotado. ¡Seguinos en redes para enterarte cuando vuelva!" : p.desc;
 document.getElementById("modalOfferBox").style.display = "none";
-
 const finalPrice = getDiscountedPrice(p.price);
 const oldEl = document.getElementById("modalOldPrice");
 const priceEl = document.getElementById("modalPrice");
-
 if(!p.soldOut && p.oldPrice){
 oldEl.style.display = "block";
-oldEl.innerText = `$${p.oldPrice.toLocaleString()} ARS`;
+oldEl.innerText = $${p.oldPrice.toLocaleString()} ARS;
 }else{
 oldEl.style.display = "none";
 }
-
-priceEl.innerText = p.soldOut ? "" : `$${finalPrice.toLocaleString()} ARS`;
-
+priceEl.innerText = p.soldOut ? "" : $${finalPrice.toLocaleString()} ARS;
 document.getElementById("modalImg0").src = p.imgs[0];
 document.getElementById("modalImg1").src = p.imgs[1] || "";
 document.getElementById("modalSlides").style.transform = "translateX(0)";
 document.querySelectorAll(".modal-slide-btn").forEach(b => b.style.display = p.imgs[1] ? "" : "none");
-
 const sizesEl = document.getElementById("modalSizes");
 sizesEl.innerHTML = "";
 const soldoutMsg = document.getElementById("sizeSoldoutMsg");
 soldoutMsg.style.display = "none";
-
 const actionsEl = document.querySelector(".modal-actions");
 if(p.soldOut){
 actionsEl.style.display = "none";
@@ -2178,6 +1835,8 @@ soldoutMsg.style.display = "none";
 actionsEl.style.display = "flex";
 document.getElementById("modalSizes").style.display = "flex";
 const soldoutSizes = p.soldoutSizes || [];
+const firstAvail = sizes.find(s => !(soldoutSizes.includes(s)));
+if(firstAvail) selectedSize = firstAvail;
 sizes.forEach(s => {
 const isSoldout = soldoutSizes.includes(s);
 const btn = document.createElement("button");
@@ -2196,10 +1855,7 @@ btn.classList.add("active");
 };
 sizesEl.appendChild(btn);
 });
-const firstAvail = sizes.find(s => !(soldoutSizes.includes(s)));
-if(firstAvail) selectedSize = firstAvail;
 }
-
 document.getElementById("modalReviewSection").style.display = "block";
 const sizeGuideBtnC = document.querySelector(".size-guide-btn");
 sizeGuideBtnC.style.display = "";
@@ -2207,47 +1863,40 @@ sizeGuideBtnC.onclick = function(){ openSizeGuide("tallecompres.jpg"); };
 document.getElementById("productModal").classList.add("active");
 document.body.style.overflow = "hidden";
 }
-
 function openBuzosModal(idx){
 const p = buzoProducts[idx];
 currentProduct = p;
 modalSlideIndex = 0;
 selectedSize = "M";
-
 document.getElementById("modalTitle").innerText = p.name;
 document.getElementById("modalTitle").style.color = "white";
 document.getElementById("modalTitle").style.fontSize = "";
 document.getElementById("modalTitle").style.letterSpacing = "";
 document.getElementById("modalDesc").innerText = p.desc;
 document.getElementById("modalOfferBox").style.display = "block";
-
 const finalPrice = getDiscountedPrice(p.price);
 const oldEl = document.getElementById("modalOldPrice");
 const priceEl = document.getElementById("modalPrice");
-
 if(p.oldPrice){
 oldEl.style.display = "block";
-oldEl.innerText = `$${p.oldPrice.toLocaleString()} ARS`;
+oldEl.innerText = $${p.oldPrice.toLocaleString()} ARS;
 }else{
 oldEl.style.display = "none";
 }
-priceEl.innerText = `$${finalPrice.toLocaleString()} ARS`;
-
+priceEl.innerText = $${finalPrice.toLocaleString()} ARS;
 document.getElementById("modalImg0").src = p.imgs[0];
 document.getElementById("modalImg1").src = p.imgs[1] || "";
 document.getElementById("modalSlides").style.transform = "translateX(0)";
 document.querySelectorAll(".modal-slide-btn").forEach(b => b.style.display = p.imgs[1] ? "" : "none");
-
 const sizesEl = document.getElementById("modalSizes");
 sizesEl.innerHTML = "";
 sizesEl.style.display = "flex";
 const soldoutMsg = document.getElementById("sizeSoldoutMsg");
 soldoutMsg.style.display = "none";
-
 buzoPantSizes.forEach(s => {
 const btn = document.createElement("button");
 btn.className = "size-btn" + (s.label === selectedSize ? " active" : "");
-btn.innerHTML = `<span style="font-size:1.1rem;font-weight:900;display:block;line-height:1.2;">${s.label}</span><span style="font-size:0.7rem;color:inherit;font-weight:600;opacity:0.7;">(${s.num})</span>`;
+btn.innerHTML = <span style="font-size:1.1rem;font-weight:900;display:block;line-height:1.2;">${s.label}</span><span style="font-size:0.7rem;color:inherit;font-weight:600;opacity:0.7;">(${s.num})</span>;
 btn.onclick = () => {
 selectedSize = s.label;
 sizesEl.querySelectorAll(".size-btn").forEach(b => b.classList.remove("active"));
@@ -2255,7 +1904,6 @@ btn.classList.add("active");
 };
 sizesEl.appendChild(btn);
 });
-
 document.querySelector(".modal-actions").style.display = "flex";
 document.getElementById("modalReviewSection").style.display = "block";
 const sizeGuideBtnC = document.querySelector(".size-guide-btn");
@@ -2264,47 +1912,40 @@ sizeGuideBtnC.onclick = function(){ openSizeGuide("guiabuzo.jpg"); };
 document.getElementById("productModal").classList.add("active");
 document.body.style.overflow = "hidden";
 }
-
 function openPantModal(idx){
 const p = panProducts[idx];
 currentProduct = p;
 modalSlideIndex = 0;
 selectedSize = "M";
-
 document.getElementById("modalTitle").innerText = p.name;
 document.getElementById("modalTitle").style.color = "white";
 document.getElementById("modalTitle").style.fontSize = "";
 document.getElementById("modalTitle").style.letterSpacing = "";
 document.getElementById("modalDesc").innerText = p.desc;
 document.getElementById("modalOfferBox").style.display = "block";
-
 const finalPrice = getDiscountedPrice(p.price);
 const oldEl = document.getElementById("modalOldPrice");
 const priceEl = document.getElementById("modalPrice");
-
 if(p.oldPrice){
 oldEl.style.display = "block";
-oldEl.innerText = `$${p.oldPrice.toLocaleString()} ARS`;
+oldEl.innerText = $${p.oldPrice.toLocaleString()} ARS;
 }else{
 oldEl.style.display = "none";
 }
-priceEl.innerText = `$${finalPrice.toLocaleString()} ARS`;
-
+priceEl.innerText = $${finalPrice.toLocaleString()} ARS;
 document.getElementById("modalImg0").src = p.imgs[0];
 document.getElementById("modalImg1").src = p.imgs[1] || "";
 document.getElementById("modalSlides").style.transform = "translateX(0)";
 document.querySelectorAll(".modal-slide-btn").forEach(b => b.style.display = p.imgs[1] ? "" : "none");
-
 const sizesEl = document.getElementById("modalSizes");
 sizesEl.innerHTML = "";
 sizesEl.style.display = "flex";
 const soldoutMsg = document.getElementById("sizeSoldoutMsg");
 soldoutMsg.style.display = "none";
-
 buzoPantSizes.forEach(s => {
 const btn = document.createElement("button");
 btn.className = "size-btn" + (s.label === selectedSize ? " active" : "");
-btn.innerHTML = `<span style="font-size:1.1rem;font-weight:900;display:block;line-height:1.2;">${s.label}</span><span style="font-size:0.7rem;color:inherit;font-weight:600;opacity:0.7;">(${s.num})</span>`;
+btn.innerHTML = <span style="font-size:1.1rem;font-weight:900;display:block;line-height:1.2;">${s.label}</span><span style="font-size:0.7rem;color:inherit;font-weight:600;opacity:0.7;">(${s.num})</span>;
 btn.onclick = () => {
 selectedSize = s.label;
 sizesEl.querySelectorAll(".size-btn").forEach(b => b.classList.remove("active"));
@@ -2312,7 +1953,6 @@ btn.classList.add("active");
 };
 sizesEl.appendChild(btn);
 });
-
 document.querySelector(".modal-actions").style.display = "flex";
 document.getElementById("modalReviewSection").style.display = "block";
 const sizeGuideBtnC = document.querySelector(".size-guide-btn");
@@ -2321,31 +1961,25 @@ sizeGuideBtnC.onclick = function(){ openSizeGuide("guialompa.jpg"); };
 document.getElementById("productModal").classList.add("active");
 document.body.style.overflow = "hidden";
 }
-
 function openCalzaModal(idx){
 const p = calzaProducts[idx];
 currentProduct = p;
 modalSlideIndex = 0;
 selectedSize = "M";
-
 document.getElementById("modalTitle").innerText = p.name;
 document.getElementById("modalTitle").style.color = "white";
 document.getElementById("modalDesc").innerText = p.desc;
 document.getElementById("modalOfferBox").style.display = "none";
-
 const finalPrice = getDiscountedPrice(p.price);
 document.getElementById("modalOldPrice").style.display = "none";
-document.getElementById("modalPrice").innerText = `$${finalPrice.toLocaleString()} ARS`;
-
+document.getElementById("modalPrice").innerText = $${finalPrice.toLocaleString()} ARS;
 document.getElementById("modalImg0").src = p.imgs[0];
 document.getElementById("modalImg1").src = "";
 document.getElementById("modalSlides").style.transform = "translateX(0)";
 document.querySelectorAll(".modal-slide-btn").forEach(b => b.style.display = "none");
-
 const sizesEl = document.getElementById("modalSizes");
 sizesEl.innerHTML = "";
 sizesEl.style.display = "flex";
-
 buzoPantSizes.slice(1, 5).forEach(s => {
 const btn = document.createElement("button");
 btn.className = "size-btn" + (s.label === selectedSize ? " active" : "");
@@ -2357,17 +1991,14 @@ btn.classList.add("active");
 };
 sizesEl.appendChild(btn);
 });
-
 document.querySelector(".modal-actions").style.display = "flex";
 document.querySelector(".size-guide-btn").style.display = "none";
 document.getElementById("productModal").classList.add("active");
 document.body.style.overflow = "hidden";
 }
-
 function openMuscuModal(idx){
 // Musculosas por ahora están agotadas
 }
-
 function openProductModalByName(name){
 const bIdx = buzoProducts.findIndex(p => p.name === name);
 if(bIdx !== -1){
@@ -2385,23 +2016,20 @@ openProductModal(cIdx);
 return;
 }
 }
-
 function closeProductModal(){
 document.getElementById("productModal").classList.remove("active");
 document.body.style.overflow = "";
 currentProduct = null;
 }
-
 function modalSlide(dir){
 modalSlideIndex += dir;
 if(modalSlideIndex < 0) modalSlideIndex = 0;
 if(modalSlideIndex > 1) modalSlideIndex = 1;
-document.getElementById("modalSlides").style.transform = `translateX(-${modalSlideIndex * 100}%)`;
+document.getElementById("modalSlides").style.transform = translateX(-${modalSlideIndex * 100}%);
 }
-
 function modalAddToCart(){
 if(!currentProduct) return;
-const key = `${currentProduct.name}||${selectedSize}`;
+const key = ${currentProduct.name}||${selectedSize};
 const existing = cart.find(i => i.key === key);
 if(existing){
 existing.qty++;
@@ -2412,46 +2040,27 @@ renderCart();
 closeProductModal();
 toggleCart();
 }
-
 function modalBuyNow(){
 if(!currentProduct) return;
 modalAddToCart();
 checkoutWhatsApp();
 }
-
 function renderCart(){
 const container = document.getElementById("cartItems");
 if(!container) return;
 container.innerHTML = "";
 let total = 0;
-
 cart.forEach(item => {
 const discountedPrice = getDiscountedPrice(item.basePrice);
 const itemTotal = discountedPrice * item.qty;
 total += itemTotal;
-
 const div = document.createElement("div");
 div.className = "cart-item";
-div.innerHTML = `
-  <div style="display:flex;justify-content:space-between;align-items:center;">
-    <div>
-      <div style="font-weight:700;font-size:0.9rem;">${item.name}</div>
-      <div style="color:#888;font-size:0.8rem;">Talle: ${item.size}</div>
-      <div style="color:var(--green);font-size:0.85rem;font-weight:700;">$${discountedPrice.toLocaleString()} ARS c/u</div>
-    </div>
-    <div style="display:flex;align-items:center;gap:8px;">
-      <button onclick="updateQty('${item.key}', -1)" style="background:#222;border:1px solid #444;color:white;width:26px;height:26px;border-radius:6px;cursor:pointer;">-</button>
-      <span>${item.qty}</span>
-      <button onclick="updateQty('${item.key}', 1)" style="background:#222;border:1px solid #444;color:white;width:26px;height:26px;border-radius:6px;cursor:pointer;">+</button>
-    </div>
-  </div>
-`;
+div.innerHTML = <div style="display:flex;justify-content:space-between;align-items:center;"> <div> <div style="font-weight:700;font-size:0.9rem;">${item.name}</div> <div style="color:#888;font-size:0.8rem;">Talle: ${item.size}</div> <div style="color:var(--green);font-size:0.85rem;font-weight:700;">$${discountedPrice.toLocaleString()} ARS c/u</div> </div> <div style="display:flex;align-items:center;gap:8px;"> <button onclick="updateQty('${item.key}', -1)" style="background:#222;border:1px solid #444;color:white;width:26px;height:26px;border-radius:6px;cursor:pointer;">-</button> <span>${item.qty}</span> <button onclick="updateQty('${item.key}', 1)" style="background:#222;border:1px solid #444;color:white;width:26px;height:26px;border-radius:6px;cursor:pointer;">+</button> </div> </div>;
 container.appendChild(div);
 });
-
-document.getElementById("cartTotal").innerText = `TOTAL: $${total.toLocaleString()} ARS`;
+document.getElementById("cartTotal").innerText = TOTAL: $${total.toLocaleString()} ARS;
 }
-
 function updateQty(key, delta){
 const item = cart.find(i => i.key === key);
 if(item){
@@ -2462,11 +2071,9 @@ cart = cart.filter(i => i.key !== key);
 renderCart();
 }
 }
-
 function toggleCart(){
 document.getElementById("cartPanel").classList.toggle("active");
 }
-
 function checkoutWhatsApp(){
 if(cart.length === 0){
 alert("Tu carrito está vacío.");
@@ -2474,48 +2081,33 @@ return;
 }
 openCheckout();
 }
-
 function openCheckout(){
 document.getElementById("cartPanel").classList.remove("active");
 const overlay = document.getElementById("checkoutOverlay");
 overlay.style.display = "flex";
-
 const container = document.getElementById("checkoutItems");
 container.innerHTML = "";
 let subtotal = 0;
-
 cart.forEach(item => {
 const price = getDiscountedPrice(item.basePrice);
 subtotal += price * item.qty;
-
 const div = document.createElement("div");
 div.style.cssText = "display:flex;justify-content:space-between;align-items:center;background:#0f0f0f;border:1px solid #222;padding:12px 14px;border-radius:10px;";
-div.innerHTML = `
-  <div>
-    <div style="font-weight:700;font-size:0.9rem;">${item.name} (x${item.qty})</div>
-    <div style="font-size:0.8rem;color:#888;">Talle: ${item.size}</div>
-  </div>
-  <div style="font-weight:700;color:var(--green);">$${(price * item.qty).toLocaleString()} ARS</div>
-`;
+div.innerHTML = <div> <div style="font-weight:700;font-size:0.9rem;">${item.name} (x${item.qty})</div> <div style="font-size:0.8rem;color:#888;">Talle: ${item.size}</div> </div> <div style="font-weight:700;color:var(--green);">$${(price * item.qty).toLocaleString()} ARS</div>;
 container.appendChild(div);
 });
-
-document.getElementById("checkoutSubtotal").innerText = `$${subtotal.toLocaleString()} ARS`;
+document.getElementById("checkoutSubtotal").innerText = $${subtotal.toLocaleString()} ARS;
 checkoutUpdateEnvio();
 }
-
 function closeCheckout(){
 document.getElementById("checkoutOverlay").style.display = "none";
 }
-
 function checkoutUpdateEnvio(){
 const prov = document.getElementById("checkoutProvincia").value;
 const loc = document.getElementById("checkoutLocalidad").value.trim();
-
 const formosaDiv = document.getElementById("envioFormosaCapital");
 const otrosDiv = document.getElementById("envioOtros");
 const summaryBox = document.getElementById("priceSummaryBox");
-
 if(!prov){
 formosaDiv.style.display = "none";
 otrosDiv.style.display = "none";
@@ -2523,9 +2115,7 @@ summaryBox.style.display = "none";
 checkoutValidate();
 return;
 }
-
 const isFormosaCap = (prov.toLowerCase() === "formosa" && loc.toLowerCase().includes("formosa"));
-
 let totalUnits = 0;
 let totalWeight = 0;
 let subtotal = 0;
@@ -2534,7 +2124,6 @@ totalUnits += item.qty;
 totalWeight += (item.weight || 200) * item.qty;
 subtotal += getDiscountedPrice(item.basePrice) * item.qty;
 });
-
 let shippingCost = 0;
 if(totalUnits >= 3){
 shippingCost = 0;
@@ -2545,22 +2134,19 @@ if(totalWeight <= 800) shippingCost = shippingCostsByWeight["0-800"];
 else if(totalWeight <= 1500) shippingCost = shippingCostsByWeight["801-1500"];
 else shippingCost = shippingCostsByWeight["1501-3000"];
 }
-
-document.getElementById("correoPrice").innerText = shippingCost === 0 ? "GRATIS" : `$${shippingCost.toLocaleString()} ARS`;
-document.getElementById("shippingCostDisplay").innerText = shippingCost === 0 ? "GRATIS" : `$${shippingCost.toLocaleString()} ARS`;
-document.getElementById("priceTotalDisplay").innerText = `TOTAL: $${(subtotal + shippingCost).toLocaleString()} ARS`;
-
-const priceItemsList = document.getElementById("priceSummaryItems");
-priceItemsList.innerHTML = "";
-cart.forEach(item => {
-const line = document.createElement("div");
-line.className = "price-item-line";
-line.innerText = `${item.name} (${item.size}) x${item.qty} — $${(getDiscountedPrice(item.basePrice) * item.qty).toLocaleString()} ARS`;
-priceItemsList.appendChild(line);
-});
-
 summaryBox.style.display = "block";
-
+document.getElementById("shippingCostDisplay").innerText = shippingCost === 0 ? "¡GRATIS!" : $${shippingCost.toLocaleString()} ARS;
+document.getElementById("correoPrice").innerText = shippingCost === 0 ? "¡GRATIS!" : $${shippingCost.toLocaleString()} ARS;
+const total = subtotal + shippingCost;
+document.getElementById("priceTotalDisplay").innerText = TOTAL: $${total.toLocaleString()} ARS;
+const itemsList = document.getElementById("priceSummaryItems");
+itemsList.innerHTML = "";
+cart.forEach(item => {
+const div = document.createElement("div");
+div.className = "price-item-line";
+div.innerText = ${item.name} (${item.size}) x${item.qty} - $${(getDiscountedPrice(item.basePrice) * item.qty).toLocaleString()} ARS;
+itemsList.appendChild(div);
+});
 if(isFormosaCap){
 formosaDiv.style.display = "flex";
 document.getElementById("envioFormosaForm").style.display = "flex";
@@ -2569,70 +2155,59 @@ otrosDiv.style.display = "none";
 formosaDiv.style.display = "none";
 otrosDiv.style.display = "flex";
 }
-
 checkoutValidate();
 }
-
 function checkoutValidate(){
 const prov = document.getElementById("checkoutProvincia").value;
 const loc = document.getElementById("checkoutLocalidad").value.trim();
-const btn = document.getElementById("checkoutConfirmBtn");
-
-if(!prov){
-btn.disabled = true;
-btn.style.filter = "blur(1.5px) opacity(0.4)";
-btn.style.cursor = "not-allowed";
+const confirmBtn = document.getElementById("checkoutConfirmBtn");
+if(!prov || !loc){
+confirmBtn.disabled = true;
+confirmBtn.style.cursor = "not-allowed";
+confirmBtn.style.filter = "blur(1.5px) opacity(0.4)";
 return;
 }
-
 const isFormosaCap = (prov.toLowerCase() === "formosa" && loc.toLowerCase().includes("formosa"));
-
-let isValid = false;
+let valid = false;
 if(isFormosaCap){
-const fNombre = document.getElementById("envFNombre").value.trim();
-const fDir = document.getElementById("envFDireccion").value.trim();
-const fTel = document.getElementById("envFTel").value.trim();
-isValid = (fNombre !== "" && fDir !== "" && fTel !== "");
+const nom = document.getElementById("envFNombre").value.trim();
+const dir = document.getElementById("envFDireccion").value.trim();
+const tel = document.getElementById("envFTel").value.trim();
+valid = !!(nom && dir && tel);
 }else{
-const nombre = document.getElementById("envNombre").value.trim();
+const nom = document.getElementById("envNombre").value.trim();
 const dir = document.getElementById("envDireccion").value.trim();
 const cp = document.getElementById("envCP").value.trim();
 const email = document.getElementById("envEmail").value.trim();
 const dni = document.getElementById("envDNI").value.trim();
 const tel = document.getElementById("envTel").value.trim();
-isValid = (nombre !== "" && dir !== "" && cp !== "" && email !== "" && dni !== "" && tel !== "");
+valid = !!(nom && dir && cp && email && dni && tel);
 }
-
-if(isValid){
-btn.disabled = false;
-btn.style.filter = "none";
-btn.style.cursor = "pointer";
+if(valid){
+confirmBtn.disabled = false;
+confirmBtn.style.cursor = "pointer";
+confirmBtn.style.filter = "none";
 }else{
-btn.disabled = true;
-btn.style.filter = "blur(1.5px) opacity(0.4)";
-btn.style.cursor = "not-allowed";
+confirmBtn.disabled = true;
+confirmBtn.style.cursor = "not-allowed";
+confirmBtn.style.filter = "blur(1.5px) opacity(0.4)";
 }
 }
-
 function openTransferFromCheckout(){
 const prov = document.getElementById("checkoutProvincia").value;
 const loc = document.getElementById("checkoutLocalidad").value.trim();
 const isFormosaCap = (prov.toLowerCase() === "formosa" && loc.toLowerCase().includes("formosa"));
-
-let msg = "*NUEVO PEDIDO BLAZEBORN*\n\n";
-msg += "*Productos:*\n";
 let subtotal = 0;
 let totalUnits = 0;
 let totalWeight = 0;
-
+let orderDetails = "🛒 NUEVO PEDIDO BLAZEBORN\n\n";
 cart.forEach(item => {
 const price = getDiscountedPrice(item.basePrice);
+orderDetails += • ${item.name} (${item.size}) x${item.qty} - $${(price * item.qty).toLocaleString()} ARS\n;
 subtotal += price * item.qty;
 totalUnits += item.qty;
 totalWeight += (item.weight || 200) * item.qty;
-msg += `- ${item.name} (${item.size}) x${item.qty} : $${(price * item.qty).toLocaleString()} ARS\n`;
 });
-
 let shippingCost = 0;
 if(totalUnits >= 3 || isFormosaCap){
 shippingCost = 0;
@@ -2641,244 +2216,173 @@ if(totalWeight <= 800) shippingCost = shippingCostsByWeight["0-800"];
 else if(totalWeight <= 1500) shippingCost = shippingCostsByWeight["801-1500"];
 else shippingCost = shippingCostsByWeight["1501-3000"];
 }
-
-msg += `\n*Subtotal:* $${subtotal.toLocaleString()} ARS\n`;
-msg += `*Envío:* ${shippingCost === 0 ? "GRATIS" : "$" + shippingCost.toLocaleString() + " ARS"}\n`;
-msg += `*TOTAL A PAGAR:* $${(subtotal + shippingCost).toLocaleString()} ARS\n\n`;
-
-msg += "*Datos de Envío:*\n";
-msg += `Provincia: ${prov}\n`;
-msg += `Localidad: ${loc}\n`;
-
+const total = subtotal + shippingCost;
+orderDetails += \n*Subtotal:* $${subtotal.toLocaleString()} ARS\n;
+orderDetails += *Envío:* ${shippingCost === 0 ? "GRATIS" : "$" + shippingCost.toLocaleString() + " ARS"}\n;
+orderDetails += *TOTAL A PAGAR:* $${total.toLocaleString()} ARS\n\n;
+orderDetails += 📍 *DATOS DE ENVÍO:*\n;
+orderDetails += Provincia: ${prov}\nLocalidad: ${loc}\n;
 if(isFormosaCap){
-msg += `Nombre: ${document.getElementById("envFNombre").value.trim()}\n`;
-msg += `Dirección: ${document.getElementById("envFDireccion").value.trim()}\n`;
-msg += `Teléfono: ${document.getElementById("envFTel").value.trim()}\n`;
-const ind = document.getElementById("envFIndicaciones").value.trim();
-if(ind) msg += `Indicaciones: ${ind}\n`;
+orderDetails += Nombre: ${document.getElementById("envFNombre").value}\n;
+orderDetails += Dirección: ${document.getElementById("envFDireccion").value}\n;
+orderDetails += Tel: ${document.getElementById("envFTel").value}\n;
+const ind = document.getElementById("envFIndicaciones").value;
+if(ind) orderDetails += Indicaciones: ${ind}\n;
 }else{
-msg += `Nombre: ${document.getElementById("envNombre").value.trim()}\n`;
-msg += `Dirección: ${document.getElementById("envDireccion").value.trim()}\n`;
-msg += `CP: ${document.getElementById("envCP").value.trim()}\n`;
-msg += `Email: ${document.getElementById("envEmail").value.trim()}\n`;
-msg += `DNI: ${document.getElementById("envDNI").value.trim()}\n`;
-msg += `Teléfono: ${document.getElementById("envTel").value.trim()}\n`;
-const ind = document.getElementById("envIndicaciones").value.trim();
-if(ind) msg += `Indicaciones: ${ind}\n`;
+orderDetails += Nombre: ${document.getElementById("envNombre").value}\n;
+orderDetails += Dirección: ${document.getElementById("envDireccion").value}\n;
+orderDetails += CP: ${document.getElementById("envCP").value}\n;
+orderDetails += Email: ${document.getElementById("envEmail").value}\n;
+orderDetails += DNI: ${document.getElementById("envDNI").value}\n;
+orderDetails += Tel: ${document.getElementById("envTel").value}\n;
+const ind = document.getElementById("envIndicaciones").value;
+if(ind) orderDetails += Indicaciones: ${ind}\n;
 }
-
-const url = `https://wa.me/5493704509580?text=${encodeURIComponent(msg)}`;
-document.getElementById("checkoutWALink").href = url;
+const waUrl = [https://wa.me/5493704509580?text=$](https://wa.me/5493704509580?text=$){encodeURIComponent(orderDetails)};
+document.getElementById("checkoutWALink").href = waUrl;
+document.getElementById("envioWABtn").href = waUrl;
 document.getElementById("transferModal").classList.add("active");
 }
-
-function closeTransferModal(){
-document.getElementById("transferModal").classList.remove("active");
-}
-
-function copyText(text, btn){
-navigator.clipboard.writeText(text).then(() => {
-const orig = btn.innerText;
-btn.innerText = "¡Copiado!";
-setTimeout(() => { btn.innerText = orig; }, 2000);
-});
-}
-
-function closeDiscountAlert(){
-document.getElementById("discountAlert").classList.remove("active");
-}
-
-function closeInvalidAlert(){
-document.getElementById("invalidAlert").classList.remove("active");
-}
-
-function openSizeGuide(imgSrc){
-if(imgSrc) document.getElementById("sizeGuideImg").src = imgSrc;
-document.getElementById("sizeGuideModal").classList.add("active");
-}
-
-function closeSizeGuide(){
-document.getElementById("sizeGuideModal").classList.remove("active");
-}
-
 function toggleMenu(){
 document.getElementById("hamburgerMenu").classList.toggle("active");
 document.getElementById("menuBackdrop").classList.toggle("active");
 }
-
 function closeMenu(){
 document.getElementById("hamburgerMenu").classList.remove("active");
 document.getElementById("menuBackdrop").classList.remove("active");
 }
-
 function toggleTheme(){
 document.body.classList.toggle("light-theme");
-const isLight = document.body.classList.contains("light-theme");
-document.getElementById("themeToggle").classList.toggle("light-on", isLight);
-document.getElementById("themeLabel").innerText = isLight ? "Tema oscuro" : "Tema claro";
+const switchEl = document.getElementById("themeToggle");
+const labelEl = document.getElementById("themeLabel");
+if(document.body.classList.contains("light-theme")){
+switchEl.classList.add("light-on");
+labelEl.innerText = "Tema oscuro";
+}else{
+switchEl.classList.remove("light-on");
+labelEl.innerText = "Tema claro";
 }
-
-let novPos = 0;
-function novMove(dir){
-const grid = document.getElementById("novGrid");
-novPos += dir * 250;
-if(novPos < 0) novPos = 0;
-const maxScroll = grid.scrollWidth - grid.clientWidth;
-if(novPos > maxScroll) novPos = maxScroll;
-grid.style.transform = `translateX(-${novPos}px)`;
+closeMenu();
 }
-
-let buzoPos = 0;
-function buzoMove(dir){
-const grid = document.getElementById("buzoGrid");
-buzoPos += dir * 250;
-if(buzoPos < 0) buzoPos = 0;
-const maxScroll = grid.scrollWidth - grid.clientWidth;
-if(buzoPos > maxScroll) buzoPos = maxScroll;
-grid.style.transform = `translateX(-${buzoPos}px)`;
-}
-
-let pantPos = 0;
-function pantMove(dir){
-const grid = document.getElementById("pantGrid");
-pantPos += dir * 250;
-if(pantPos < 0) pantPos = 0;
-const maxScroll = grid.scrollWidth - grid.clientWidth;
-if(pantPos > maxScroll) pantPos = maxScroll;
-grid.style.transform = `translateX(-${pantPos}px)`;
-}
-
-let carouselPos = 0;
-function carouselMove(dir){
-const grid = document.getElementById("productsGrid");
-carouselPos += dir * 250;
-if(carouselPos < 0) carouselPos = 0;
-const maxScroll = grid.scrollWidth - grid.clientWidth;
-if(carouselPos > maxScroll) carouselPos = maxScroll;
-grid.style.transform = `translateX(-${carouselPos}px)`;
-}
-
-let muscuPos = 0;
-function muscuMove(dir){
-const grid = document.getElementById("muscuGrid");
-muscuPos += dir * 250;
-if(muscuPos < 0) muscuPos = 0;
-const maxScroll = grid.scrollWidth - grid.clientWidth;
-if(muscuPos > maxScroll) muscuPos = maxScroll;
-grid.style.transform = `translateX(-${muscuPos}px)`;
-}
-
-let calzaPos = 0;
-function calzaMove(dir){
-const grid = document.getElementById("calzaGrid");
-calzaPos += dir * 250;
-if(calzaPos < 0) calzaPos = 0;
-const maxScroll = grid.scrollWidth - grid.clientWidth;
-if(calzaPos > maxScroll) calzaPos = maxScroll;
-grid.style.transform = `translateX(-${calzaPos}px)`;
-}
-
 function handleSearch(){
-const q = document.getElementById("searchInput").value.toLowerCase().trim();
+const query = document.getElementById("searchInput").value.toLowerCase().trim();
 const resContainer = document.getElementById("searchResults");
-if(!q){
-resContainer.style.display = "none";
+if(!query){
+resContainer.classList.remove("visible");
+resContainer.innerHTML = "";
 return;
 }
-
 const all = [...products, ...buzoProducts, ...panProducts, ...calzaProducts];
-const matches = all.filter(p => p.name.toLowerCase().includes(q));
-
+const matches = all.filter(p => p.name.toLowerCase().includes(query));
+resContainer.innerHTML = "";
 if(matches.length === 0){
-resContainer.innerHTML = `<div class="search-no-results">No se encontraron productos</div>`;
+resContainer.innerHTML = '<div class="search-no-results">No se encontraron productos</div>';
 }else{
-resContainer.innerHTML = matches.map(m => `
-  <div class="search-result-item" onclick="openProductModalByName('${m.name}')">
-    <img src="${m.imgs[0]}" class="search-result-thumb">
-    <div>
-      <div class="search-result-name">${m.name}</div>
-      <div class="search-result-price">${m.soldOut ? 'AGOTADO' : '$' + getDiscountedPrice(m.price).toLocaleString() + ' ARS'}</div>
-    </div>
-  </div>
-`).join("");
+matches.forEach(p => {
+const div = document.createElement("div");
+div.className = "search-result-item";
+div.onclick = () => {
+openProductModalByName(p.name);
+closeMenu();
+};
+div.innerHTML = <img src="${p.imgs[0]}" class="search-result-thumb"> <div> <div class="search-result-name">${p.name}</div> <div class="search-result-price">$${getDiscountedPrice(p.price).toLocaleString()} ARS</div> </div>;
+resContainer.appendChild(div);
+});
 }
-resContainer.style.display = "block";
+resContainer.classList.add("visible");
 }
-
 function clearSearch(){
 document.getElementById("searchInput").value = "";
-document.getElementById("searchResults").style.display = "none";
+document.getElementById("searchResults").classList.remove("visible");
 }
-
 function handleInlineSearch(){
 const input = document.getElementById("inlineSearchInput");
-const btn = document.getElementById("inlineClearBtn");
-const resBox = document.getElementById("inlineSearchResults");
-const q = input.value.toLowerCase().trim();
-
-btn.style.display = q ? "block" : "none";
-
-if(!q){
-resBox.style.display = "none";
+const clearBtn = document.getElementById("inlineClearBtn");
+const query = input.value.toLowerCase().trim();
+clearBtn.style.display = query ? "block" : "none";
+const resDiv = document.getElementById("inlineSearchResults");
+if(!query){
+resDiv.style.display = "none";
 return;
 }
-
 const all = [...products, ...buzoProducts, ...panProducts, ...calzaProducts];
-const matches = all.filter(p => p.name.toLowerCase().includes(q));
-
+const matches = all.filter(p => p.name.toLowerCase().includes(query));
+resDiv.innerHTML = "";
 if(matches.length === 0){
-resBox.innerHTML = `<div class="search-no-results">No se encontraron productos</div>`;
+resDiv.innerHTML = '<div class="search-no-results">No se encontraron productos</div>';
 }else{
-resBox.innerHTML = matches.map(m => `
-  <div class="search-result-item" onclick="openProductModalByName('${m.name}')">
-    <img src="${m.imgs[0]}" class="search-result-thumb">
-    <div>
-      <div class="search-result-name">${m.name}</div>
-      <div class="search-result-price">${m.soldOut ? 'AGOTADO' : '$' + getDiscountedPrice(m.price).toLocaleString() + ' ARS'}</div>
-    </div>
-  </div>
-`).join("");
+matches.forEach(p => {
+const div = document.createElement("div");
+div.className = "search-result-item";
+div.onclick = () => {
+openProductModalByName(p.name);
+resDiv.style.display = "none";
+};
+div.innerHTML = <img src="${p.imgs[0]}" class="search-result-thumb"> <div> <div class="search-result-name">${p.name}</div> <div class="search-result-price">$${getDiscountedPrice(p.price).toLocaleString()} ARS</div> </div>;
+resDiv.appendChild(div);
+});
 }
-resBox.style.display = "block";
+resDiv.style.display = "block";
 }
-
 function commitInlineSearch(){
-const q = document.getElementById("inlineSearchInput").value.toLowerCase().trim();
-if(!q) return;
-
-const secRes = document.getElementById("secSearchResults");
-const grid = document.getElementById("searchResultsGrid");
-const title = document.getElementById("searchResultsTitle");
-const all = [...products, ...buzoProducts, ...panProducts, ...calzaProducts];
-const matches = all.filter(p => p.name.toLowerCase().includes(q));
-
-title.innerText = `Resultados para "${q}"`;
-if(matches.length === 0){
-grid.innerHTML = `<div style="color:#888;grid-column:1/-1;">No encontramos productos que coincidan con tu búsqueda.</div>`;
-}else{
-grid.innerHTML = matches.map(m => `
-  <div class="product-card" onclick="openProductModalByName('${m.name}')">
-    <img src="${m.imgs[0]}" class="card-thumb" alt="${m.name}">
-    <div class="card-label">
-      <div class="card-name">${m.name}</div>
-      <div class="card-price">${m.soldOut ? 'AGOTADO' : '$' + getDiscountedPrice(m.price).toLocaleString() + ' ARS'}</div>
-    </div>
-  </div>
-`).join("");
-}
-secRes.style.display = "block";
+const query = document.getElementById("inlineSearchInput").value.toLowerCase().trim();
+if(!query) return;
 document.getElementById("inlineSearchResults").style.display = "none";
-secRes.scrollIntoView({ behavior: "smooth" });
+const all = [...products, ...buzoProducts, ...panProducts, ...calzaProducts];
+const matches = all.filter(p => p.name.toLowerCase().includes(query));
+const grid = document.getElementById("searchResultsGrid");
+grid.innerHTML = "";
+document.getElementById("secSearchResults").style.display = "block";
+document.getElementById("searchResultsTitle").innerText = Resultados para "${query}" (${matches.length});
+matches.forEach(p => {
+const card = document.createElement("div");
+card.className = "product-card";
+card.onclick = () => openProductModalByName(p.name);
+card.innerHTML = <img src="${p.imgs[0]}" class="card-thumb"> <div class="card-label"> <div class="card-name">${p.name}</div> <div class="card-price">$${getDiscountedPrice(p.price).toLocaleString()} ARS</div> </div>;
+grid.appendChild(card);
+});
+document.getElementById("secSearchResults").scrollIntoView({ behavior: "smooth" });
 }
-
 function clearInlineSearch(){
 document.getElementById("inlineSearchInput").value = "";
 document.getElementById("inlineClearBtn").style.display = "none";
 document.getElementById("inlineSearchResults").style.display = "none";
 document.getElementById("secSearchResults").style.display = "none";
 }
-
+function openSizeGuide(imgSrc){
+if(imgSrc) document.getElementById("sizeGuideImg").src = imgSrc;
+document.getElementById("sizeGuideModal").classList.add("active");
+}
+function closeSizeGuide(){
+document.getElementById("sizeGuideModal").classList.remove("active");
+}
+function closeDiscountAlert(){
+document.getElementById("discountAlert").classList.remove("active");
+}
+function closeInvalidAlert(){
+document.getElementById("invalidAlert").classList.remove("active");
+}
+function copyText(text, btn){
+navigator.clipboard.writeText(text);
+const orig = btn.innerText;
+btn.innerText = "¡Copiado!";
+setTimeout(() => btn.innerText = orig, 1500);
+}
+function closeTransferModal(){
+document.getElementById("transferModal").classList.remove("active");
+}
+function moveGrid(gridId, dir) {
+const grid = document.getElementById(gridId);
+if(!grid) return;
+const scrollAmt = 260 * dir;
+grid.parentElement.scrollBy({ left: scrollAmt, behavior: 'smooth' });
+}
+function novMove(dir) { moveGrid("novGrid", dir); }
+function buzoMove(dir) { moveGrid("buzoGrid", dir); }
+function pantMove(dir) { moveGrid("pantGrid", dir); }
+function carouselMove(dir) { moveGrid("productsGrid", dir); }
+function muscuMove(dir) { moveGrid("muscuGrid", dir); }
+function calzaMove(dir) { moveGrid("calzaGrid", dir); }
 </script>
-
 </body>
 </html>
