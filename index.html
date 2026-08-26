@@ -1936,6 +1936,11 @@ target="_blank">
 // CÓDIGOS DE DESCUENTO
 const discountCodes = {
   "WINTERBLAZE": 0.15,
+  "NAVARRETE": 0.10,
+  "NATY": 0.10,
+  "SANTI10": 0.10,
+  "SUAR": 0.10,
+  "RIVATOMY": 0.10,
   "BLAZE10": 0.10
 };
 
@@ -2118,7 +2123,7 @@ function applyCheckoutDiscount() {
     activeDiscount = discountCodes[code];
     msgEl.style.display = "block";
     msgEl.style.color = "var(--green)";
-    msgEl.innerText = `¡Código ${code} applied! (${activeDiscount * 100}% OFF)`;
+    msgEl.innerText = `¡Código ${code} aplicado! (${activeDiscount * 100}% OFF)`;
     
     document.getElementById("discountAlertText").innerText = `✅ ¡Código ${code} (${activeDiscount * 100}% OFF) aplicado correctamente!`;
     document.getElementById("discountAlert").classList.add("active");
@@ -2531,7 +2536,7 @@ let totalWeight = 0;
 
 cart.forEach(i => {
   totalUnits += i.qty;
-  totalWeight += (i.weight || 200) * i.qty;
+  totalWeight += (i.weight * i.qty);
 });
 
 let shippingCost = 0;
@@ -2541,22 +2546,47 @@ if (totalUnits < 3) {
   else shippingCost = shippingCostsByWeight["1501-3000"];
 }
 
-let subtotal = 0;
-cart.forEach(i => subtotal += getDiscountedPrice(i.basePrice) * i.qty);
-
-document.getElementById("shippingCostDisplay").innerText = shippingCost === 0 ? "GRATIS" : `$${shippingCost.toLocaleString()} ARS`;
-document.getElementById("priceTotalDisplay").innerText = `TOTAL: $${(subtotal + shippingCost).toLocaleString()} ARS`;
-
-if(isFormosaCap) {
+if (isFormosaCap) {
   formosaDiv.style.display = "flex";
   otrosDiv.style.display = "none";
+  summaryBox.style.display = "none";
 } else {
   formosaDiv.style.display = "none";
   otrosDiv.style.display = "flex";
-  document.getElementById("correoPrice").innerText = shippingCost === 0 ? "GRATIS" : `$${shippingCost.toLocaleString()} ARS`;
+  summaryBox.style.display = "block";
+
+  const correoPriceEl = document.getElementById("correoPrice");
+  if (correoPriceEl) correoPriceEl.innerText = shippingCost === 0 ? "¡GRATIS!" : `$${shippingCost.toLocaleString()} ARS`;
 }
 
-summaryBox.style.display = "block";
+const priceItemsList = document.getElementById("priceSummaryItems");
+if (priceItemsList) {
+  priceItemsList.innerHTML = "";
+  let itemsSubtotal = 0;
+
+  cart.forEach(item => {
+    const discountedPrice = getDiscountedPrice(item.basePrice);
+    const lineTotal = discountedPrice * item.qty;
+    itemsSubtotal += lineTotal;
+
+    const line = document.createElement("div");
+    line.className = "price-item-line";
+    line.innerText = `${item.name} (${item.size}) x${item.qty} — $${lineTotal.toLocaleString()} ARS`;
+    priceItemsList.appendChild(line);
+  });
+
+  const shippingCostDisplay = document.getElementById("shippingCostDisplay");
+  if (shippingCostDisplay) {
+    shippingCostDisplay.innerText = shippingCost === 0 ? "¡GRATIS!" : `$${shippingCost.toLocaleString()} ARS`;
+  }
+
+  const finalTotal = itemsSubtotal + shippingCost;
+  const priceTotalDisplay = document.getElementById("priceTotalDisplay");
+  if (priceTotalDisplay) {
+    priceTotalDisplay.innerText = `TOTAL: $${finalTotal.toLocaleString()} ARS`;
+  }
+}
+
 checkoutValidate();
 }
 
@@ -2565,43 +2595,109 @@ const prov = document.getElementById("checkoutProvincia").value;
 const loc = document.getElementById("checkoutLocalidad").value.trim();
 const btn = document.getElementById("checkoutConfirmBtn");
 
-if(!prov) {
-  btn.disabled = true;
-  btn.style.filter = "blur(1.5px) opacity(0.4)";
-  btn.style.cursor = "not-allowed";
-  return;
+if(!prov || !loc){
+btn.disabled = true;
+btn.style.cursor = "not-allowed";
+btn.style.filter = "blur(1.5px) opacity(0.4)";
+return;
 }
 
 const isFormosaCap = (prov.toLowerCase() === "formosa" && loc.toLowerCase().includes("formosa"));
 
-let isValid = false;
-if(isFormosaCap) {
-  const nom = document.getElementById("envFNombre").value.trim();
-  const dir = document.getElementById("envFDireccion").value.trim();
-  const tel = document.getElementById("envFTel").value.trim();
-  isValid = (nom && dir && tel);
-} else {
-  const nom = document.getElementById("envNombre").value.trim();
-  const dir = document.getElementById("envDireccion").value.trim();
-  const cp = document.getElementById("envCP").value.trim();
-  const email = document.getElementById("envEmail").value.trim();
-  const dni = document.getElementById("envDNI").value.trim();
-  const tel = document.getElementById("envTel").value.trim();
-  isValid = (nom && dir && cp && email && dni && tel);
+if(isFormosaCap){
+btn.disabled = false;
+btn.style.cursor = "pointer";
+btn.style.filter = "none";
+return;
 }
 
-btn.disabled = !isValid;
-if(isValid) {
-  btn.style.filter = "none";
-  btn.style.cursor = "pointer";
-} else {
-  btn.style.filter = "blur(1.5px) opacity(0.4)";
-  btn.style.cursor = "not-allowed";
+const nom = document.getElementById("envNombre").value.trim();
+const dir = document.getElementById("envDireccion").value.trim();
+const cp = document.getElementById("envCP").value.trim();
+const email = document.getElementById("envEmail").value.trim();
+const dni = document.getElementById("envDNI").value.trim();
+const tel = document.getElementById("envTel").value.trim();
+
+if(nom && dir && cp && email && dni && tel){
+btn.disabled = false;
+btn.style.cursor = "pointer";
+btn.style.filter = "none";
+}else{
+btn.disabled = true;
+btn.style.cursor = "not-allowed";
+btn.style.filter = "blur(1.5px) opacity(0.4)";
 }
 }
 
 function openTransferFromCheckout(){
-document.getElementById("transferModal").classList.add("active");
+const prov = document.getElementById("checkoutProvincia").value;
+const loc = document.getElementById("checkoutLocalidad").value.trim();
+const isFormosaCap = (prov.toLowerCase() === "formosa" && loc.toLowerCase().includes("formosa"));
+
+let text = `🛒 *NUEVO PEDIDO - BLAZEBORN*\n\n`;
+let subtotal = 0;
+let totalUnits = 0;
+let totalWeight = 0;
+
+cart.forEach(i => {
+  const p = getDiscountedPrice(i.basePrice);
+  const lineTotal = p * i.qty;
+  subtotal += lineTotal;
+  totalUnits += i.qty;
+  totalWeight += (i.weight * i.qty);
+  text += `• ${i.name} (${i.size}) x${i.qty} = $${lineTotal.toLocaleString()} ARS\n`;
+});
+
+if (activeDiscount > 0) {
+  text += `\n🏷️ *Descuento aplicado:* ${activeDiscount * 100}%\n`;
+}
+
+text += `\n💰 *Subtotal prendas:* $${subtotal.toLocaleString()} ARS\n`;
+
+let shippingCost = 0;
+if (totalUnits < 3) {
+  if (totalWeight <= 800) shippingCost = shippingCostsByWeight["0-800"];
+  else if (totalWeight <= 1500) shippingCost = shippingCostsByWeight["801-1500"];
+  else shippingCost = shippingCostsByWeight["1501-3000"];
+}
+
+if (!isFormosaCap) {
+  text += `📦 *Envío (Correo Argentino):* ${shippingCost === 0 ? "¡GRATIS!" : "$" + shippingCost.toLocaleString() + " ARS"}\n`;
+}
+
+const totalFinal = subtotal + (isFormosaCap ? 0 : shippingCost);
+text += `🔥 *TOTAL A PAGAR:* $${totalFinal.toLocaleString()} ARS\n\n`;
+
+text += `📍 *DATOS DE ENVÍO:*\n`;
+text += `• Provincia: ${prov}\n`;
+text += `• Localidad: ${loc}\n`;
+
+if (isFormosaCap) {
+  const nom = document.getElementById("envFNombre").value.trim();
+  const dir = document.getElementById("envFDireccion").value.trim();
+  const tel = document.getElementById("envFTel").value.trim();
+  const ind = document.getElementById("envFIndicaciones").value.trim();
+
+  if (nom) text += `• Nombre: ${nom}\n`;
+  if (dir) text += `• Dirección: ${dir}\n`;
+  if (tel) text += `• Teléfono: ${tel}\n`;
+  if (ind) text += `• Indicaciones: ${ind}\n`;
+} else {
+  text += `• Nombre: ${document.getElementById("envNombre").value.trim()}\n`;
+  text += `• Dirección: ${document.getElementById("envDireccion").value.trim()}\n`;
+  text += `• CP: ${document.getElementById("envCP").value.trim()}\n`;
+  text += `• Email: ${document.getElementById("envEmail").value.trim()}\n`;
+  text += `• DNI: ${document.getElementById("envDNI").value.trim()}\n`;
+  text += `• Teléfono: ${document.getElementById("envTel").value.trim()}\n`;
+  const ind = document.getElementById("envIndicaciones").value.trim();
+  if (ind) text += `• Indicaciones: ${ind}\n`;
+}
+
+const waUrl = `https://wa.me/5493704509580?text=${encodeURIComponent(text)}`;
+document.getElementById("checkoutWALink").href = waUrl;
+
+const transferModal = document.getElementById("transferModal");
+transferModal.classList.add("active");
 }
 
 function closeTransferModal(){
@@ -2609,19 +2705,17 @@ document.getElementById("transferModal").classList.remove("active");
 }
 
 function copyText(text, btn){
-navigator.clipboard.writeText(text);
-const oldText = btn.innerText;
+navigator.clipboard.writeText(text).then(() => {
+const original = btn.innerText;
 btn.innerText = "¡Copiado!";
-setTimeout(() => btn.innerText = oldText, 2000);
-}
-
-function openSizeGuide(imgSrc){
-if(imgSrc) document.getElementById("sizeGuideImg").src = imgSrc;
-document.getElementById("sizeGuideModal").classList.add("active");
-}
-
-function closeSizeGuide(){
-document.getElementById("sizeGuideModal").classList.remove("active");
+btn.style.background = "var(--green)";
+btn.style.color = "#000";
+setTimeout(() => {
+btn.innerText = original;
+btn.style.background = "#1a1a1a";
+btn.style.color = "#aaa";
+}, 2000);
+});
 }
 
 function closeDiscountAlert(){
@@ -2632,6 +2726,67 @@ function closeInvalidAlert(){
 document.getElementById("invalidAlert").classList.remove("active");
 }
 
+function openSizeGuide(imgSrc){
+const img = document.getElementById("sizeGuideImg");
+if(imgSrc) img.src = imgSrc;
+document.getElementById("sizeGuideModal").classList.add("active");
+}
+
+function closeSizeGuide(){
+document.getElementById("sizeGuideModal").classList.remove("active");
+}
+
+// CAROUSEL LOGIC
+let novPos = 0;
+let buzoPos = 0;
+let pantPos = 0;
+let compPos = 0;
+let muscuPos = 0;
+let calzaPos = 0;
+
+function getVisibleCards(){
+const w = window.innerWidth;
+if(w <= 680) return 2;
+if(w <= 1024) return 3;
+return 4;
+}
+
+function moveGrid(gridId, pos, totalItems){
+const grid = document.getElementById(gridId);
+if(!grid) return;
+const visible = getVisibleCards();
+const maxPos = Math.max(0, totalItems - visible);
+pos = Math.max(0, Math.min(pos, maxPos));
+
+const card = grid.querySelector(".product-card");
+if(card){
+const gap = 25;
+const cardWidth = card.getBoundingClientRect().width;
+grid.style.transform = `translateX(-${pos * (cardWidth + gap)}px)`;
+}
+return pos;
+}
+
+function novMove(dir){
+novPos = moveGrid("novGrid", novPos + dir, 4);
+}
+function buzoMove(dir){
+buzoPos = moveGrid("buzoGrid", buzoPos + dir, 2);
+}
+function pantMove(dir){
+pantPos = moveGrid("pantGrid", pantPos + dir, 3);
+}
+function carouselMove(dir){
+compPos = moveGrid("productsGrid", compPos + dir, products.length);
+}
+function muscuMove(dir){
+muscuPos = moveGrid("muscuGrid", muscuPos + dir, 3);
+}
+function calzaMove(dir){
+calzaPos = moveGrid("calzaGrid", calzaPos + dir, 1);
+}
+
+// MENU LOGIC
 function toggleMenu(){
 document.getElementById("hamburgerMenu").classList.toggle("active");
 document.getElementById("menuBackdrop").classList.toggle("active");
@@ -2642,6 +2797,7 @@ document.getElementById("hamburgerMenu").classList.remove("active");
 document.getElementById("menuBackdrop").classList.remove("active");
 }
 
+// THEME LOGIC
 function toggleTheme(){
 document.body.classList.toggle("light-theme");
 const isLight = document.body.classList.contains("light-theme");
@@ -2649,86 +2805,32 @@ document.getElementById("themeToggle").classList.toggle("light-on", isLight);
 document.getElementById("themeLabel").innerText = isLight ? "Tema oscuro" : "Tema claro";
 }
 
-// CAROUSEL NAVIGATION CONTROLS
-let novIndex = 0;
-function novMove(dir){
-const grid = document.getElementById("novGrid");
-const cards = grid.children.length;
-novIndex += dir;
-if(novIndex < 0) novIndex = 0;
-if(novIndex > cards - 1) novIndex = cards - 1;
-grid.style.transform = `translateX(-${novIndex * 275}px)`;
-}
-
-let buzoIndex = 0;
-function buzoMove(dir){
-const grid = document.getElementById("buzoGrid");
-const cards = grid.children.length;
-buzoIndex += dir;
-if(buzoIndex < 0) buzoIndex = 0;
-if(buzoIndex > cards - 1) buzoIndex = cards - 1;
-grid.style.transform = `translateX(-${buzoIndex * 275}px)`;
-}
-
-let pantIndex = 0;
-function pantMove(dir){
-const grid = document.getElementById("pantGrid");
-const cards = grid.children.length;
-pantIndex += dir;
-if(pantIndex < 0) pantIndex = 0;
-if(pantIndex > cards - 1) pantIndex = cards - 1;
-grid.style.transform = `translateX(-${pantIndex * 275}px)`;
-}
-
-let compIndex = 0;
-function carouselMove(dir){
-const grid = document.getElementById("productsGrid");
-const cards = grid.children.length;
-compIndex += dir;
-if(compIndex < 0) compIndex = 0;
-if(compIndex > cards - 1) compIndex = cards - 1;
-grid.style.transform = `translateX(-${compIndex * 275}px)`;
-}
-
-let muscuIndex = 0;
-function muscuMove(dir){
-const grid = document.getElementById("muscuGrid");
-const cards = grid.children.length;
-muscuIndex += dir;
-if(muscuIndex < 0) muscuIndex = 0;
-if(muscuIndex > cards - 1) muscuIndex = cards - 1;
-grid.style.transform = `translateX(-${muscuIndex * 275}px)`;
-}
-
-let calzaIndex = 0;
-function calzaMove(dir){
-const grid = document.getElementById("calzaGrid");
-const cards = grid.children.length;
-calzaIndex += dir;
-if(calzaIndex < 0) calzaIndex = 0;
-if(calzaIndex > cards - 1) calzaIndex = cards - 1;
-grid.style.transform = `translateX(-${calzaIndex * 275}px)`;
-}
-
-// SEARCH FUNCTIONS
-function getAllProducts(){
-return [...products, ...buzoProducts, ...panProducts, ...calzaProducts];
-}
+// SEARCH LOGIC
+const allCatalogProducts = [
+...products,
+...buzoProducts,
+...panProducts,
+...calzaProducts
+];
 
 function handleSearch(){
-const val = document.getElementById("searchInput").value.trim().toLowerCase();
-const res = document.getElementById("searchResults");
-if(!val){
-res.classList.remove("visible");
-res.innerHTML = "";
+const q = document.getElementById("searchInput").value.trim().toLowerCase();
+const resEl = document.getElementById("searchResults");
+if(!resEl) return;
+
+if(!q){
+resEl.classList.remove("visible");
+resEl.innerHTML = "";
 return;
 }
-const filtered = getAllProducts().filter(p => p.name.toLowerCase().includes(val));
-if(filtered.length === 0){
-res.innerHTML = `<div class="search-no-results">No se encontraron productos</div>`;
+
+const matches = allCatalogProducts.filter(p => p.name.toLowerCase().includes(q));
+
+if(matches.length === 0){
+resEl.innerHTML = `<div class="search-no-results">Sin resultados</div>`;
 }else{
-res.innerHTML = filtered.map(p => `
-  <div class="search-result-item" onclick="openProductModalByName('${p.name}'); closeMenu();">
+resEl.innerHTML = matches.map(p => `
+  <div class="search-result-item" onclick="selectSearchResult('${p.name.replace(/'/g, "\\'")}')">
     <img src="${p.imgs[0]}" class="search-result-thumb">
     <div>
       <div class="search-result-name">${p.name}</div>
@@ -2737,29 +2839,48 @@ res.innerHTML = filtered.map(p => `
   </div>
 `).join("");
 }
-res.classList.add("visible");
+resEl.classList.add("visible");
+}
+
+function selectSearchResult(name){
+clearSearch();
+closeMenu();
+openProductModalByName(name);
 }
 
 function clearSearch(){
-document.getElementById("searchInput").value = "";
-document.getElementById("searchResults").classList.remove("visible");
+const input = document.getElementById("searchInput");
+const resEl = document.getElementById("searchResults");
+if(input) input.value = "";
+if(resEl){
+resEl.innerHTML = "";
+resEl.classList.remove("visible");
+}
 }
 
+// INLINE SEARCH LOGIC
 function handleInlineSearch(){
-const val = document.getElementById("inlineSearchInput").value.trim().toLowerCase();
+const input = document.getElementById("inlineSearchInput");
 const btn = document.getElementById("inlineClearBtn");
-const res = document.getElementById("inlineSearchResults");
-btn.style.display = val ? "block" : "none";
-if(!val){
-res.style.display = "none";
+const resEl = document.getElementById("inlineSearchResults");
+
+if(input.value.length > 0){
+btn.style.display = "block";
+}else{
+btn.style.display = "none";
+resEl.style.display = "none";
+resEl.innerHTML = "";
 return;
 }
-const filtered = getAllProducts().filter(p => p.name.toLowerCase().includes(val));
-if(filtered.length === 0){
-res.innerHTML = `<div class="search-no-results">No se encontraron productos</div>`;
+
+const q = input.value.trim().toLowerCase();
+const matches = allCatalogProducts.filter(p => p.name.toLowerCase().includes(q));
+
+if(matches.length === 0){
+resEl.innerHTML = `<div class="search-no-results">Sin resultados para "${q}"</div>`;
 }else{
-res.innerHTML = filtered.map(p => `
-  <div class="search-result-item" onclick="openProductModalByName('${p.name}'); clearInlineSearch();">
+resEl.innerHTML = matches.map(p => `
+  <div class="search-result-item" onclick="selectInlineSearchResult('${p.name.replace(/'/g, "\\'")}')">
     <img src="${p.imgs[0]}" class="search-result-thumb">
     <div>
       <div class="search-result-name">${p.name}</div>
@@ -2768,23 +2889,31 @@ res.innerHTML = filtered.map(p => `
   </div>
 `).join("");
 }
-res.style.display = "block";
+resEl.style.display = "block";
+}
+
+function selectInlineSearchResult(name){
+clearInlineSearch();
+openProductModalByName(name);
 }
 
 function commitInlineSearch(){
-const val = document.getElementById("inlineSearchInput").value.trim();
-if(!val) return;
-document.getElementById("inlineSearchResults").style.display = "none";
-const grid = document.getElementById("searchResultsGrid");
-const sec = document.getElementById("secSearchResults");
-const filtered = getAllProducts().filter(p => p.name.toLowerCase().includes(val.toLowerCase()));
-document.getElementById("searchResultsTitle").innerText = `Resultados para "${val}" (${filtered.length})`;
+const q = document.getElementById("inlineSearchInput").value.trim();
+if(!q) return;
 
-if(filtered.length === 0){
-grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;color:#888;padding:40px 0;">No se encontraron productos que coincidan.</div>`;
+document.getElementById("inlineSearchResults").style.display = "none";
+const sec = document.getElementById("secSearchResults");
+const title = document.getElementById("searchResultsTitle");
+const grid = document.getElementById("searchResultsGrid");
+
+title.innerText = `Resultados para "${q}"`;
+const matches = allCatalogProducts.filter(p => p.name.toLowerCase().includes(q.toLowerCase()));
+
+if(matches.length === 0){
+grid.innerHTML = `<p style="color:#888;grid-column:1/-1;">No se encontraron productos que coincidan con la búsqueda.</p>`;
 }else{
-grid.innerHTML = filtered.map(p => `
-  <div class="product-card" onclick="openProductModalByName('${p.name}')">
+grid.innerHTML = matches.map(p => `
+  <div class="product-card" onclick="openProductModalByName('${p.name.replace(/'/g, "\\'")}')">
     <img src="${p.imgs[0]}" class="card-thumb" alt="${p.name}">
     <div class="card-label">
       <div class="card-name">${p.name}</div>
@@ -2793,15 +2922,24 @@ grid.innerHTML = filtered.map(p => `
   </div>
 `).join("");
 }
+
 sec.style.display = "block";
-sec.scrollIntoView({behavior:"smooth"});
+sec.scrollIntoView({ behavior: 'smooth' });
 }
 
 function clearInlineSearch(){
-document.getElementById("inlineSearchInput").value = "";
-document.getElementById("inlineClearBtn").style.display = "none";
-document.getElementById("inlineSearchResults").style.display = "none";
-document.getElementById("secSearchResults").style.display = "none";
+const input = document.getElementById("inlineSearchInput");
+const btn = document.getElementById("inlineClearBtn");
+const resEl = document.getElementById("inlineSearchResults");
+const sec = document.getElementById("secSearchResults");
+
+if(input) input.value = "";
+if(btn) btn.style.display = "none";
+if(resEl){
+resEl.innerHTML = "";
+resEl.style.display = "none";
+}
+if(sec) sec.style.display = "none";
 }
 
 </script>
