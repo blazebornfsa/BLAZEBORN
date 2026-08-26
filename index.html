@@ -1266,9 +1266,12 @@ COMPRAR YA
 
     <div>
       <div id="checkoutItems" style="display:flex;flex-direction:column;gap:12px;"></div>
-      <div style="margin-top:16px;padding-top:16px;border-top:1px solid #222;display:flex;justify-content:space-between;align-items:center;">
-        <span style="color:#aaa;font-size:0.9rem;">Subtotal</span>
-        <span id="checkoutSubtotal" style="font-size:1.1rem;font-weight:700;color:var(--green);"></span>
+      <div style="margin-top:16px;padding-top:16px;border-top:1px solid #222;display:flex;flex-direction:column;gap:4px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <span style="color:#aaa;font-size:0.9rem;">Subtotal</span>
+          <span id="checkoutSubtotal" style="font-size:1.1rem;font-weight:700;color:var(--green);"></span>
+        </div>
+        <div id="checkoutActiveCodeLabel" style="font-size:0.75rem;color:#aaa;text-align:left;display:none;"></div>
       </div>
     </div>
 
@@ -1935,17 +1938,17 @@ target="_blank">
 
 // CÓDIGOS DE DESCUENTO
 const discountCodes = {
+  "WINTERBLAZE": 0.15,
   "NAVARRETE": 0.10,
   "NATY": 0.10,
   "SANTI10": 0.10,
   "SUAR": 0.10,
   "THELONELYONE": 0.10,
-  "RIVATOMY": 0.10,
-  "WINTERBLAZE": 0.15,
-  "BLAZE10": 0.10
+  "RIVATOMY": 0.10
 };
 
 let activeDiscount = 0; // Porcentaje de descuento actual
+let activeCode = "";     // Código de descuento ingresado
 let cart = [];
 
 // SHIPPING COSTS BY WEIGHT
@@ -2122,6 +2125,7 @@ function applyCheckoutDiscount() {
   const code = codeInput.value.trim().toUpperCase();
   if (discountCodes[code]) {
     activeDiscount = discountCodes[code];
+    activeCode = code;
     msgEl.style.display = "block";
     msgEl.style.color = "var(--green)";
     msgEl.innerText = `¡Código ${code} aplicado! (${activeDiscount * 100}% OFF)`;
@@ -2135,16 +2139,8 @@ function applyCheckoutDiscount() {
     document.getElementById("invalidAlert").classList.add("active");
   }
   
-  checkoutUpdateEnvio();
+  openCheckout();
   renderCart();
-}
-
-function closeDiscountAlert() {
-  document.getElementById("discountAlert").classList.remove("active");
-}
-
-function closeInvalidAlert() {
-  document.getElementById("invalidAlert").classList.remove("active");
 }
 
 function openProductModal(idx){
@@ -2515,6 +2511,15 @@ container.appendChild(div);
 });
 
 document.getElementById("checkoutSubtotal").innerText = `$${subtotal.toLocaleString()} ARS`;
+
+const codeLabel = document.getElementById("checkoutActiveCodeLabel");
+if(activeCode) {
+  codeLabel.innerText = `Código: ${activeCode}`;
+  codeLabel.style.display = "block";
+} else {
+  codeLabel.style.display = "none";
+}
+
 checkoutUpdateEnvio();
 }
 
@@ -2522,13 +2527,29 @@ function closeCheckout(){
 document.getElementById("checkoutOverlay").style.display = "none";
 }
 
+function getCartWeight() {
+  return cart.reduce((sum, item) => sum + (item.weight * item.qty), 0);
+}
+
+function getCartQuantity() {
+  return cart.reduce((sum, item) => sum + item.qty, 0);
+}
+
+function getShippingCost(weight, qty) {
+  if (qty >= 3) return 0;
+  if (weight <= 800) return shippingCostsByWeight["0-800"];
+  if (weight <= 1500) return shippingCostsByWeight["801-1500"];
+  return shippingCostsByWeight["1501-3000"];
+}
+
 function checkoutUpdateEnvio(){
 const prov = document.getElementById("checkoutProvincia").value;
-const loc = document.getElementById("checkoutLocalidad").value.trim();
+const loc = document.getElementById("checkoutLocalidad").value.trim().toLowerCase();
 
 const formosaDiv = document.getElementById("envioFormosaCapital");
 const otrosDiv = document.getElementById("envioOtros");
 const summaryBox = document.getElementById("priceSummaryBox");
+const formosaForm = document.getElementById("envioFormosaForm");
 
 if(!prov){
 formosaDiv.style.display = "none";
@@ -2538,81 +2559,68 @@ checkoutValidate();
 return;
 }
 
-const isFormosaCap = (prov.toLowerCase() === "formosa" && loc.toLowerCase().includes("formosa"));
+const isFormosaCapital = (prov === "Formosa" && (loc === "formosa" || loc === "formosa capital" || loc === "capital"));
 
-let totalUnits = 0;
-let totalWeight = 0;
-let subtotal = 0;
-
-cart.forEach(i => {
-  totalUnits += i.qty;
-  totalWeight += (i.weight * i.qty);
-  subtotal += getDiscountedPrice(i.basePrice) * i.qty;
+let itemsSubtotal = 0;
+cart.forEach(item => {
+  itemsSubtotal += getDiscountedPrice(item.basePrice) * item.qty;
 });
 
-let shippingCost = 0;
-
-if(isFormosaCap){
-  formosaDiv.style.display = "flex";
-  otrosDiv.style.display = "none";
-  document.getElementById("envioFormosaForm").style.display = "flex";
-  shippingCost = 0;
-} else {
-  formosaDiv.style.display = "none";
-  otrosDiv.style.display = "flex";
-
-  if(totalUnits >= 3){
-    shippingCost = 0;
-  } else {
-    if(totalWeight <= 800){
-      shippingCost = shippingCostsByWeight["0-800"];
-    } else if(totalWeight <= 1500){
-      shippingCost = shippingCostsByWeight["801-1500"];
-    } else {
-      shippingCost = shippingCostsByWeight["1501-3000"];
-    }
-  }
-}
+const totalWeight = getCartWeight();
+const totalQty = getCartQuantity();
+const shippingCost = isFormosaCapital ? 0 : getShippingCost(totalWeight, totalQty);
 
 summaryBox.style.display = "block";
-const priceItemsEl = document.getElementById("priceSummaryItems");
-priceItemsEl.innerHTML = "";
+const summaryItems = document.getElementById("priceSummaryItems");
+summaryItems.innerHTML = "";
 
 cart.forEach(item => {
-  const line = document.createElement("div");
-  line.className = "price-item-line";
   const p = getDiscountedPrice(item.basePrice);
-  line.innerText = `${item.name} (x${item.qty}) - $${(p * item.qty).toLocaleString()} ARS`;
-  priceItemsEl.appendChild(line);
+  const div = document.createElement("div");
+  div.className = "price-item-line";
+  div.innerText = `${item.name} (${item.size}) x${item.qty} - $${(p * item.qty).toLocaleString()} ARS`;
+  summaryItems.appendChild(div);
 });
 
 document.getElementById("shippingCostDisplay").innerText = shippingCost === 0 ? "¡GRATIS!" : `$${shippingCost.toLocaleString()} ARS`;
-document.getElementById("correoPrice").innerText = shippingCost === 0 ? "¡GRATIS!" : `$${shippingCost.toLocaleString()} ARS`;
-document.getElementById("priceTotalDisplay").innerText = `TOTAL: $${(subtotal + shippingCost).toLocaleString()} ARS`;
+
+const grandTotal = itemsSubtotal + shippingCost;
+document.getElementById("priceTotalDisplay").innerText = `TOTAL: $${grandTotal.toLocaleString()} ARS`;
+
+if(isFormosaCapital){
+  formosaDiv.style.display = "flex";
+  formosaForm.style.display = "flex";
+  otrosDiv.style.display = "none";
+} else {
+  formosaDiv.style.display = "none";
+  otrosDiv.style.display = "flex";
+  document.getElementById("correoPrice").innerText = shippingCost === 0 ? "¡GRATIS!" : `$${shippingCost.toLocaleString()} ARS`;
+}
 
 checkoutValidate();
 }
 
 function checkoutValidate(){
 const prov = document.getElementById("checkoutProvincia").value;
-const loc = document.getElementById("checkoutLocalidad").value.trim();
+const loc = document.getElementById("checkoutLocalidad").value.trim().toLowerCase();
 const btn = document.getElementById("checkoutConfirmBtn");
 
 if(!prov || !loc){
   btn.disabled = true;
-  btn.style.filter = "blur(1.5px) opacity(0.4)";
   btn.style.cursor = "not-allowed";
+  btn.style.filter = "blur(1.5px) opacity(0.4)";
   return;
 }
 
-const isFormosaCap = (prov.toLowerCase() === "formosa" && loc.toLowerCase().includes("formosa"));
-let valid = false;
+const isFormosaCapital = (prov === "Formosa" && (loc === "formosa" || loc === "formosa capital" || loc === "capital"));
 
-if(isFormosaCap){
+let isValid = false;
+
+if(isFormosaCapital){
   const nom = document.getElementById("envFNombre").value.trim();
   const dir = document.getElementById("envFDireccion").value.trim();
   const tel = document.getElementById("envFTel").value.trim();
-  valid = (nom !== "" && dir !== "" && tel !== "");
+  isValid = (nom !== "" && dir !== "" && tel !== "");
 } else {
   const nom = document.getElementById("envNombre").value.trim();
   const dir = document.getElementById("envDireccion").value.trim();
@@ -2620,80 +2628,75 @@ if(isFormosaCap){
   const email = document.getElementById("envEmail").value.trim();
   const dni = document.getElementById("envDNI").value.trim();
   const tel = document.getElementById("envTel").value.trim();
-  valid = (nom !== "" && dir !== "" && cp !== "" && email !== "" && dni !== "" && tel !== "");
+  isValid = (nom !== "" && dir !== "" && cp !== "" && email !== "" && dni !== "" && tel !== "");
 }
 
-btn.disabled = !valid;
-if(valid){
-  btn.style.filter = "none";
+if(isValid){
+  btn.disabled = false;
   btn.style.cursor = "pointer";
+  btn.style.filter = "none";
 } else {
-  btn.style.filter = "blur(1.5px) opacity(0.4)";
+  btn.disabled = true;
   btn.style.cursor = "not-allowed";
+  btn.style.filter = "blur(1.5px) opacity(0.4)";
 }
 }
 
 function openTransferFromCheckout(){
 const prov = document.getElementById("checkoutProvincia").value;
 const loc = document.getElementById("checkoutLocalidad").value.trim();
-const isFormosaCap = (prov.toLowerCase() === "formosa" && loc.toLowerCase().includes("formosa"));
+const isFormosaCapital = (prov === "Formosa" && (loc.toLowerCase() === "formosa" || loc.toLowerCase() === "formosa capital" || loc.toLowerCase() === "capital"));
 
-let text = "🛒 *NUEVO PEDIDO BLAZEBORN*\n\n";
+let msg = `🔥 *NUEVO PEDIDO BLAZEBORN*\n\n`;
 
-let totalUnits = 0;
-let totalWeight = 0;
-let subtotal = 0;
-
+let itemsSubtotal = 0;
 cart.forEach(item => {
   const p = getDiscountedPrice(item.basePrice);
-  text += `• ${item.name} (${item.size}) x${item.qty} = $${(p * item.qty).toLocaleString()} ARS\n`;
-  totalUnits += item.qty;
-  totalWeight += (item.weight * item.qty);
-  subtotal += p * item.qty;
+  const sub = p * item.qty;
+  itemsSubtotal += sub;
+  msg += `• ${item.name} (${item.size}) x${item.qty} — $${sub.toLocaleString()} ARS\n`;
 });
 
-const codeInput = document.getElementById("checkoutDiscountCode");
-const code = codeInput ? codeInput.value.trim().toUpperCase() : "";
-if(code && discountCodes[code]){
-  text += `\n🎟️ *Descuento Aplicado:* ${code} (${discountCodes[code]*100}% OFF)`;
+const totalWeight = getCartWeight();
+const totalQty = getCartQuantity();
+const shippingCost = isFormosaCapital ? 0 : getShippingCost(totalWeight, totalQty);
+const grandTotal = itemsSubtotal + shippingCost;
+
+msg += `\nSubtotal: $${itemsSubtotal.toLocaleString()} ARS\n`;
+
+if(activeCode){
+  msg += `Código de descuento aplicado: ${activeCode} (${activeDiscount * 100}% OFF)\n`;
 }
 
-text += `\nSubtotal: $${subtotal.toLocaleString()} ARS\n`;
+msg += `Envío: ${shippingCost === 0 ? "GRATIS" : "$" + shippingCost.toLocaleString() + " ARS"}\n`;
+msg += `*TOTAL FINAL: $${grandTotal.toLocaleString()} ARS*\n\n`;
 
-let shippingCost = 0;
-if(!isFormosaCap){
-  if(totalUnits < 3){
-    if(totalWeight <= 800) shippingCost = shippingCostsByWeight["0-800"];
-    else if(totalWeight <= 1500) shippingCost = shippingCostsByWeight["801-1500"];
-    else shippingCost = shippingCostsByWeight["1501-3000"];
-  }
-}
+msg += `📍 *DATOS DE ENVÍO:*\n`;
+msg += `Provincia: ${prov}\n`;
+msg += `Localidad: ${loc}\n`;
 
-text += `Envío: ${shippingCost === 0 ? "GRATIS" : "$" + shippingCost.toLocaleString() + " ARS"}\n`;
-text += `*TOTAL A PAGAR: $${(subtotal + shippingCost).toLocaleString()} ARS*\n\n`;
-
-text += `📍 *DATOS DE ENVÍO:*\n`;
-text += `Provincia: ${prov}\nLocalidad: ${loc}\n`;
-
-if(isFormosaCap){
-  text += `Nombre: ${document.getElementById("envFNombre").value.trim()}\n`;
-  text += `Dirección: ${document.getElementById("envFDireccion").value.trim()}\n`;
-  text += `Teléfono: ${document.getElementById("envFTel").value.trim()}\n`;
+if(isFormosaCapital){
+  msg += `Nombre: ${document.getElementById("envFNombre").value.trim()}\n`;
+  msg += `Dirección: ${document.getElementById("envFDireccion").value.trim()}\n`;
+  msg += `Teléfono: ${document.getElementById("envFTel").value.trim()}\n`;
   const ind = document.getElementById("envFIndicaciones").value.trim();
-  if(ind) text += `Indicaciones: ${ind}\n`;
+  if(ind) msg += `Indicaciones: ${ind}\n`;
 } else {
-  text += `Nombre: ${document.getElementById("envNombre").value.trim()}\n`;
-  text += `Dirección: ${document.getElementById("envDireccion").value.trim()}\n`;
-  text += `CP: ${document.getElementById("envCP").value.trim()}\n`;
-  text += `Email: ${document.getElementById("envEmail").value.trim()}\n`;
-  text += `DNI: ${document.getElementById("envDNI").value.trim()}\n`;
-  text += `Teléfono: ${document.getElementById("envTel").value.trim()}\n`;
+  msg += `Nombre: ${document.getElementById("envNombre").value.trim()}\n`;
+  msg += `Dirección: ${document.getElementById("envDireccion").value.trim()}\n`;
+  msg += `CP: ${document.getElementById("envCP").value.trim()}\n`;
+  msg += `Email: ${document.getElementById("envEmail").value.trim()}\n`;
+  msg += `DNI: ${document.getElementById("envDNI").value.trim()}\n`;
+  msg += `Teléfono: ${document.getElementById("envTel").value.trim()}\n`;
   const ind = document.getElementById("envIndicaciones").value.trim();
-  if(ind) text += `Indicaciones: ${ind}\n`;
+  if(ind) msg += `Indicaciones: ${ind}\n`;
+  msg += `Servicio: Correo Argentino\n`;
 }
 
-const waUrl = `https://wa.me/5493704509580?text=${encodeURIComponent(text)}`;
+const waUrl = `https://wa.me/5493704509580?text=${encodeURIComponent(msg)}`;
 document.getElementById("checkoutWALink").href = waUrl;
+document.getElementById("envioWABtn").href = waUrl;
+
 document.getElementById("transferModal").classList.add("active");
 }
 
@@ -2701,17 +2704,24 @@ function closeTransferModal(){
 document.getElementById("transferModal").classList.remove("active");
 }
 
-function copyText(text, btn){
-navigator.clipboard.writeText(text);
-const oldText = btn.innerText;
-btn.innerText = "¡Copiado!";
-setTimeout(() => { btn.innerText = oldText; }, 2000);
+function copyText(text, btnEl){
+navigator.clipboard.writeText(text).then(() => {
+  const original = btnEl.innerText;
+  btnEl.innerText = "¡Copiado!";
+  setTimeout(() => { btnEl.innerText = original; }, 2000);
+});
+}
+
+function closeDiscountAlert(){
+document.getElementById("discountAlert").classList.remove("active");
+}
+
+function closeInvalidAlert(){
+document.getElementById("invalidAlert").classList.remove("active");
 }
 
 function openSizeGuide(imgSrc){
-if(imgSrc){
-document.getElementById("sizeGuideImg").src = imgSrc;
-}
+if(imgSrc) document.getElementById("sizeGuideImg").src = imgSrc;
 document.getElementById("sizeGuideModal").classList.add("active");
 }
 
@@ -2719,6 +2729,7 @@ function closeSizeGuide(){
 document.getElementById("sizeGuideModal").classList.remove("active");
 }
 
+// MENU & THEME
 function toggleMenu(){
 document.getElementById("hamburgerMenu").classList.toggle("active");
 document.getElementById("menuBackdrop").classList.toggle("active");
@@ -2734,141 +2745,93 @@ document.body.classList.toggle("light-theme");
 const toggle = document.getElementById("themeToggle");
 const label = document.getElementById("themeLabel");
 if(document.body.classList.contains("light-theme")){
-toggle.classList.add("light-on");
-label.innerText = "Tema oscuro";
-}else{
-toggle.classList.remove("light-on");
-label.innerText = "Tema claro";
+  toggle.classList.add("light-on");
+  label.innerText = "Tema oscuro";
+} else {
+  toggle.classList.remove("light-on");
+  label.innerText = "Tema claro";
 }
 }
 
-// BÚSQUEDA Y CARROUSELES
-let novPos = 0, buzoPos = 0, pantPos = 0, compresPos = 0, muscuPos = 0, calzaPos = 0;
-
-function novMove(dir){
-const grid = document.getElementById("novGrid");
-novPos += dir;
-if(novPos < 0) novPos = 0;
-if(novPos > 2) novPos = 2;
-grid.style.transform = `translateX(-${novPos * 250}px)`;
-}
-
-function buzoMove(dir){
-const grid = document.getElementById("buzoGrid");
-buzoPos += dir;
-if(buzoPos < 0) buzoPos = 0;
-if(buzoPos > 1) buzoPos = 1;
-grid.style.transform = `translateX(-${buzoPos * 250}px)`;
-}
-
-function pantMove(dir){
-const grid = document.getElementById("pantGrid");
-pantPos += dir;
-if(pantPos < 0) pantPos = 0;
-if(pantPos > 1) pantPos = 1;
-grid.style.transform = `translateX(-${pantPos * 250}px)`;
-}
-
-function carouselMove(dir){
-const grid = document.getElementById("productsGrid");
-compresPos += dir;
-if(compresPos < 0) compresPos = 0;
-if(compresPos > 4) compresPos = 4;
-grid.style.transform = `translateX(-${compresPos * 250}px)`;
-}
-
-function muscuMove(dir){
-const grid = document.getElementById("muscuGrid");
-muscuPos += dir;
-if(muscuPos < 0) muscuPos = 0;
-if(muscuPos > 1) muscuPos = 1;
-grid.style.transform = `translateX(-${muscuPos * 250}px)`;
-}
-
-function calzaMove(dir){
-const grid = document.getElementById("calzaGrid");
-calzaPos += dir;
-if(calzaPos < 0) calzaPos = 0;
-if(calzaPos > 0) calzaPos = 0;
-grid.style.transform = `translateX(-${calzaPos * 250}px)`;
-}
-
+// SEARCH FUNCTIONS
 function handleSearch(){
-const query = document.getElementById("searchInput").value.toLowerCase().trim();
-const resultsEl = document.getElementById("searchResults");
-
-if(!query){
-resultsEl.classList.remove("visible");
-return;
+const input = document.getElementById("searchInput").value.toLowerCase().trim();
+const resultsDiv = document.getElementById("searchResults");
+if(!input){
+  resultsDiv.classList.remove("visible");
+  resultsDiv.innerHTML = "";
+  return;
 }
+const all = [...products, ...buzoProducts, ...panProducts, ...calzaProducts];
+const matches = all.filter(p => p.name.toLowerCase().includes(input));
 
-const allProds = [...products, ...buzoProducts, ...panProducts, ...calzaProducts];
-const matches = allProds.filter(p => p.name.toLowerCase().includes(query));
-
-resultsEl.innerHTML = "";
+resultsDiv.innerHTML = "";
 if(matches.length === 0){
-resultsEl.innerHTML = `<div class="search-no-results">No se encontraron productos</div>`;
-}else{
-matches.forEach(p => {
-const item = document.createElement("div");
-item.className = "search-result-item";
-item.onclick = () => {
-openProductModalByName(p.name);
-closeMenu();
-};
-item.innerHTML = `
-  <img src="${p.imgs[0]}" class="search-result-thumb">
-  <div>
-    <div class="search-result-name">${p.name}</div>
-    <div class="search-result-price">$${getDiscountedPrice(p.price).toLocaleString()} ARS</div>
-  </div>
-`;
-resultsEl.appendChild(item);
-});
+  resultsDiv.innerHTML = '<div class="search-no-results">Sin resultados</div>';
+} else {
+  matches.forEach(p => {
+    const item = document.createElement("div");
+    item.className = "search-result-item";
+    item.onclick = () => {
+      openProductModalByName(p.name);
+      closeMenu();
+    };
+    const price = getDiscountedPrice(p.price);
+    item.innerHTML = `
+      <img src="${p.imgs[0]}" class="search-result-thumb">
+      <div>
+        <div class="search-result-name">${p.name}</div>
+        <div class="search-result-price">$${price.toLocaleString()} ARS</div>
+      </div>
+    `;
+    resultsDiv.appendChild(item);
+  });
 }
-resultsEl.classList.add("visible");
+resultsDiv.classList.add("visible");
 }
 
 function clearSearch(){
 document.getElementById("searchInput").value = "";
 document.getElementById("searchResults").classList.remove("visible");
+document.getElementById("searchResults").innerHTML = "";
 }
 
 function handleInlineSearch(){
-const query = document.getElementById("inlineSearchInput").value.toLowerCase().trim();
+const val = document.getElementById("inlineSearchInput").value;
 const btn = document.getElementById("inlineClearBtn");
 const res = document.getElementById("inlineSearchResults");
+btn.style.display = val ? "block" : "none";
 
-btn.style.display = query ? "block" : "none";
-
-if(!query){
-res.style.display = "none";
-return;
+if(!val.trim()){
+  res.style.display = "none";
+  res.innerHTML = "";
+  return;
 }
 
-const allProds = [...products, ...buzoProducts, ...panProducts, ...calzaProducts];
-const matches = allProds.filter(p => p.name.toLowerCase().includes(query));
+const all = [...products, ...buzoProducts, ...panProducts, ...calzaProducts];
+const matches = all.filter(p => p.name.toLowerCase().includes(val.toLowerCase().trim()));
 
 res.innerHTML = "";
 if(matches.length === 0){
-res.innerHTML = `<div class="search-no-results">No se encontraron productos</div>`;
-}else{
-matches.forEach(p => {
-const item = document.createElement("div");
-item.className = "search-result-item";
-item.onclick = () => {
-openProductModalByName(p.name);
-res.style.display = "none";
-};
-item.innerHTML = `
-  <img src="${p.imgs[0]}" class="search-result-thumb">
-  <div>
-    <div class="search-result-name">${p.name}</div>
-    <div class="search-result-price">$${getDiscountedPrice(p.price).toLocaleString()} ARS</div>
-  </div>
-`;
-res.appendChild(item);
-});
+  res.innerHTML = '<div class="search-no-results">Sin resultados</div>';
+} else {
+  matches.forEach(p => {
+    const item = document.createElement("div");
+    item.className = "search-result-item";
+    item.onclick = () => {
+      openProductModalByName(p.name);
+      res.style.display = "none";
+    };
+    const price = getDiscountedPrice(p.price);
+    item.innerHTML = `
+      <img src="${p.imgs[0]}" class="search-result-thumb">
+      <div>
+        <div class="search-result-name">${p.name}</div>
+        <div class="search-result-price">$${price.toLocaleString()} ARS</div>
+      </div>
+    `;
+    res.appendChild(item);
+  });
 }
 res.style.display = "block";
 }
@@ -2878,43 +2841,82 @@ document.getElementById("inlineSearchInput").value = "";
 document.getElementById("inlineClearBtn").style.display = "none";
 document.getElementById("inlineSearchResults").style.display = "none";
 document.getElementById("secSearchResults").style.display = "none";
+
+document.getElementById("secNovedades").style.display = "block";
+document.getElementById("secBuzos").style.display = "block";
+document.getElementById("secPantalon").style.display = "block";
+document.getElementById("secCompresion").style.display = "block";
+document.getElementById("secMusculosas").style.display = "block";
+document.getElementById("secCalzas").style.display = "block";
 }
 
 function commitInlineSearch(){
-const query = document.getElementById("inlineSearchInput").value.toLowerCase().trim();
-if(!query) return;
-
+const val = document.getElementById("inlineSearchInput").value.trim();
+if(!val) return;
 document.getElementById("inlineSearchResults").style.display = "none";
+
+const all = [...products, ...buzoProducts, ...panProducts, ...calzaProducts];
+const matches = all.filter(p => p.name.toLowerCase().includes(val.toLowerCase()));
+
+document.getElementById("secNovedades").style.display = "none";
+document.getElementById("secBuzos").style.display = "none";
+document.getElementById("secPantalon").style.display = "none";
+document.getElementById("secCompresion").style.display = "none";
+document.getElementById("secMusculosas").style.display = "none";
+document.getElementById("secCalzas").style.display = "none";
+
+const secRes = document.getElementById("secSearchResults");
 const grid = document.getElementById("searchResultsGrid");
+const title = document.getElementById("searchResultsTitle");
+
+title.innerText = `Resultados para "${val}" (${matches.length})`;
 grid.innerHTML = "";
 
-const allProds = [...products, ...buzoProducts, ...panProducts, ...calzaProducts];
-const matches = allProds.filter(p => p.name.toLowerCase().includes(query));
-
 if(matches.length === 0){
-grid.innerHTML = `<p style="color:#888;">No encontramos resultados para tu búsqueda.</p>`;
-}else{
-matches.forEach(p => {
-const card = document.createElement("div");
-card.className = "product-card";
-card.onclick = () => openProductModalByName(p.name);
-card.innerHTML = `
-  <img src="${p.imgs[0]}" class="card-thumb" alt="${p.name}">
-  <div class="card-label">
-    <div class="card-name">${p.name}</div>
-    <div class="card-price">$${getDiscountedPrice(p.price).toLocaleString()} ARS</div>
-  </div>
-`;
-grid.appendChild(card);
-});
+  grid.innerHTML = '<p style="color:#888;grid-column:1/-1;text-align:center;padding:40px 0;">No se encontraron productos que coincidan con tu búsqueda.</p>';
+} else {
+  matches.forEach(p => {
+    const card = document.createElement("div");
+    card.className = "product-card";
+    card.onclick = () => openProductModalByName(p.name);
+    const price = getDiscountedPrice(p.price);
+    card.innerHTML = `
+      <img src="${p.imgs[0]}" class="card-thumb" alt="${p.name}">
+      <div class="card-label">
+        <div class="card-name">${p.name}</div>
+        <div class="card-price">$${price.toLocaleString()} ARS</div>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
+secRes.style.display = "block";
 }
 
-document.getElementById("searchResultsTitle").innerText = `Resultados para "${query}"`;
-document.getElementById("secSearchResults").style.display = "block";
-document.getElementById("secSearchResults").scrollIntoView({ behavior: 'smooth' });
+// CAROUSEL NAVIGATIONS
+let novPos = 0, buzoPos = 0, pantPos = 0, compPos = 0, muscuPos = 0, calzaPos = 0;
+
+function moveGrid(gridId, posDir, step) {
+  const grid = document.getElementById(gridId);
+  if(!grid) return posDir;
+  const cards = grid.children;
+  if(!cards.length) return posDir;
+  const cardWidth = cards[0].offsetWidth + 25;
+  const maxPos = cards.length - 1;
+  let newPos = posDir + step;
+  if(newPos < 0) newPos = 0;
+  if(newPos > maxPos) newPos = maxPos;
+  grid.style.transform = `translateX(-${newPos * cardWidth}px)`;
+  return newPos;
 }
+
+function novMove(dir){ novPos = moveGrid("novGrid", novPos, dir); }
+function buzoMove(dir){ buzoPos = moveGrid("buzoGrid", buzoPos, dir); }
+function pantMove(dir){ pantPos = moveGrid("pantGrid", pantPos, dir); }
+function carouselMove(dir){ compPos = moveGrid("productsGrid", compPos, dir); }
+function muscuMove(dir){ muscuPos = moveGrid("muscuGrid", muscuPos, dir); }
+function calzaMove(dir){ calzaPos = moveGrid("calzaGrid", calzaPos, dir); }
 
 </script>
-
 </body>
 </html>
